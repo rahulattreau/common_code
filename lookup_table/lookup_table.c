@@ -4,28 +4,28 @@
 
 // define lookup table data type initializer
 lookup_table_data_t LookupTableInit(
-    lookup_table_data_t * const me, 
+    lookup_table_data_t * const instance, 
     float *breakpoints_data, 
     float *table_values_data
     ) {
     
-    me->breakpoints_data = breakpoints_data;
-    me->table_values_data = table_values_data;
-    me->length = sizeof(breakpoints_data) / sizeof(breakpoints_data[0]);
+    instance->breakpoints_data = breakpoints_data;
+    instance->table_values_data = table_values_data;
+    instance->length = sizeof(breakpoints_data) / sizeof(breakpoints_data[0]);
 
     // return lookup_table_data_object;
 }
 
 // define lookup_table function
 float LookupTable(
-    lookup_table_data_t * const me, 
+    lookup_table_data_t * const instance, 
     const float x_value
     ) {
 
     // assign variables locally for readibility
-    float * const breakpoints = me->breakpoints_data;
-    float * const table_values = me->table_values_data;
-    const int length = me->length; 
+    float * const breakpoints = instance->breakpoints_data;
+    float * const table_values = instance->table_values_data;
+    const int length = instance->length; 
 
     // initialize the return value
     float y_value = 0.0;
