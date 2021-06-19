@@ -18,4 +18,7 @@ lookup_table_data_t LookupTable__Constructor(
     );
 
 // declare lookup_table function prototype
-float LookupTable__Func(lookup_table_data_t * const me, const float x_value);
+float LookupTable__Func(
+    lookup_table_data_t * const me, 
+    const float x_value
+    );

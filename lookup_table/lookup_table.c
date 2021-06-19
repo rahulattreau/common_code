@@ -3,10 +3,12 @@
 #include "linear_interpolation.h"
 
 // define lookup table data type initializer
-lookup_table_data_t LookupTable__Constructor(lookup_table_data_t * const me, 
-                                            float *breakpoints_data, 
-                                            float *table_values_data) {
-    // lookup_table_data_t lookup_table_data_object;
+lookup_table_data_t LookupTable__Constructor(
+    lookup_table_data_t * const me, 
+    float *breakpoints_data, 
+    float *table_values_data
+    ) {
+    
     me->breakpoints_data = breakpoints_data;
     me->table_values_data = table_values_data;
     me->length = sizeof(breakpoints_data) / sizeof(breakpoints_data[0]);
@@ -15,16 +17,20 @@ lookup_table_data_t LookupTable__Constructor(lookup_table_data_t * const me,
 }
 
 // define lookup_table function
-float LookupTable__Func(lookup_table_data_t * const me, const float x_value) {
+float LookupTable__Func(
+    lookup_table_data_t * const me, 
+    const float x_value
+    ) {
 
     // assign variables locally for readibility
     float * const breakpoints = me->breakpoints_data;
     float * const table_values = me->table_values_data;
     const int length = me->length; 
 
+    // initialize the return value
     float y_value = 0.0;
     
-    // outside_range stores that the value was outside the x-range of the lookup-table data so that 
+    // outside_range stores that the value was outside the breakpoint range so that 
     // extrapolation can be performed if required
     bool outside_range = true;
     int first_breakpoint_index = 0;
@@ -38,11 +44,9 @@ float LookupTable__Func(lookup_table_data_t * const me, const float x_value) {
     // cycle through array to see if x_value lies between breakpoint entries
     for(int j = 0; j < (length - 1); j++) {
         
-        // check if x_value is between consecutive breakpoints
         if ( ( *(breakpoints + j) <= x_value  ) && ( x_value <= *(breakpoints + j + 1) ) ) {
             
             first_breakpoint_index = j;
-            
             // record that the value has been found in range
             outside_range = false;
         }
