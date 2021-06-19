@@ -12,15 +12,15 @@ int main() {
     // sat_press_temp_table.breakpoints_data = breakpoints_data;
     // sat_press_temp_table.table_values_data = table_values_data;
     // sat_press_temp_table.length = 5;
-    sat_press_temp_table = LookupTableTypeInit(breakpoints_data, table_values_data);
-    
+    LookupTable__Constructor(&sat_press_temp_table, breakpoints_data, table_values_data);
+    printf("x: %f y: %f \n", sat_press_temp_table.breakpoints_data[0], sat_press_temp_table.table_values_data[2]);
     for (float j = breakpoints_data[0] - 0.2; j < 5.2; j += 0.1) {
-        y = LookupTableFunc(&sat_press_temp_table, j);
+        y = LookupTable__Func(&sat_press_temp_table, j);
         printf("x: %f y: %f \n", j, y);
     }
 
     for (float j = breakpoints_data[0] - 0.2; j < 5.2; j += 0.1) {
-        y = LookupTableFunc(&sat_press_temp_table, j);
+        y = LookupTable__Func(&sat_press_temp_table, j);
         printf("multiple: %f \n", y / j );
     }
 

@@ -2,12 +2,25 @@
 #include "lookup_table.h"
 #include "linear_interpolation.h"
 
-// define lookup_table function
-float LookupTableFunc(lookup_table_data_t *lookup_table_data, const float x_value) {
+// define lookup table data type initializer
+lookup_table_data_t LookupTable__Constructor(lookup_table_data_t * const me, 
+                                            float *breakpoints_data, 
+                                            float *table_values_data) {
+    // lookup_table_data_t lookup_table_data_object;
+    me->breakpoints_data = breakpoints_data;
+    me->table_values_data = table_values_data;
+    me->length = sizeof(breakpoints_data) / sizeof(breakpoints_data[0]);
 
-    float *breakpoints = lookup_table_data->breakpoints_data;
-    float *table_values = lookup_table_data->table_values_data;
-    int length = lookup_table_data->length; 
+    // return lookup_table_data_object;
+}
+
+// define lookup_table function
+float LookupTable__Func(lookup_table_data_t * const me, const float x_value) {
+
+    // assign variables locally for readibility
+    float * const breakpoints = me->breakpoints_data;
+    float * const table_values = me->table_values_data;
+    const int length = me->length; 
 
     float y_value = 0.0;
     
@@ -61,13 +74,4 @@ float LookupTableFunc(lookup_table_data_t *lookup_table_data, const float x_valu
 
     return y_value;
 
-}
-
-lookup_table_data_t LookupTableTypeInit(float *breakpoints_data, float *table_values_data) {
-    lookup_table_data_t lookup_table_data_object;
-    lookup_table_data_object.breakpoints_data = breakpoints_data;
-    lookup_table_data_object.table_values_data = table_values_data;
-    lookup_table_data_object.length = sizeof(breakpoints_data) / sizeof(breakpoints_data[0]);
-
-    return lookup_table_data_object;
 }
