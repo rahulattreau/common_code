@@ -11,14 +11,14 @@ typedef struct {
 } lookup_table_data_t;
 
 // declare lookuptable data type initialization function
-lookup_table_data_t LookupTable__Constructor(
+lookup_table_data_t LookupTableInit(
     lookup_table_data_t * const me, 
     float *breakpoints_data, 
     float *table_values_data
     );
 
 // declare lookup_table function prototype
-float LookupTable__Func(
+float LookupTable(
     lookup_table_data_t * const me, 
     const float x_value
     );
