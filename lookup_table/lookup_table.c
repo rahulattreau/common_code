@@ -3,7 +3,11 @@
 #include "linear_interpolation.h"
 
 // define lookup_table function
-float LookupTableFunc(float const *breakpoints, float const *table_values, const int length, const float x_value) {
+float LookupTableFunc(lookup_table_data_t *lookup_table_data, const float x_value) {
+
+    float *breakpoints = lookup_table_data->breakpoints_data;
+    float *table_values = lookup_table_data->table_values_data;
+    int length = lookup_table_data->length; 
 
     float y_value = 0.0;
     
@@ -57,4 +61,13 @@ float LookupTableFunc(float const *breakpoints, float const *table_values, const
 
     return y_value;
 
+}
+
+lookup_table_data_t LookupTableTypeInit(float *breakpoints_data, float *table_values_data) {
+    lookup_table_data_t lookup_table_data_object;
+    lookup_table_data_object.breakpoints_data = breakpoints_data;
+    lookup_table_data_object.table_values_data = table_values_data;
+    lookup_table_data_object.length = sizeof(breakpoints_data) / sizeof(breakpoints_data[0]);
+
+    return lookup_table_data_object;
 }
