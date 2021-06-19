@@ -11,7 +11,7 @@ int main() {
     lookup_table_data_t sat_press_temp_table;
     LookupTable__Constructor(&sat_press_temp_table, breakpoints_data, table_values_data);
     
-    printf("x: %f y: %f \n", sat_press_temp_table.breakpoints_data[0], sat_press_temp_table.table_values_data[2]);
+    printf("breakpoint data sample: %f table value sample: %f \n", sat_press_temp_table.breakpoints_data[0], sat_press_temp_table.table_values_data[2]);
     for (float j = breakpoints_data[0] - 0.2; j < 5.2; j += 0.1) {
         y = LookupTable__Func(&sat_press_temp_table, j);
         printf("x: %f y: %f \n", j, y);
