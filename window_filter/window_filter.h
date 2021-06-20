@@ -16,3 +16,6 @@ void WindowFilterInit(window_filter_t * const instance, const float init_value);
 
 // declare window filter function
 void WindowFilterFunc(window_filter_t * const instance, const float input_value, const float window_size);
+
+// declare store state variable
+void WindowFilterStoreStateVariable(window_filter_t * const instance);
