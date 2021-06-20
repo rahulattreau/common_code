@@ -7,15 +7,15 @@ void WindowFilterInit(window_filter_t * const instance, const float init_value) 
 }
 
 // define window filter function
-void WindowFilterFunc(window_filter_t * const instance, const float input_value, const float window_size) {
+void WindowFilterFunc(window_filter_t * const instance, float_state_and_state_z * const input_value, const float window_size) {
     if (
-        ( (input_value - instance->value) > window_size ) ||
-        ( (input_value - instance->value) < -window_size )
+        ( (input_value->value - input_value->value_z) > window_size ) ||
+        ( (input_value->value - input_value->value_z) < -window_size )
         )
 
         instance->value = instance->value_z;
     else
-        instance->value = input_value;
+        instance->value = input_value->value;
     
     // if (
     //     !(
