@@ -3,7 +3,16 @@
 
 int main() {
 
-    float u_vector[] = {1.0, 1.1, 0.9, 1.2, 3.1, 1.2, 3.3, 3.5, 1.1, 0.9, 1.0, 1.1, 0.9, 1.2, 3.1, 1.2, 3.3, 3.5, 1.1, 0.9};
+    float u_vector[] = {1.0, 1.1, 0.9, 1.2, 
+    3.1, // big deviation but still within range
+    1.2, 1.3, 
+    3.5, // out of range
+    1.1, 0.9, 1.0, 1.1, 0.9, 1.2, 
+    3.1,  // big deviation but still within range
+    1.2, 
+    3.3, 3.5, // out of range
+    1.1, 0.9};
+    
     window_filter_t y;
     WindowFilterInit(&y, u_vector[0]);
 
