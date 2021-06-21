@@ -5,10 +5,13 @@ is greater than window size, retain window state variable value.
 2. Else, use new input value
 */
 
-#include "float_state_and_state_z.h"
+#include "../data_type_state_variable/float_state_and_state_z.h"
+
+// define window filter data type
+typedef float window_filter_t;
 
 // declare initialization function
-void WindowFilterInit(float * const state_variable, const float init_value);
+void WindowFilterInit(window_filter_t * const state_variable, const float init_value);
 
 // declare window filter function
-void WindowFilterFunc(float * const instance, float_state_and_state_z * const input_value, const float window_size);
+void WindowFilterFunc(window_filter_t * const instance, float_state_and_state_z * const input_value, const float window_size);
