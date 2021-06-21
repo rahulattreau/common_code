@@ -17,7 +17,7 @@ int main() {
     u.value = u_vector[0];
     u.value_z = u_vector[0];
 
-    window_filter_t y;
+    float y;
 
     WindowFilterInit(&y, u.value);
 
@@ -25,8 +25,7 @@ int main() {
         u.value = u_vector[j];
 
         WindowFilterFunc(&y, &u, 2.0);
-        printf("u: %f y: %f\n", u.value, y.value);
-        WindowFilterStoreStateVariable(&y);
+        printf("u: %f y: %f\n", u.value, y);
 
         u.value_z = u.value;
     }
