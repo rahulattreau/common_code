@@ -38,18 +38,18 @@ typedef struct {
     
 } parameters_t;
 
-// define input struct data type
+// define input bus data type
 typedef struct {
     float *reference;
     float *sensed_value;
     float *reset;
 } input_bus_t;
 
-// outputs
+// define output bus data type
 typedef struct {
     float error;
-    float p_out_bus;
-    i_out_bus_t integral_function_out_bus;
+    float p_out;
+    i_out_bus_t i_out_bus;
     d_out_bus_t d_out_bus;
     sat_and_sum_bus_t sat_and_sum_out_bus;
 } output_bus_t;

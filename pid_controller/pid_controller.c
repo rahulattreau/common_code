@@ -14,15 +14,15 @@ Outputs:
 error
 */
 // calculate error
-float ErrorFunction(float * const reference, float * const sensed_value, bool reset) {
+float ErrorFunction(input_bus_t * const input_bus) {
     
-    float error = 0.0;
+    float error;
 
-    if(reset) {
+    if(input_bus->reset) {
         error = 0.0;
     }
     else {
-        error = *reference - *sensed_value;
+        error = *(input_bus->reference) - *(input_bus->sensed_value);
     }
 
     return error;
@@ -41,10 +41,14 @@ output:
 p_out
 */
 // calculate proportional output
-float ProportionalFunction(const float error, const float p_gain) {
-    float p_out = p_gain * error;
-    
-    return p_out;
+float * ProportionalFunction(const float p_gain, const float error) {
+
+    float p_out;
+
+    p_out = p_gain * error;
+
+    return &p_out;
+
 }
 
 /*
@@ -66,17 +70,28 @@ non states:
 none
 state_variables:
 i_out
-
 */
 
 // calculate integral output
-float IntegralFunction(const float error, bool reset, const float pre_sat_value, const float i_gain, const float up_sat_value, const float lo_sat_value, const float init_value, const float time_step) {
+i_out_bus_t* IntegralFunction(
+    const float i_gain,
+    const float up_sat_value,
+    const float lo_sat_value,
+    const float init_value,
+    const float time_step,
+    const float error, 
+    const float reset, 
+    float * const i_out_z,
+    float * const pre_sat_value
+    ) {
+
     float integrand = 0.0;
     float signum_integrand = 0.0;
     float pre_sat_dead_zone = 0.0;
     float signum_dead_zone_out = 0.0;
-    static float i_out = 0.0;
-
+    float i_out = 0.0;
+    i_out_bus_t i_out_bus;
+    
     integrand = i_gain * error;
     signum_integrand = SignumFunction(integrand);
     pre_sat_dead_zone = DeadZone(pre_sat_value, up_sat_value, lo_sat_value);
@@ -90,8 +105,19 @@ float IntegralFunction(const float error, bool reset, const float pre_sat_value,
     }
     else {
         // i_out = i_out + (i_gain_integrand + bc_out) * TIME_STEP; // i.e. previous i_out + integrand
-        i_out = i_out + integrand * time_step; // i.e. previous i_out + integrand
+        i_out = *i_out_z + integrand * time_step; // i.e. previous i_out + integrand
     }
+
+    // assign values to i_out_bus
+    i_out_bus = (i_out_bus_t){
+        .integrand = integrand,
+        .signum_integrand = signum_integrand,
+        .pre_sat_dead_zone = pre_sat_dead_zone,
+        .signum_dead_zone_out = signum_dead_zone_out,
+        .i_out = i_out
+    };
+
+    return &i_out_bus;
 }
 
 /*
@@ -184,9 +210,12 @@ void PidControl_Constructor(
     _input_bus->sensed_value = sensed_value_pointer;
     _input_bus->reset = reset_pointer;
 
+    // set ouputs to default values
+    // ...
+
 }
 
 // define pid function
-void PidControl_Step(const input_bus_t * const input_bus) {
-    
+void PidControl_Step(input_bus_t * const input_bus, output_bus_t * const output_bus) {
+
 }
