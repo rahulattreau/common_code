@@ -1,8 +1,8 @@
 /*
 Description:
-1. If absolute difference in value from current time step to previous time step 
-is greater than window size, retain value.
-2. Else, use new value
+1. If absolute difference in value from current time step to previous time step of input 
+is greater than window size, retain window state variable value.
+2. Else, use new input value
 */
 
 #include "float_state_and_state_z.h"
