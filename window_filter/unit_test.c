@@ -17,7 +17,7 @@ int main() {
     u.value = u_vector[0];
     u.value_z = u_vector[0];
 
-    window_filter_t y;
+    float y;
 
     WindowFilterInit(&y, u.value);
 
