@@ -12,7 +12,7 @@ void WindowFilterFunc(float * const state_variable, float_state_and_state_z * co
 
     // if input is inside range, store input into window filter state variable
     if(
-        ( difference_in_values <= window_size ) ||
+        ( difference_in_values <= window_size ) &&
         ( difference_in_values >= -window_size )
         )
         
