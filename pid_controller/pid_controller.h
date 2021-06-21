@@ -22,7 +22,7 @@ typedef struct {
     float bc_out;
 } sat_and_sum_bus_t;
 
-// controller level data types
+// ===== controller level data types =====
 
 // define parameter struct data type
 typedef struct {
@@ -40,9 +40,9 @@ typedef struct {
 
 // define input struct data type
 typedef struct {
-    float reference;
-    float sensed_value;
-    float reset;
+    float *reference;
+    float *sensed_value;
+    float *reset;
 } input_bus_t;
 
 // outputs
@@ -53,3 +53,12 @@ typedef struct {
     d_out_bus_t d_out_bus;
     sat_and_sum_bus_t sat_and_sum_out_bus;
 } output_bus_t;
+
+// ===== define member functions =====
+
+void PidControl_Constructor(
+    input_bus_t *_input_bus,
+    float *reference_pointer,
+    float *sensed_value_pointer,
+    bool *reset_pointer
+    );

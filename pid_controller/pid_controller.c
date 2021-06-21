@@ -1,27 +1,4 @@
-// break them into constant inputs like time_step and calibration inputs
-// check out which variables need to be static
-
-// float sh_error = 0.0;
-// float p_out = 0.0;
-// static float i_out = EXV_POSITION_MIN;
-// float i_gain_integrand = 0.0;
-// float d_out = 0.0;
-// static float bc_out = 0.0;
-// float pre_sat_value = 0.0;
-// float post_sat_value = 0.0;
-// float d_argument = 0.0;
-// float d_argument_filtered = 0.0;
-// static float d_argument_filtered_z = 0.0;
-// static uint16_t superheat_counter = 1;
-// static float superheat_reference = 14.0;
-// static uint16_t print_counter = 0;
-// static float time_value = 0.0;
-// float pre_sat_dead_zone = 0.0;
-// const float diminishing_error_band = 3.0;
-// static superheat_window_t superheat_window_values = {0.0, 0.0, false};
-
-
-// end of creating controller-level data types
+#include "pid_controller.h"
 
 /*
 Inputs:
@@ -36,6 +13,7 @@ sensed_value
 Outputs:
 error
 */
+// calculate error
 float ErrorFunction(float * const reference, float * const sensed_value, bool reset) {
     
     float error = 0.0;
@@ -62,6 +40,7 @@ none
 output:
 p_out
 */
+// calculate proportional output
 float ProportionalFunction(const float error, const float p_gain) {
     float p_out = p_gain * error;
     
@@ -90,7 +69,7 @@ i_out
 
 */
 
-// define integral function
+// calculate integral output
 float IntegralFunction(const float error, bool reset, const float pre_sat_value, const float i_gain, const float up_sat_value, const float lo_sat_value, const float init_value, const float time_step) {
     float integrand = 0.0;
     float signum_integrand = 0.0;
@@ -192,62 +171,22 @@ float SumAndSat(const float p_out, const float i_out, const float d_out, const f
 
 }
 
-// // this is the error function
-//         if(controller_reset) {
-//             sh_error = 0.0;
-//         }
-//         else {
-//             superheat_reference = SUPERHEAT_TARGET_C;
-//             sh_error = superheat_reference - superheat_filtered;
-//             // sh_error = superheat_reference - superheat_filtered;
-//         }
+// define initialize pid control
+void PidControl_Constructor(
+    input_bus_t *_input_bus,
+    float *reference_pointer,
+    float *sensed_value_pointer,
+    bool *reset_pointer
+    ) {
 
-//         // put a deadzone around superheat
-//         sh_error = DeadZone(sh_error, 1.0, -2.0);
+    // attach pointers
+    _input_bus->reference = reference_pointer;
+    _input_bus->sensed_value = sensed_value_pointer;
+    _input_bus->reset = reset_pointer;
 
-//         // calculate the proportional output
-//         p_out = P_GAIN * sh_error;
+}
 
-//         // calculate the integrator output
-//         i_gain_integrand = I_GAIN * sh_error;
-//         signum_i_gain_integrand = SignumFunction(i_gain_integrand);
-//         pre_sat_dead_zone = DeadZone(pre_sat_value, EXV_POSITION_MAX, EXV_POSITION_MIN);
-//         signum_dead_zone_out = SignumFunction(pre_sat_dead_zone);
-
-//         if ( (signum_i_gain_integrand == signum_dead_zone_out) && (pre_sat_dead_zone != 0) )
-//             i_gain_integrand = 0.0;
-
-//         if(controller_reset) {
-//             i_out = EXV_INIT_POS;
-//         }
-//         else {
-//             // i_out = i_out + (i_gain_integrand + bc_out) * TIME_STEP; // i.e. previous i_out + integrand
-//             i_out = i_out + i_gain_integrand * TIME_STEP; // i.e. previous i_out + integrand
-//         }
-
-//         // calculate the differentiator output
-//         d_argument = -1.0 * D_GAIN * superheat_filtered;
-//         d_argument_filtered = LpfOrder1(D_FILTER_TAU, TIME_STEP, controller_reset, d_argument, d_argument_filtered);
-
-//         // if reset is true, reset d_argument_filtered_z. Else let d_argument_filtered_z be.
-//         if(controller_reset)
-//             d_argument_filtered_z = d_argument_filtered;
-        
-//         d_out = (d_argument_filtered - d_argument_filtered_z) / TIME_STEP;
-//         d_argument_filtered_z = d_argument_filtered;
-
-//         // calculate pre-saturated value
-//         pre_sat_value = p_out + i_out + d_out;
-
-//         // calculate post-saturated value
-//         if (pre_sat_value > EXV_POSITION_MAX)
-//             post_sat_value = EXV_POSITION_MAX;
-//         else if(pre_sat_value < EXV_POSITION_MIN)
-//             post_sat_value = EXV_POSITION_MIN;
-//         else
-//             post_sat_value = pre_sat_value;
-        
-//         // calculate back-calculation output for using in next time step
-//         bc_out = BC_GAIN * (post_sat_value - pre_sat_value);
-        
-//         // end of pid code
+// define pid function
+void PidControl_Step(const input_bus_t * const input_bus) {
+    
+}
