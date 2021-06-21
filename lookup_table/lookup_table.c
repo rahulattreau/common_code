@@ -3,7 +3,7 @@
 #include "linear_interpolation.h"
 
 // define lookup table data type initializer
-lookup_table_data_t LookupTableInit(
+void LookupTableInit(
     lookup_table_data_t * const instance, 
     float *breakpoints_data, 
     float *table_values_data

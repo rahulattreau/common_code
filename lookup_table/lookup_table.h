@@ -11,7 +11,7 @@ typedef struct {
 } lookup_table_data_t;
 
 // declare lookuptable data type initialization function
-lookup_table_data_t LookupTableInit(
+void LookupTableInit(
     lookup_table_data_t * const instance, 
     float *breakpoints_data, 
     float *table_values_data
