@@ -1,3 +1,4 @@
+#include<stdio.h>
 #include <stdbool.h>
 #include "lookup_table.h"
 #include "linear_interpolation.h"
@@ -6,12 +7,14 @@
 void LookupTableInit(
     lookup_table_data_t * const instance, 
     float *breakpoints_data, 
-    float *table_values_data
+    float *table_values_data,
+    int length
     ) {
     
     instance->breakpoints_data = breakpoints_data;
     instance->table_values_data = table_values_data;
-    instance->length = sizeof(instance->breakpoints_data);
+    instance->length = length;
+    printf("\n length of array = %d\n", instance->length);
     
 }
 
