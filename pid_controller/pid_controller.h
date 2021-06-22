@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 // define integral output data type:
 typedef struct {
     float integrand;
@@ -12,7 +14,6 @@ typedef struct {
     float d_argument;
     float d_out;
     float d_argument_filtered;
-    float d_argument_filtered_z;
 } d_out_bus_t;
 
 // define sum and sat output data type:
@@ -61,4 +62,18 @@ void PidControl_Constructor(
     float *reference_pointer,
     float *sensed_value_pointer,
     bool *reset_pointer
+    );
+
+void ErrorFunction(float * const error, input_bus_t * const input_bus);
+void ProportionalFunction(float * const p_out, const float p_gain, const float error);
+i_out_bus_t IntegralFunction(
+    const float i_gain,
+    const float up_sat_value,
+    const float lo_sat_value,
+    const float init_value,
+    const float time_step,
+    const float error, 
+    const float reset, 
+    float * const i_out_z,
+    float * const pre_sat_value
     );
