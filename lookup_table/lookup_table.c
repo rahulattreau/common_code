@@ -3,21 +3,19 @@
 #include "linear_interpolation.h"
 
 // define lookup table data type initializer
-lookup_table_data_t LookupTable__Constructor(
-    lookup_table_data_t * const me, 
+void LookupTableInit(
+    lookup_table_data_t * const instance, 
     float *breakpoints_data, 
     float *table_values_data
     ) {
     
-    me->breakpoints_data = breakpoints_data;
-    me->table_values_data = table_values_data;
-    me->length = sizeof(breakpoints_data) / sizeof(breakpoints_data[0]);
-
-    // return lookup_table_data_object;
+    instance->breakpoints_data = breakpoints_data;
+    instance->table_values_data = table_values_data;
+    instance->length = sizeof(instance->breakpoints_data);
 }
 
 // define lookup_table function
-float LookupTable__Func(
+float LookupTable(
     lookup_table_data_t * const me, 
     const float x_value
     ) {
@@ -44,7 +42,7 @@ float LookupTable__Func(
     // cycle through array to see if x_value lies between breakpoint entries
     for(int j = 0; j < (length - 1); j++) {
         
-        if ( ( *(breakpoints + j) <= x_value  ) && ( x_value <= *(breakpoints + j + 1) ) ) {
+        if ( ( *(breakpoints + j) <= x_value ) && ( x_value <= *(breakpoints + j + 1) ) ) {
             
             first_breakpoint_index = j;
             // record that the value has been found in range
@@ -67,7 +65,7 @@ float LookupTable__Func(
 
     // calculate the second breakpoint
     const int kSecondBreakpointIndex = first_breakpoint_index + 1;
-            
+    
     // linearly extrapolate below range
     y_value = LinearInterpolation(breakpoints[first_breakpoint_index], // x1
         breakpoints[kSecondBreakpointIndex], // x2
