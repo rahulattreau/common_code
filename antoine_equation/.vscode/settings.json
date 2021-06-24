@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "antoine_equation.h": "c",
+        "math.h": "c"
+    }
+}
