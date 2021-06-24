@@ -1,14 +1,17 @@
 #include "stdio.h"
 #include "antoine_equation.h"
+#include "../refrigerants/r32_properties.h"
+
+/*
+To run this program, add -lm at the end for linking the math.h header
+gcc unit_test.c antoine_equation.c -lm
+*/
 
 int main() {
 
-    const antoine_equation_params_t r32_antoine_eq_params[] = {
-        6.48393549, 
-        916.25497262, 
-        256.38571
-        };
-    
+    // create the refrigerant data object 
+    const antoine_equation_params_t * const refrigerant_antoine_eq_params = &r32_antoine_eq_params;
+
     float u_vector[] = {200.0, 500.0, 800.0, 1100.0, 1400.0, 1700.0, 2000.0, 2300.0, 2700.0, 3200.0}; // kPa
     float y_vector[] = {
         -37.323247616872266,
@@ -24,7 +27,7 @@ int main() {
         };
 
     for (int j = 0; j < sizeof(u_vector)/sizeof(u_vector[0]); j++) {
-        float y = SatTempAntoineEquationCalc(u_vector[j], &r32_antoine_eq_params[0]);
+        float y = SatTempAntoineEquationCalc(u_vector[j], refrigerant_antoine_eq_params);
         printf("pressure, kPa: %f, sat temp, deg C: %f, error: %f\n", u_vector[j], y, y_vector[j] - y);
     }
     
