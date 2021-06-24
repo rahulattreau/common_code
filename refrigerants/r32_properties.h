@@ -6,9 +6,9 @@
 // define refrigerant data for R32
 
 const antoine_equation_params_t r32_antoine_eq_params = {
-    .a = 6.48393549, 
-    .b = 916.25497262, 
-    .c = 256.38571
+    .a = 6.52950645,
+    .b = 938.96716723, 
+    .c = 259.4159998
     };
 
 #endif
