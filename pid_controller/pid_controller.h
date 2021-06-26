@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include "../lpfo1/low_pass_filter_o1.h"
 
 #ifdef __INT8_TYPE__
 typedef __INT8_TYPE__ int8_t;
@@ -7,9 +8,9 @@ typedef __INT8_TYPE__ int8_t;
 // define integral output data type:
 typedef struct {
     float integrand;
-    float signum_integrand;
+    int8_t signum_integrand;
     float pre_sat_dead_zone;
-    float signum_dead_zone_out;
+    int8_t signum_dead_zone_out;
     bool clamping_condition;
     float i_out;
 } i_out_bus_t;
@@ -19,6 +20,7 @@ typedef struct {
     float d_argument;
     float d_out;
     float d_argument_filtered;
+    low_pass_filter_o1_t d_lpf;
 } d_out_bus_t;
 
 // define sum and sat output data type:
@@ -30,8 +32,25 @@ typedef struct {
 
 // ===== controller level data types =====
 
-// define parameter struct data type
+// // define parameter struct data type
+// typedef struct {
+//     float p_gain;
+//     float i_gain;
+//     float d_gain;
+//     float bc_gain;
+//     float d_filter_tau;
+//     float up_sat_value;
+//     float lo_sat_value;
+//     float init_value;
+//     float time_step;
+    
+// } parameters_t;
+
+// define input bus data type
 typedef struct {
+    float *reference;
+    float *sensed_value;
+    bool *reset;
     float p_gain;
     float i_gain;
     float d_gain;
@@ -40,15 +59,7 @@ typedef struct {
     float up_sat_value;
     float lo_sat_value;
     float init_value;
-    float time_step;
-    
-} parameters_t;
-
-// define input bus data type
-typedef struct {
-    float *reference;
-    float *sensed_value;
-    float *reset;
+    const float time_step;
 } input_bus_t;
 
 // define output bus data type
@@ -69,41 +80,4 @@ void PidControl_Constructor(
     bool *reset_pointer
     );
 
-// ===== declare private member functions =====
-
-// error function
-void ErrorFunction(float * const error, input_bus_t * const input_bus);
-
-// proportional function
-void ProportionalFunction(float * const p_out, const float p_gain, const float error);
-
-// integral function
-void IntegralFunction(
-    i_out_bus_t * const i_out_bus,
-    const float i_gain,
-    const float up_sat_value,
-    const float lo_sat_value,
-    const float init_value,
-    const float time_step,
-    const float error, 
-    const bool reset, 
-    float * const i_out_z,
-    float * const pre_sat_value
-    );
-
-// integral clamping
-bool IntegralClamping(
-    const float integrand, 
-    const float pre_sat_value, 
-    const float up_sat_value, 
-    const float lo_sat_value );
-
-// differential function
-d_out_bus_t DifferentialFunction(
-    d_out_bus_t * const d_out_bus,
-    const float d_gain, 
-    const float d_filter_tau, 
-    const float time_step, 
-    bool controller_reset, 
-    const float sensed_value,
-    float * const d_argument_filtered_z);
+void PidControl_Step(input_bus_t * const input_bus, output_bus_t * const output_bus);
