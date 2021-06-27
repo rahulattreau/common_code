@@ -1,8 +1,11 @@
 #include <stdbool.h>
 #include "../lpfo1/low_pass_filter_o1.h"
 
-#ifdef __INT8_TYPE__
-typedef __INT8_TYPE__ int8_t;
+// definition of int8_t in firmware code
+// typedef __int8_t int8_t;
+// this defines int8_t when outside the firmware code
+#ifndef __int8_t
+typedef signed char int8_t;
 #endif
 
 // define integral output data type:
@@ -31,20 +34,6 @@ typedef struct {
 } sat_and_sum_bus_t;
 
 // ===== controller level data types =====
-
-// // define parameter struct data type
-// typedef struct {
-//     float p_gain;
-//     float i_gain;
-//     float d_gain;
-//     float bc_gain;
-//     float d_filter_tau;
-//     float up_sat_value;
-//     float lo_sat_value;
-//     float init_value;
-//     float time_step;
-    
-// } parameters_t;
 
 // define input bus data type
 typedef struct {

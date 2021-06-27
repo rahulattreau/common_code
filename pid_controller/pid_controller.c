@@ -182,7 +182,9 @@ void DifferentialFunction(input_bus_t * const input_bus, d_out_bus_t * const d_o
     float d_argument_filtered = 0.0;
     
     d_argument = -1.0 * input_bus->d_gain * *(input_bus->sensed_value);
-    d_argument_filtered = LpfOrder1(input_bus->d_filter_tau, input_bus->time_step, input_bus->reset, d_argument, d_out_bus->d_argument_filtered);
+    // d_argument_filtered = LowPassFilterO1_Step(input_bus->d_filter_tau, input_bus->time_step, input_bus->reset, d_argument, d_out_bus->d_argument_filtered);
+    LowPassFilterO1_Step( &(d_out_bus->d_lpf), d_argument, input_bus->reset);
+    d_argument_filtered = d_out_bus->d_lpf.yk_;
 
     // if reset is true, reset d_argument_filtered_z. Else let d_argument_filtered_z be.
     if(input_bus->reset)
@@ -247,7 +249,7 @@ void SumAndSat(
 }
 
 // define initialize pid control
-output_bus_t PidControl_Constructor(
+void PidControl_Constructor(
     input_bus_t *input_bus,
     float *reference_pointer,
     float *sensed_value_pointer,
@@ -262,9 +264,13 @@ output_bus_t PidControl_Constructor(
     input_bus->reset = reset_pointer;
 
     // intialize differntial low pass filter
-    // LowPassFilterO1_Constructor(&(output_bus.d_out_bus.d_lpf), 0.0, 0.1, 1.0);
+    LowPassFilterO1_Constructor(
+        &(output_bus.d_out_bus.d_lpf), 
+        output_bus.d_out_bus.d_out, 
+        input_bus->time_step, 
+        input_bus->d_filter_tau);
     // pass in the required variables for this
-    
+
 }
 
 // define pid function
