@@ -182,7 +182,7 @@ void DifferentialFunction(input_bus_t * const input_bus, d_out_bus_t * const d_o
     float d_argument_filtered = 0.0;
     
     d_argument = -1.0 * input_bus->d_gain * *(input_bus->sensed_value);
-    // d_argument_filtered = LowPassFilterO1_Step(input_bus->d_filter_tau, input_bus->time_step, input_bus->reset, d_argument, d_out_bus->d_argument_filtered);
+    
     LowPassFilterO1_Step( &(d_out_bus->d_lpf), d_argument, input_bus->reset);
     d_argument_filtered = d_out_bus->d_lpf.yk_;
 
@@ -250,26 +250,33 @@ void SumAndSat(
 
 // define initialize pid control
 void PidControl_Constructor(
+    output_bus_t *output_bus,
     input_bus_t *input_bus,
     float *reference_pointer,
     float *sensed_value_pointer,
     bool *reset_pointer
     ) {
-
-    output_bus_t output_bus;
+    
+    float d_init_value;
 
     // attach pointers
     input_bus->reference = reference_pointer;
     input_bus->sensed_value = sensed_value_pointer;
     input_bus->reset = reset_pointer;
 
+    // set differential init value
+    d_init_value = - *(input_bus->sensed_value);
     // intialize differntial low pass filter
     LowPassFilterO1_Constructor(
-        &(output_bus.d_out_bus.d_lpf), 
-        output_bus.d_out_bus.d_out, 
+        &(output_bus->d_out_bus.d_lpf), 
+        d_init_value, 
         input_bus->time_step, 
         input_bus->d_filter_tau);
     // pass in the required variables for this
+
+    // run the controller step function once to initialize the 
+    // output values
+    PidControl_Step(input_bus, output_bus);
 
 }
 
@@ -309,6 +316,6 @@ void PidControl_Step(input_bus_t * const input_bus, output_bus_t * const output_
         input_bus->up_sat_value, 
         input_bus->lo_sat_value, 
         input_bus->bc_gain
-    ); 
+    );
 
-    }
+}

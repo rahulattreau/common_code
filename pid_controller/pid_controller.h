@@ -1,3 +1,18 @@
+/*
+Description:
+1. PID control class
+2. Contains no private variables
+3. Has only public variables that are passed in by reference to functions
+ so that the class is reusable
+
+Data handling:
+1. For output structs, a pointer to struct is passed to functions
+2. Input structs are passed by pointer to functions to reduce the
+ amount of data transferred
+3. Input scalars are passed by value to functions
+
+*/
+
 #include <stdbool.h>
 #include "../lpfo1/low_pass_filter_o1.h"
 
@@ -63,7 +78,8 @@ typedef struct {
 // ===== declare public member functions =====
 
 void PidControl_Constructor(
-    input_bus_t *_input_bus,
+    output_bus_t *output_bus,
+    input_bus_t *input_bus,
     float *reference_pointer,
     float *sensed_value_pointer,
     bool *reset_pointer
