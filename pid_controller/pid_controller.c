@@ -181,18 +181,17 @@ void DifferentialFunction(input_bus_t * const input_bus, d_out_bus_t * const d_o
     float d_out = 0.0;
     float d_argument_filtered = 0.0;
     
-    d_argument = -1.0 * input_bus->d_gain * *(input_bus->sensed_value);
+    d_argument = *(input_bus->sensed_value);
     
     LowPassFilterO1_Step( &(d_out_bus->d_lpf), d_argument, input_bus->reset);
     d_argument_filtered = d_out_bus->d_lpf.yk_;
 
-    // if reset is true, reset d_argument_filtered_z. Else let d_argument_filtered_z be.
+    // if reset, assign the sensed value to the unit delayed value
     if(input_bus->reset)
-        d_out = 0.0;
+        d_out_bus->d_argument_filtered = *(input_bus->sensed_value);
     
-    else
-        d_out = (d_argument_filtered - d_out_bus->d_argument_filtered) / input_bus->time_step;
-    
+    d_out = -1.0 * input_bus->d_gain * (d_argument_filtered - d_out_bus->d_argument_filtered) / input_bus->time_step;
+
     // assign values to d_out_bus
     *d_out_bus = (d_out_bus_t) {
         .d_argument = d_argument,
