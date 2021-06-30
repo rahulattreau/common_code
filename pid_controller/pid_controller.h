@@ -50,6 +50,19 @@ typedef struct {
 
 // ===== controller level data types =====
 
+// define parameter struct
+typedef struct {
+        float p_gain;
+        float i_gain;
+        float d_gain;
+        float bc_gain;
+        float d_filter_tau;
+        float up_sat_value;
+        float lo_sat_value;
+        float init_value;
+        float time_step;
+        } pid_params_t;
+    
 // define input bus data type
 typedef struct {
     float *reference;
@@ -82,7 +95,8 @@ void PidControl_Constructor(
     input_bus_t *input_bus,
     float *reference_pointer,
     float *sensed_value_pointer,
-    bool *reset_pointer
+    bool *reset_pointer,
+    pid_params_t * const pid_params
     );
 
-void PidControl_Step(input_bus_t * const input_bus, output_bus_t * const output_bus);
+void PidControl_Step(input_bus_t * const input_bus, output_bus_t * const output_bus, pid_params_t const * pid_params);

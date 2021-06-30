@@ -253,7 +253,8 @@ void PidControl_Constructor(
     input_bus_t *input_bus,
     float *reference_pointer,
     float *sensed_value_pointer,
-    bool *reset_pointer
+    bool *reset_pointer,
+    pid_params_t * const pid_params
     ) {
     
     float d_init_value;
@@ -264,7 +265,7 @@ void PidControl_Constructor(
     input_bus->reset = reset_pointer;
 
     // set differential init value
-    d_init_value = - *(input_bus->sensed_value);
+    d_init_value = *(input_bus->sensed_value);
     // intialize differntial low pass filter
     LowPassFilterO1_Constructor(
         &(output_bus->d_out_bus.d_lpf), 
@@ -275,12 +276,12 @@ void PidControl_Constructor(
 
     // run the controller step function once to initialize the 
     // output values
-    PidControl_Step(input_bus, output_bus);
+    // PidControl_Step(input_bus, output_bus, pid_params);
 
 }
 
 // define pid function
-void PidControl_Step(input_bus_t * const input_bus, output_bus_t * const output_bus) {
+void PidControl_Step(input_bus_t * const input_bus, output_bus_t * const output_bus, pid_params_t const * pid_params) {
 
     // error function -> deadzone 
     // -> proportional function, integral function,differential function
