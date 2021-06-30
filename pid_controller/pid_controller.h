@@ -60,6 +60,8 @@ typedef struct {
     float d_gain;
     float bc_gain;
     float d_filter_tau;
+    float dead_zone_up;
+    float dead_zone_lo;
     float up_sat_value;
     float lo_sat_value;
     float init_value;

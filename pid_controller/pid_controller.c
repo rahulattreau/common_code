@@ -265,10 +265,6 @@ void PidControl_Constructor(
         input_bus->d_filter_tau);
     // pass in the required variables for this
 
-    // run the controller step function once to initialize the 
-    // output values
-    // PidControl_Step(input_bus, output_bus, pid_params);
-
 }
 
 // define pid function
@@ -282,7 +278,7 @@ void PidControl_Step(output_bus_t * const output_bus, input_bus_t * const input_
     ErrorFunction( input_bus, &(output_bus->error) );
 
     // deadzone
-    output_bus->error = DeadZone( output_bus->error, input_bus->up_sat_value, input_bus->lo_sat_value );
+    output_bus->error = DeadZone( output_bus->error, input_bus->dead_zone_up, input_bus->dead_zone_lo );
     
     // proportional function
     ProportionalFunction( &(output_bus->p_out), input_bus->p_gain, output_bus->error );
