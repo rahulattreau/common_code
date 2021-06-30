@@ -53,7 +53,7 @@ void ErrorFunction(input_bus_t * const input_bus, float * const error) {
         *error = 0.0;
     }
     else {
-        *error = *(input_bus->reference) - *(input_bus->sensed_value);
+        *error = input_bus->reference - *(input_bus->sensed_value);
     }
 
 }
@@ -251,25 +251,16 @@ void SumAndSat(
 void PidControl_Constructor(
     output_bus_t *output_bus,
     input_bus_t *input_bus,
-    float *reference_pointer,
-    float *sensed_value_pointer,
-    bool *reset_pointer,
-    pid_params_t * const pid_params
+    float *sensed_value_pointer
     ) {
-    
-    float d_init_value;
 
     // attach pointers
-    input_bus->reference = reference_pointer;
     input_bus->sensed_value = sensed_value_pointer;
-    input_bus->reset = reset_pointer;
-
-    // set differential init value
-    d_init_value = *(input_bus->sensed_value);
+    
     // intialize differntial low pass filter
     LowPassFilterO1_Constructor(
         &(output_bus->d_out_bus.d_lpf), 
-        d_init_value, 
+        *(input_bus->sensed_value), 
         input_bus->time_step, 
         input_bus->d_filter_tau);
     // pass in the required variables for this
@@ -281,7 +272,7 @@ void PidControl_Constructor(
 }
 
 // define pid function
-void PidControl_Step(input_bus_t * const input_bus, output_bus_t * const output_bus, pid_params_t const * pid_params) {
+void PidControl_Step(output_bus_t * const output_bus, input_bus_t * const input_bus) {
 
     // error function -> deadzone 
     // -> proportional function, integral function,differential function
