@@ -27,7 +27,7 @@ int main() {
         WindowFilter_Step(&y, &u, 2.0);
         printf("u: %f y: %f\n", u.value, y);
         
-        u.value_z = u.value;
+        // u.value_z = u.value;
     }
 
     return 0;

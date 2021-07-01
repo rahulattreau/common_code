@@ -17,5 +17,8 @@ void WindowFilter_Step(float * const state_variable, window_filter_t * const inp
         )
         
         *state_variable = input_value->value;
+    
+    // store value for next step
+    input_value->value_z = input_value->value;
 
 }
