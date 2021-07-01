@@ -19,4 +19,4 @@ typedef struct {
 void WindowFilter_Constructor(float * const state_variable, const float init_value);
 
 // declare window filter function
-void WindowFilter_Step(float * const instance, window_filter_t * const input_value, const float window_size);
+void WindowFilter_Step(window_filter_t * const input_value, float * const instance, const float window_size);

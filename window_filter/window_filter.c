@@ -6,7 +6,7 @@ void WindowFilter_Constructor(float * const state_variable, const float init_val
 }
 
 // define window filter function
-void WindowFilter_Step(float * const state_variable, window_filter_t * const input_value, const float window_size) {
+void WindowFilter_Step(window_filter_t * const input_value, float * const state_variable, const float window_size) {
     
     const float delta_in_consecutive_states = input_value->value - input_value->value_z;
 

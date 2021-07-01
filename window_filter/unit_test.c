@@ -24,7 +24,7 @@ int main() {
     for (int j = 0; j < sizeof(u_vector) / sizeof(u_vector[0]); j ++) {
         u.value = u_vector[j];
 
-        WindowFilter_Step(&y, &u, 2.0);
+        WindowFilter_Step(&u, &y, 2.0);
         printf("u: %f y: %f\n", u.value, y);
         
         // u.value_z = u.value;
