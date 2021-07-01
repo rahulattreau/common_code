@@ -3,7 +3,7 @@
 
 int main() {
 
-    float_state_and_state_z u;
+    window_filter_t u;
     float u_vector[] = {1.0, 1.1, 0.9, 1.2, 
     3.1, // big deviation but still within range
     1.2, 1.3, 
