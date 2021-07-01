@@ -25,7 +25,7 @@ int main() {
     
     // declare lookup table object
     lookup_table_data_t r32_press_temp_lookup_table;
-    LookupTableInit(&r32_press_temp_lookup_table, r32_press_array, r32_temp_array, ArrayLength(r32_press_array));
+    LookupTable_Constructor(&r32_press_temp_lookup_table, r32_press_array, r32_temp_array, ArrayLength(r32_press_array));
     
     printf("breakpoint data sample: %f table value sample: %f \n", 
     r32_press_temp_lookup_table.breakpoints_data[0], r32_press_temp_lookup_table.table_values_data[2]);
