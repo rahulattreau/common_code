@@ -1,5 +1,4 @@
-#ifndef R32_PROPERTIES_H
-#define R32_PROPERTIES_H
+#pragma once
 
 #include "../antoine_equation/antoine_equation.h"
 
@@ -10,5 +9,3 @@ const antoine_equation_params_t r32_antoine_eq_params = {
     .b = 938.96716723, 
     .c = 259.4159998
     };
-
-#endif

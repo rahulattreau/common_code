@@ -1,5 +1,4 @@
-#ifndef LOOKUP_TABLE_H
-#define LOOKUP_TABLE_H
+#pragma once
 
 // define macro for getting the length of an array
 #define ArrayLength(array) ( sizeof(array)/sizeof(array[0]) )
@@ -29,5 +28,3 @@ float LookupTable(
     lookup_table_data_t * const instance, 
     const float x_value
     );
-
-#endif

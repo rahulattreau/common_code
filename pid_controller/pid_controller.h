@@ -13,6 +13,8 @@ Data handling:
 
 */
 
+#pragma once
+
 #include <stdbool.h>
 #include "../lpfo1/low_pass_filter_o1.h"
 

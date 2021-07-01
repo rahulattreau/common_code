@@ -10,6 +10,8 @@ Inputs:
 
 Returns: A float on which the deadzone has been performed.
 */
-    
+
+#pragma once
+
 // declare deadzone function type
 float DeadZone(const float u, const float up_sat_value, const float lo_sat_value);

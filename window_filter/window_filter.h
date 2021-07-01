@@ -5,6 +5,8 @@ is greater than window size, retain window state variable value.
 2. Else, use new input value
 */
 
+#pragma once
+
 #include "../data_type_state_variable/float_state_and_state_z.h"
 
 // declare initialization function

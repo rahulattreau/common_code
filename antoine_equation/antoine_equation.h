@@ -1,5 +1,4 @@
-#ifndef ANTOINE_EQUATION_H
-#define ANTOINE_EQUATION_H
+#pragma once
 
 typedef struct {
     float a;
@@ -11,5 +10,3 @@ float SatTempAntoineEquationCalc(
     const float absolute_pressure_kpa, 
     const antoine_equation_params_t * const antoine_ref_params
     );
-
-#endif
