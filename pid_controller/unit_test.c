@@ -56,12 +56,13 @@ int main() {
         .deadzone_lo = -3.0
         };
     
-    float sensed_value = 6.0;
+    float sensed_value = 11.0;
     
     PidParamsAssigner(&superheat_control_input_bus, &kSuperheatControlCoolingPidParams);
 
     PidControl_Constructor(&superheat_control_output_bus, &superheat_control_input_bus, &sensed_value);
-    printf("filter output d_out = %f\n", 
+    
+    printf("d_out filter alpha = %f\n", 
         superheat_control_output_bus.d_out_bus.d_lpf.alpha_
         );
     

@@ -47,6 +47,12 @@ void SumAndSat(
 // calculate error
 void ErrorFunction(input_bus_t * const input_bus, float * const error) {
     
+    /*
+    description:
+    1. if reset is true, set error to zero. This is so that the control output is zero
+    2. Else, calculate error
+    */
+   
     if(input_bus->reset) {
         *error = 0.0;
     }
@@ -70,6 +76,14 @@ void IntegralFunction(
     i_out_bus_t * const i_out_bus,
     sat_and_sum_bus_t * const sat_and_sum_bus
     ) {
+    
+    /*
+    description:
+    1. calculate integrand
+    2. calculate clamping condition
+    3. reset integrator if required
+    4. set outputs
+    */
 
     float integrand = 0.0;
     float i_out = 0.0;
@@ -125,6 +139,14 @@ void IntegralClamping(
 // define differential function
 void DifferentialFunction(input_bus_t * const input_bus, d_out_bus_t * const d_out_bus) {
 
+    /*
+    description:
+    1. filter the argument. The argument is the sensed value
+    2. reset if required.
+    3. calculate differential out
+    4. set outputs
+    */
+
     float d_argument = 0.0;
     float d_out = 0.0;
     float d_argument_filtered = 0.0;
@@ -158,6 +180,13 @@ void SumAndSat(
     const float lo_sat_value, 
     const float bc_gain
     ) {
+    
+    /*
+    description:
+    1. sum p_out, i_out and d_out
+    2. saturate
+    */
+    
     float pre_sat_value = 0.0;
     // float post_sat_value = 0.0;
     static float bc_out = 0.0;
@@ -202,9 +231,7 @@ void PidControl_Constructor(
 void PidControl_Step(output_bus_t * const output_bus, input_bus_t * const input_bus) {
 
     // description:
-    // error function -> deadzone 
-    // -> proportional function, integral function,differential function
-    // -> sum and saturate 
+    // error function -> deadzone -> proportional function, integral function, differential function -> sum and saturate 
 
     // error function
     ErrorFunction( input_bus, &(output_bus->error) );
