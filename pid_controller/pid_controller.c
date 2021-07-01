@@ -31,6 +31,17 @@ void IntegralClamping(
 // differential function
 void DifferentialFunction(input_bus_t * const input_bus, d_out_bus_t * const d_out_bus);
 
+// sum and sat function
+void SumAndSat(
+    float * post_sat_value,
+    const float p_out, 
+    const i_out_bus_t i_out_bus, 
+    const d_out_bus_t d_out_bus, 
+    const float up_sat_value, 
+    const float lo_sat_value, 
+    const float bc_gain
+    );
+
 // ===== define functions =====
 
 /*
@@ -180,24 +191,24 @@ void DifferentialFunction(input_bus_t * const input_bus, d_out_bus_t * const d_o
     float d_argument = 0.0;
     float d_out = 0.0;
     float d_argument_filtered = 0.0;
+    float *d_argument_filtered_z = &(d_out_bus->d_argument_filtered);
     
     d_argument = *(input_bus->sensed_value);
     
     LowPassFilterO1_Step( &(d_out_bus->d_lpf), d_argument, input_bus->reset);
-    d_argument_filtered = d_out_bus->d_lpf.yk_;
-
-    // if reset, assign the sensed value to the unit delayed value
-    if(input_bus->reset)
-        d_out_bus->d_argument_filtered = *(input_bus->sensed_value);
     
-    d_out = -1.0 * input_bus->d_gain * (d_argument_filtered - d_out_bus->d_argument_filtered) / input_bus->time_step;
+    d_argument_filtered = d_out_bus->d_lpf.yk_;
+    
+    // if reset, then reset unit delay
+    if(input_bus->reset)
+        *d_argument_filtered_z = d_argument_filtered;
+    
+    d_out = -1.0 * input_bus->d_gain * (d_argument_filtered - *d_argument_filtered_z) / input_bus->time_step;
 
     // assign values to d_out_bus
-    *d_out_bus = (d_out_bus_t) {
-        .d_argument = d_argument,
-        .d_out = d_out,
-        .d_argument_filtered = d_argument_filtered
-    };
+    d_out_bus->d_argument = *(input_bus->sensed_value);
+    d_out_bus->d_out = d_out;
+    d_out_bus->d_argument_filtered = d_argument_filtered;
 }
 
 /*
@@ -270,6 +281,7 @@ void PidControl_Constructor(
 // define pid function
 void PidControl_Step(output_bus_t * const output_bus, input_bus_t * const input_bus) {
 
+    // description:
     // error function -> deadzone 
     // -> proportional function, integral function,differential function
     // -> sum and saturate 

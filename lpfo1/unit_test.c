@@ -4,7 +4,7 @@
 int main() {
 
     float time_step = 0.1;
-    float u = 0.0;
+    float u = 0.5;
 
     low_pass_filter_o1_t y;
     LowPassFilterO1_Constructor(&y, u, time_step, 1.0);
