@@ -13,10 +13,14 @@ is greater than window size, retain window state variable value.
 typedef struct {
     float value;
     float value_z;
+    float window_size;
 } window_filter_t;
 
 // declare initialization function
-void WindowFilter_Constructor(float * const state_variable, const float init_value);
+void WindowFilter_Constructor(window_filter_t * const instance, const float init_value, const float window_size);
+
+// declare reste function
+void WindowFilter_Reset(window_filter_t * const instance, const float init_value);
 
 // declare window filter function
-void WindowFilter_Step(window_filter_t * const input_value, float * const instance, const float window_size);
+void WindowFilter_Step(window_filter_t * const instance, float * const state_variable);

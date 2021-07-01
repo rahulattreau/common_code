@@ -1,24 +1,33 @@
 #include "window_filter.h"
 
 // define constructor
-void WindowFilter_Constructor(float * const state_variable, const float init_value) {
-    *state_variable = init_value;
+void WindowFilter_Constructor(window_filter_t * const instance, const float init_value, const float window_size) {
+    instance->window_size = window_size;
+
+    WindowFilter_Reset(instance, init_value);
+}
+
+void WindowFilter_Reset(window_filter_t * const instance, const float init_value) {
+    instance->value = init_value;
+    instance->value_z = init_value;
 }
 
 // define window filter function
-void WindowFilter_Step(window_filter_t * const input_value, float * const state_variable, const float window_size) {
+void WindowFilter_Step(window_filter_t * const instance, float * const input) {
     
-    const float delta_in_consecutive_states = input_value->value - input_value->value_z;
+    const float delta_in_consecutive_states = *input - instance->value;
 
     // if input is inside range, store input into window filter state variable
     if(
-        ( delta_in_consecutive_states <= window_size ) &&
-        ( delta_in_consecutive_states >= -window_size )
+        ( delta_in_consecutive_states <= instance->window_size ) &&
+        ( delta_in_consecutive_states >= -instance->window_size )
         )
-        
-        *state_variable = input_value->value;
+        instance->value = *input;
     
-    // store value for next step
-    input_value->value_z = input_value->value;
-
+    else
+        instance->value = instance->value_z;
+    
+    // store input for next time step
+    instance->value_z = *input;
+    
 }
