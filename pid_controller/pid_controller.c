@@ -44,19 +44,6 @@ void SumAndSat(
 
 // ===== define functions =====
 
-/*
-Inputs:
-calibration parameters:
-None
-dynamic values:
-reference
-reset
-sensor values:
-sensed_value
-
-Outputs:
-error
-*/
 // calculate error
 void ErrorFunction(input_bus_t * const input_bus, float * const error) {
     
@@ -69,45 +56,12 @@ void ErrorFunction(input_bus_t * const input_bus, float * const error) {
 
 }
 
-/*
-inputs:
-calibration parameters:
-p_gain
-dynamic values:
-error
-sensor values:
-none
-
-output:
-p_out
-*/
 // calculate proportional output
 void ProportionalFunction(float * const p_out, const float p_gain, const float error) {
 
     *p_out = p_gain * error;
 
 }
-
-/*
-calibration parameters:
-i_gain
-up_sat_value
-lo_sat_value
-init_value
-time_step
-dynamic values:
-error
-reset
-pre_sat_value
-sensor values:
-none
-
-output:
-non states:
-none
-state_variables:
-i_out
-*/
 
 // calculate integral output
 void IntegralFunction(
@@ -145,6 +99,7 @@ void IntegralFunction(
 
 }
 
+// integral clamping definition
 void IntegralClamping(
     const float integrand, 
     const float pre_sat_value, 
@@ -167,25 +122,7 @@ void IntegralClamping(
 
 }
 
-/*
-inputs:
-calibration parameters:
-d_gain
-d_filter_tau
-time_step
-dynamic values:
-reset
-sensor values:
-sensed_value
-
-outputs:
-non states:
-d_out
-state_variables:
-d_argument_filtered_z
-
-*/
-
+// define differential function
 void DifferentialFunction(input_bus_t * const input_bus, d_out_bus_t * const d_out_bus) {
 
     float d_argument = 0.0;
@@ -210,23 +147,6 @@ void DifferentialFunction(input_bus_t * const input_bus, d_out_bus_t * const d_o
     d_out_bus->d_out = d_out;
     d_out_bus->d_argument_filtered = d_argument_filtered;
 }
-
-/*
-inputs:
-calibration parameters:
-up_sat_value
-lo_sat_value
-bc_gain
-dynamic values:
-reset
-sensor values:
-sensed_value
-
-
-outputs:
-pre_sat_value
-post_sat_value
-*/
 
 // calculate the summer and saturation
 void SumAndSat(
