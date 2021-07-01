@@ -1,12 +1,12 @@
 #include "window_filter.h"
 
-// define initialization function
-void WindowFilterInit(float * const state_variable, const float init_value) {
+// define constructor
+void WindowFilter_Constructor(float * const state_variable, const float init_value) {
     *state_variable = init_value;
 }
 
 // define window filter function
-void WindowFilterFunc(float * const state_variable, window_filter_t * const input_value, const float window_size) {
+void WindowFilter_Step(float * const state_variable, window_filter_t * const input_value, const float window_size) {
     
     const float delta_in_consecutive_states = input_value->value - input_value->value_z;
 

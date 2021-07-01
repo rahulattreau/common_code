@@ -19,14 +19,14 @@ int main() {
 
     float y;
 
-    WindowFilterInit(&y, u.value);
+    WindowFilter_Constructor(&y, u.value);
 
     for (int j = 0; j < sizeof(u_vector) / sizeof(u_vector[0]); j ++) {
         u.value = u_vector[j];
 
-        WindowFilterFunc(&y, &u, 2.0);
+        WindowFilter_Step(&y, &u, 2.0);
         printf("u: %f y: %f\n", u.value, y);
-
+        
         u.value_z = u.value;
     }
 
