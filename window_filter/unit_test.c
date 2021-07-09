@@ -34,8 +34,8 @@ int main() {
             WindowFilter_Reset(&window_filter_values, u_vector[j]);
 
         // run window filter
-        WindowFilter_Step(&window_filter_values, &input, false);
-        printf("u: %f input: %f\n", input, window_filter_values.value);
+        WindowFilter_Step(&window_filter_values, input, false);
+        printf("u: %f input: %f\n", input, window_filter_values.yk_);
         
     }
 

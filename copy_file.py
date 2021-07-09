@@ -1,6 +1,6 @@
 import shutil, os
 
-file_name = 'pid_controller/pid_controller' 
+file_name = 'window_filter/window_filter' 
 c_files = [file_name + '.c']
 h_files = [file_name + '.h']
 

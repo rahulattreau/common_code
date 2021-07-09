@@ -19,8 +19,8 @@ y[k] = y[k-1] + alpha * (x[k] - y[k-1])
 
 // define the variables for the low pass filter data type
 typedef struct {
-    float yk_; // state variable
-    float yk_1_; // state variable value from previous time step
+    float yk_; // output variable
+    float yk_1_; // output variable value from previous time step
     float alpha_; // alpha value for lpf
 } low_pass_filter_o1_t;
 
