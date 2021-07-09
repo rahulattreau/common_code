@@ -6,28 +6,28 @@ void UnitDelay_Constructor(unit_delay_t * const instance, const float init_value
 }
 
 void UnitDelay_StoreInternalState(unit_delay_t * const instance, const float xk) {
-    instance->yk_1_.value_ = xk;
+    instance->xk_1_ = xk;
 }
 
 void UnitDelay_Step(unit_delay_t * const instance, const float xk, const bool reset) {
     
     // if (reset) {
     //     UnitDelay_StoreInternalState(instance, xk);
-    //     instance->yk_ = instance->yk_1_.value_;
+    //     instance->yk_ = instance->xk_1_;
     // }
     // else
     // {
-    //     instance->yk_ = instance->yk_1_.value_;
+    //     instance->yk_ = instance->xk_1_;
     //     UnitDelay_StoreInternalState(instance, xk);
     // }
     if (reset) {
-        instance->yk_1_.value_ = xk;
-        instance->yk_ = instance->yk_1_.value_;
+        instance->xk_1_ = xk;
+        instance->yk_ = instance->xk_1_;
     }
     else
     {
-        instance->yk_ = instance->yk_1_.value_;
-        instance->yk_1_.value_ = xk;
+        instance->yk_ = instance->xk_1_;
+        instance->xk_1_ = xk;
     }
 
 }

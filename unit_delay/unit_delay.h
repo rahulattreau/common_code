@@ -9,7 +9,7 @@ typedef struct {
 // define public variables
 typedef struct {
     float yk_;
-    unit_delay_private_t yk_1_;
+    float xk_1_;
 } unit_delay_t;
 
 void UnitDelay_Constructor(unit_delay_t * const instance, const float init_value);
