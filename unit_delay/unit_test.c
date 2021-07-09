@@ -19,7 +19,8 @@ int main() {
     };
     
     unit_delay_t unit_delay;
-    UnitDelay_Constructor(&unit_delay, u_vector[0]);
+    UnitDelay_Constructor(&unit_delay);
+    UnitDelay_Init(&unit_delay, u_vector[0]);
 
     float u;
     bool reset = false;

@@ -15,10 +15,9 @@ yk - filtered variable value from current time step
 Formula:
 alpha = time_step / (tau + time_step);
 y[k] = alpha * x[k] + (1 - alpha) * y[k-1]
-y[k] = y[k-1] + alpha * (x[k] - y[k-1])
 */
 
-// define the variables for the low pass filter data type
+// define data type
 typedef struct {
     float yk_; // output variable
     unit_delay_t yk_1_; // unit delay object
@@ -26,7 +25,11 @@ typedef struct {
 } low_pass_filter_o1_t;
 
 // Class member function declarations:
-// declare constructor
+
+/*
+declare constructor
+    - use when declaring variable
+*/
 void LowPassFilterO1_Constructor(
     low_pass_filter_o1_t * const instance, 
     const float xk, 
@@ -34,5 +37,14 @@ void LowPassFilterO1_Constructor(
     const float tau
     );
 
-// declare step function
+/*
+initialization function
+    - use at first time step when data is available
+*/
+void LowPassFilterO1_Init(low_pass_filter_o1_t * const instance, const float xk);
+
+/*
+declare step function
+    - this is the public function that needs to run in each time step
+*/
 void LowPassFilterO1_Step(low_pass_filter_o1_t * const instance, const float xk, const bool reset);

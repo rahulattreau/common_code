@@ -10,8 +10,15 @@ void LowPassFilterO1_Constructor(
     // set alpha_
     instance->alpha_ = time_step / ( time_step + tau );
     // initialize the state variables
-    UnitDelay_Constructor( &(instance->yk_1_), 0.0 );
+    UnitDelay_Constructor( &(instance->yk_1_) );
     
+}
+
+void LowPassFilterO1_Init(low_pass_filter_o1_t * const instance, const float xk) {
+
+    UnitDelay_Init( &(instance->yk_1_), xk );
+    instance->yk_ = instance->yk_1_.yk_;
+
 }
 
 void LowPassFilterO1_Step(low_pass_filter_o1_t * const instance, const float xk, const bool reset) {
