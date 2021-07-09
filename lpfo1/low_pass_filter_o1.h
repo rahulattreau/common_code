@@ -1,5 +1,6 @@
 #pragma once
 #include <stdbool.h>
+#include "../unit_delay/unit_delay.h"
 
 /*
 Description:
@@ -20,7 +21,7 @@ y[k] = y[k-1] + alpha * (x[k] - y[k-1])
 // define the variables for the low pass filter data type
 typedef struct {
     float yk_; // output variable
-    float yk_1_; // output variable value from previous time step
+    unit_delay_t yk_1_; // unit delay object
     float alpha_; // alpha value for lpf
 } low_pass_filter_o1_t;
 
@@ -32,8 +33,6 @@ void LowPassFilterO1_Constructor(
     const float time_step, 
     const float tau
     );
-    
-// declare reset function
-void LowPassFilterO1_Reset(low_pass_filter_o1_t * const instance, const float xk);
+
 // declare step function
 void LowPassFilterO1_Step(low_pass_filter_o1_t * const instance, const float xk, const bool reset);

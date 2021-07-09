@@ -3,7 +3,7 @@
 
 int main() {
 
-    float time_step = 0.1;
+    float time_step = 0.01;
     float u = 0.0;
 
     low_pass_filter_o1_t y;
@@ -11,7 +11,9 @@ int main() {
 
     bool reset = false;
 
-    for (float j = 0; j < 20; j += time_step) {
+    // printf("alpha value = %f \n", y.alpha_);
+
+    for (float j = 0; j < 10; j += time_step) {
         if (j > 1.0)
             u = 1.0;
         
@@ -21,14 +23,17 @@ int main() {
         
         // test that reset deactivates
         if (j > 4.0)
+            u = 10.0;
+        if (j > 4.1)
             reset = false;
         
         if (j > 5.0)
             u = 0.0;
         
+        // execute low pass filter
         LowPassFilterO1_Step(&y, u, reset);
 
-        printf("time: %f u: %f y: %f\n", j, u, y.yk_);
+        printf("time: %f u: %f unit delay: %f y: %f\n", j, u, y.yk_1_.yk_, y.yk_);
     }
     
 

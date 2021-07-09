@@ -17,4 +17,8 @@ typedef struct {
 
 void UnitDelay_Constructor(unit_delay_t * const instance, const float init_value);
 
+void UnitDelay_StoreState(unit_delay_t * const instance, const float xk);
+
+void (*UnitDelay_PostStep)(unit_delay_t * const, const float);
+
 void UnitDelay_Step(unit_delay_t * const instance, const float xk, const bool reset);

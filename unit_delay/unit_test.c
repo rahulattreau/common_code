@@ -35,6 +35,8 @@ int main() {
         UnitDelay_Step(&unit_delay, u, reset);
         
         printf("j: %2d u: %f y: %f \n", j, u, unit_delay.yk_);
+
+        UnitDelay_PostStep(&unit_delay, u);
     }
 
     return 0;
