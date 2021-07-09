@@ -1,1 +1,1 @@
-gcc pid_controller.c unit_test.c ../lpfo1/low_pass_filter_o1.c ../signum_function/signum_function.c ../deadzone/deadzone.c
+gcc pid_controller.c unit_test_2.c ../lpfo1/low_pass_filter_o1.c ../signum_function/signum_function.c ../deadzone/deadzone.c ../window_filter/window_filter.c

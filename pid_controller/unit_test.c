@@ -18,9 +18,14 @@ void PidParamsAssigner(input_bus_t *const input_bus, const pid_params_t *const p
     input_bus->d_gain = pid_params->d_gain;
     input_bus->dead_zone_up = pid_params->deadzone_up;
     input_bus->dead_zone_lo = pid_params->deadzone_lo;
+
 }
 
 int main() {
+
+    const bool kInitReset = true;
+    float reference = 8.0;
+    float init_value = 20.0;
 
     input_bus_t superheat_control_input_bus = {
         .reference = 8.0,
