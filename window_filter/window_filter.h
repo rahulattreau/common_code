@@ -7,7 +7,7 @@ is greater than window size, retain window state variable value.
 
 #pragma once
 
-            // #include "../data_type_state_variable/float_state_and_state_z.h"
+#include <stdbool.h>
 
 // define data type
 typedef struct {
@@ -23,4 +23,4 @@ void WindowFilter_Constructor(window_filter_t * const instance, const float init
 void WindowFilter_Reset(window_filter_t * const instance, const float init_value);
 
 // declare window filter function
-void WindowFilter_Step(window_filter_t * const instance, float * const state_variable);
+void WindowFilter_Step(window_filter_t * const instance, float * const input, const bool reset);

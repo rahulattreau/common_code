@@ -13,21 +13,25 @@ void WindowFilter_Reset(window_filter_t * const instance, const float init_value
 }
 
 // define window filter function
-void WindowFilter_Step(window_filter_t * const instance, float * const input) {
+void WindowFilter_Step(window_filter_t * const instance, float * const input, const bool reset) {
     
     const float delta_in_consecutive_states = *input - instance->value;
 
-    // if input is inside range, store input into window filter state variable
-    if(
-        ( delta_in_consecutive_states <= instance->window_size ) &&
-        ( delta_in_consecutive_states >= -instance->window_size )
-        )
-        instance->value = *input;
+    if (reset)
+        WindowFilter_Reset(instance, *input);
     
-    else
-        instance->value = instance->value_z;
-    
-    // store input for next time step
-    instance->value_z = *input;
-    
+    else {
+        // if input is inside range, store input into window filter state variable
+        if(
+            ( delta_in_consecutive_states <= instance->window_size ) &&
+            ( delta_in_consecutive_states >= -instance->window_size )
+            )
+            instance->value = *input;
+        
+        else
+            instance->value = instance->value_z;
+        
+        // store input for next time step
+        instance->value_z = *input;
+    }
 }
