@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "input_conditioning.h": "c",
+        "low_pass_filter_o1.h": "c"
+    }
+}

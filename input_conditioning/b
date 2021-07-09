@@ -1,0 +1,1 @@
+gcc input_conditioning.c ../window_filter/window_filter.c ../lpfo1/low_pass_filter_o1.c unit_test.c
