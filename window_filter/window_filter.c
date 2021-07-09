@@ -17,6 +17,7 @@ void WindowFilter_Step(window_filter_t * const instance, float * const input, co
     
     const float delta_in_consecutive_states = *input - instance->value;
 
+    // if reset is true, then call reset function, else perform window filtering
     if (reset)
         WindowFilter_Reset(instance, *input);
     
