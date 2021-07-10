@@ -17,11 +17,17 @@ typedef struct {
     float window_size_; // window size
 } window_filter_t;
 
-// declare constructor
+/*
+declare the following functions:
+Constructor - use when defining class variable
+Init
+    - use for initializing values.
+    - this is separate from the constructor as data might not be available when a variable is being declared
+Step - this is the step function that runs every time step
+*/
+
 void WindowFilter_Constructor(window_filter_t * const instance, const float window_size);
 
-// declare initialization function
 void WindowFilter_Init(window_filter_t * const instance, const float xk);
 
-// declare window filter function
 void WindowFilter_Step(window_filter_t * const instance, const float xk, const bool reset);
