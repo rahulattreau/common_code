@@ -1,5 +1,17 @@
 #include "unit_delay.h"
 
+/*
+declare private functions:
+Store state - private function to store internal state 
+Step function - this is the public function that needs to be executed every time step
+*/
+
+void UnitDelay_Reset(unit_delay_t * const instance, const float xk);
+
+void UnitDelay_StoreState(unit_delay_t * const instance, const float xk);
+
+// define functions
+
 void UnitDelay_Constructor(unit_delay_t * const instance) {
 
     // point function pointers

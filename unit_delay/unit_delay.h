@@ -17,14 +17,12 @@ typedef struct {
 
 /* 
 declare functions:
-1. Constructor - use this when declaring variable of this class type
-2. Initialization function - points to reset function.
+Constructor - use this when declaring variable of this class type
+Initialization function - points to reset function.
     - Use this for assigning value for first time step.
     - This is kept separate from the constructor as when declaring a variable, data might not be available
-3. Reset function - private function for resetting state internal state and output to input value
-4. Store state - private function to store internal state 
-5. Step function - this is the public function that needs to be executed every time step
-6. Post step function
+Reset function - private function for resetting state internal state and output to input value
+Post step function
     - points to StoreState
     - this runs at the end of a time step
 */
@@ -32,10 +30,6 @@ declare functions:
 void UnitDelay_Constructor(unit_delay_t * const instance);
 
 void (*UnitDelay_Init)(unit_delay_t * const, const float);
-
-void UnitDelay_Reset(unit_delay_t * const instance, const float xk);
-
-void UnitDelay_StoreState(unit_delay_t * const instance, const float xk);
 
 void UnitDelay_Step(unit_delay_t * const instance, const float xk, const bool reset);
 
