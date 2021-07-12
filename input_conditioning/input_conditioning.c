@@ -16,6 +16,7 @@ void InputConditioning_Init(input_conditioning_t * const instance, const float x
 
     WindowFilter_Init( &(instance->window_filter_object), xk );
     LowPassFilterO1_Init( &(instance->low_pass_filter_object), xk );
+    instance->yk_ = instance->low_pass_filter_object.yk_;
     
 }
 
@@ -23,5 +24,6 @@ void InputConditioning_Step(input_conditioning_t * const instance, const float x
     
     WindowFilter_Step( &(instance->window_filter_object) , xk, reset );
     LowPassFilterO1_Step( &(instance->low_pass_filter_object), instance->window_filter_object.yk_, reset );
+    instance->yk_ = instance->low_pass_filter_object.yk_;
 
 }

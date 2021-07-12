@@ -14,6 +14,7 @@ description:
 typedef struct {
     window_filter_t window_filter_object;
     low_pass_filter_o1_t low_pass_filter_object;
+    float yk_; // output
 } input_conditioning_t;
 
 void InputConditioning_Constructor(

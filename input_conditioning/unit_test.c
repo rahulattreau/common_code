@@ -29,11 +29,12 @@ int main() {
     InputConditioning_Constructor(&input_conditioning_object, kWindowSize, kTimeStep, kTau);
     InputConditioning_Init(&input_conditioning_object, u_vector[0]);
 
-    printf("j: %2d input: %f window filter: %f lpf: %f\n", 
+    printf("j: %2d input: %f window filter: %f lpf: %f output: %f\n", 
         0,
         input, 
         input_conditioning_object.window_filter_object.yk_,
-        input_conditioning_object.low_pass_filter_object.yk_
+        input_conditioning_object.low_pass_filter_object.yk_,
+        input_conditioning_object.yk_
         );
 
     for (int j = 1; j < sizeof(u_vector) / sizeof(u_vector[0]); j ++) {
@@ -42,18 +43,17 @@ int main() {
 
         if (j == 23) // test reset function
             reset = true;
-            // InputConditioning_Reset(&input_conditioning_object, u_vector[j]);
-        else {
+        else
             reset = false;
-            // run window filter
-            // InputConditioning_Step(&input_conditioning_object, input, false);
-        }
+            
         InputConditioning_Step(&input_conditioning_object, input, reset);
-        printf("j: %2d input: %f window filter: %f lpf: %f\n", 
+        
+        printf("j: %2d input: %f window filter: %f lpf: %f output: %f\n", 
         j,
         input, 
         input_conditioning_object.window_filter_object.yk_,
-        input_conditioning_object.low_pass_filter_object.yk_
+        input_conditioning_object.low_pass_filter_object.yk_,
+        input_conditioning_object.yk_
         );
         
     }
