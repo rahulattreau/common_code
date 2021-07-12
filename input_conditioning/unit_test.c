@@ -23,11 +23,14 @@ int main() {
     
     input_conditioning_t input_conditioning_object;
     
-    float input;
+    float input = u_vector[0];
+    bool reset;
 
-    InputConditioning_Constructor(&input_conditioning_object, u_vector[0], kWindowSize, kTimeStep, kTau);
+    InputConditioning_Constructor(&input_conditioning_object, kWindowSize, kTimeStep, kTau);
+    InputConditioning_Init(&input_conditioning_object, u_vector[0]);
 
-    printf("uinput %f window filter: %f lpf: %f\n", 
+    printf("j: %2d input: %f window filter: %f lpf: %f\n", 
+        0,
         input, 
         input_conditioning_object.window_filter_object.yk_,
         input_conditioning_object.low_pass_filter_object.yk_
@@ -38,11 +41,14 @@ int main() {
         input = u_vector[j];
 
         if (j == 23) // test reset function
-            InputConditioning_Reset(&input_conditioning_object, u_vector[j]);
+            reset = true;
+            // InputConditioning_Reset(&input_conditioning_object, u_vector[j]);
         else {
+            reset = false;
             // run window filter
-            InputConditioning_Step(&input_conditioning_object, input, false);
+            // InputConditioning_Step(&input_conditioning_object, input, false);
         }
+        InputConditioning_Step(&input_conditioning_object, input, reset);
         printf("j: %2d input: %f window filter: %f lpf: %f\n", 
         j,
         input, 

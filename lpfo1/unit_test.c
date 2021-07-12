@@ -7,14 +7,11 @@ int main() {
     float u = 0.1;
 
     low_pass_filter_o1_t y;
-    LowPassFilterO1_Constructor(&y, u, time_step, 1.0);
-    LowPassFilterO1_Init(&y, 0.1);
+    LowPassFilterO1_Constructor(&y, time_step, 1.0);
+    // initialize lpf
+    LowPassFilterO1_Init(&y, u);
 
     bool reset = false;
-
-    // printf("alpha value = %f \n", y.alpha_);
-
-    // initialize lpf
     
     printf("time: %f u: %f unit delay: %f y: %f\n", 0.0, u, y.yk_1_.yk_, y.yk_);
 
@@ -41,7 +38,6 @@ int main() {
         printf("time: %f u: %f unit delay: %f y: %f\n", j, u, y.yk_1_.yk_, y.yk_);
     }
     
-
     return 0;
 
 }

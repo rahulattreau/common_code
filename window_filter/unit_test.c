@@ -38,6 +38,7 @@ int main() {
     };
     
     float input;
+    bool reset = true;
 
     WindowFilter_Constructor(&window_filter_values, 2.0);
 
@@ -50,11 +51,15 @@ int main() {
         input = u_vector[j];
 
         if (j == 23) // test reset function
-            WindowFilter_Step(&window_filter_values, input, true);
+            reset = true;
+            // WindowFilter_Step(&window_filter_values, input, true);
         else {
+            reset = false;
             // run window filter
-            WindowFilter_Step(&window_filter_values, input, false);
+            // WindowFilter_Step(&window_filter_values, input, false);
         }
+
+        WindowFilter_Step(&window_filter_values, input, reset);
         
         printf("u: %f output: %f error: %f\n", input, window_filter_values.yk_, 
         y_vector_correct[j] - window_filter_values.yk_);
@@ -62,4 +67,5 @@ int main() {
     }
 
     return 0;
+    
 }

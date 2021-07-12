@@ -2,28 +2,22 @@
 
 void InputConditioning_Constructor(
     input_conditioning_t * const instance, 
-    const float init_value,
     const float window_size,
     const float time_step,
     const float tau
     ) {
 
-    instance->window_size = window_size;
-    instance->time_step = time_step;
-    instance->tau = tau;
-
-    WindowFilter_Constructor( &(instance->window_filter_object), init_value, instance->window_size);
-    LowPassFilterO1_Constructor( &(instance->low_pass_filter_object), instance->window_filter_object.yk_, instance->time_step, instance->tau);
+    WindowFilter_Constructor( &(instance->window_filter_object), window_size);
+    LowPassFilterO1_Constructor( &(instance->low_pass_filter_object), time_step, tau);
 
 }
 
-void InputConditioning_Reset(input_conditioning_t * const instance, const bool reset) {
+void InputConditioning_Init(input_conditioning_t * const instance, const float xk) {
 
-    WindowFilter_Reset( &(instance->window_filter_object), reset );
-    LowPassFilterO1_Reset( &(instance->low_pass_filter_object), reset );
+    WindowFilter_Init( &(instance->window_filter_object), xk );
+    LowPassFilterO1_Init( &(instance->low_pass_filter_object), xk );
     
 }
-
 
 void InputConditioning_Step(input_conditioning_t * const instance, const float xk, const bool reset) {
     

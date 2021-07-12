@@ -32,7 +32,6 @@ declare constructor
 */
 void LowPassFilterO1_Constructor(
     low_pass_filter_o1_t * const instance, 
-    const float xk, 
     const float time_step, 
     const float tau
     );
