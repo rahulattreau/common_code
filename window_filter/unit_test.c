@@ -58,6 +58,7 @@ int main() {
             // run window filter
             // WindowFilter_Step(&window_filter_values, input, false);
         }
+        // reset = true;
 
         WindowFilter_Step(&window_filter_values, input, reset);
         
