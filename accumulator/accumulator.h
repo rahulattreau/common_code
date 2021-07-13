@@ -20,7 +20,7 @@ struct virtual_func_table_t {
 // define virtual function call
 // this function is defined in the .c file
 static inline void Accumulator_Process(accumulator_t * const instance, const float xk, const bool reset) {
-    return (*instance->_virtual_func_table_ptr_->Process)(instance, xk, reset);
+    return ( *(instance->_virtual_func_table_ptr_->Process) )(instance, xk, reset);
 }
 
 void Accumulator_Constructor(accumulator_t * const instance, const float time_step);

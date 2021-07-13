@@ -7,7 +7,7 @@ void Accumulator_Constructor(accumulator_t * const instance, const float time_st
     // initialize the state variables
     UnitDelay_Constructor( &(instance->yk_1_) );
 
-    // static struct virtual_func_table_t const 
+    // create virtual table struct
     static struct virtual_func_table_t virtual_func_table_ = {
         &Accumulator_Process_
     };
