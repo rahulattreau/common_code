@@ -1,15 +1,15 @@
 #include<stdio.h>
-#include "accumulator.h"
+#include "integrator.h"
 
 int main() {
 
     float time_step = 0.01;
     float u = 0.1;
 
-    accumulator_t y;
-    Accumulator_Constructor(&y);
+    integrator_t y;
+    Integrator_Constructor(&y, time_step);
     // initialize lpf
-    Accumulator_Init(&(y.loop_), u);
+    Integrator_Init(&(y.loop_), u);
 
     bool reset = false;
     
@@ -33,7 +33,7 @@ int main() {
             u = 0.0;
         
         // execute low pass filter
-        Accumulator_Step(&(y.loop_), u, reset);
+        Integrator_Step(&(y.loop_), u, reset);
 
         printf("time: %f reset: %d u: %f unit delay: %f y: %f\n", j, reset, u, y.loop_.yk_1_.yk_, y.loop_.yk_);
     }
