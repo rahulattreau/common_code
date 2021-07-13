@@ -12,8 +12,9 @@ description:
 
 // define data type for input conditioning class
 typedef struct {
-    window_filter_t window_filter_object;
-    low_pass_filter_o1_t low_pass_filter_object;
+    window_filter_t window_filter_object_;
+    low_pass_filter_o1_t low_pass_filter_object_;
+    bool window_filter_active_;
     float yk_; // output
 } input_conditioning_t;
 
@@ -24,6 +25,6 @@ void InputConditioning_Constructor(
     const float tau
     );
 
-void InputConditioning_Init(input_conditioning_t * const instance, const float xk);
+void InputConditioning_Init(input_conditioning_t * const instance, const float xk, const bool window_filter_active);
 
 void InputConditioning_Step(input_conditioning_t * const instance, const float xk, const bool reset);

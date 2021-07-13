@@ -25,15 +25,16 @@ int main() {
     
     float input = u_vector[0];
     bool reset;
+    const bool kWindowFilterActive = false;
 
     InputConditioning_Constructor(&input_conditioning_object, kWindowSize, kTimeStep, kTau);
-    InputConditioning_Init(&input_conditioning_object, u_vector[0]);
+    InputConditioning_Init(&input_conditioning_object, u_vector[0], kWindowFilterActive);
 
     printf("j: %2d input: %f window filter: %f lpf: %f output: %f\n", 
         0,
         input, 
-        input_conditioning_object.window_filter_object.yk_,
-        input_conditioning_object.low_pass_filter_object.yk_,
+        input_conditioning_object.window_filter_object_.yk_,
+        input_conditioning_object.low_pass_filter_object_.yk_,
         input_conditioning_object.yk_
         );
 
@@ -51,8 +52,8 @@ int main() {
         printf("j: %2d input: %f window filter: %f lpf: %f output: %f\n", 
         j,
         input, 
-        input_conditioning_object.window_filter_object.yk_,
-        input_conditioning_object.low_pass_filter_object.yk_,
+        input_conditioning_object.window_filter_object_.yk_,
+        input_conditioning_object.low_pass_filter_object_.yk_,
         input_conditioning_object.yk_
         );
         

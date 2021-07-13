@@ -1,5 +1,11 @@
 #include "input_conditioning.h"
 
+// declare private functions
+
+bool InputConditioning_WindowFilterReset(const bool window_filter_active, const bool reset);
+
+// declare public functions
+
 void InputConditioning_Constructor(
     input_conditioning_t * const instance, 
     const float window_size,
@@ -7,23 +13,45 @@ void InputConditioning_Constructor(
     const float tau
     ) {
 
-    WindowFilter_Constructor( &(instance->window_filter_object), window_size);
-    LowPassFilterO1_Constructor( &(instance->low_pass_filter_object), time_step, tau);
+    WindowFilter_Constructor( &(instance->window_filter_object_), window_size);
+    LowPassFilterO1_Constructor( &(instance->low_pass_filter_object_), time_step, tau);
 
 }
 
-void InputConditioning_Init(input_conditioning_t * const instance, const float xk) {
+void InputConditioning_Init(input_conditioning_t * const instance, const float xk, const bool window_filter_active) {
 
-    WindowFilter_Init( &(instance->window_filter_object), xk );
-    LowPassFilterO1_Init( &(instance->low_pass_filter_object), xk );
-    instance->yk_ = instance->low_pass_filter_object.yk_;
+    WindowFilter_Init( &(instance->window_filter_object_), xk );
+    LowPassFilterO1_Init( &(instance->low_pass_filter_object_), xk );
+    instance->yk_ = instance->low_pass_filter_object_.yk_;
+    instance->window_filter_active_ = window_filter_active;
     
 }
 
 void InputConditioning_Step(input_conditioning_t * const instance, const float xk, const bool reset) {
+
+    const bool window_filter_reset = InputConditioning_WindowFilterReset(instance->window_filter_active_, reset);
+    WindowFilter_Step( &(instance->window_filter_object_) , xk, window_filter_reset );
+    LowPassFilterO1_Step( &(instance->low_pass_filter_object_), instance->window_filter_object_.yk_, reset );
+    instance->yk_ = instance->low_pass_filter_object_.yk_;
+
+}
+
+bool InputConditioning_WindowFilterReset(const bool window_filter_active, const bool reset) {
+
+    // truth table for window_filter_active and reset
+    // window_filter_active	reset	window_filter_reset
+    //            0	          0	           1
+    //            0	          1	           1
+    //            1	          0	           0
+    //            1	          1	           1
+
+    bool window_filter_reset;
+
+    if (window_filter_active)
+        window_filter_reset = reset;
+    else
+        window_filter_reset = true;
     
-    WindowFilter_Step( &(instance->window_filter_object) , xk, reset );
-    LowPassFilterO1_Step( &(instance->low_pass_filter_object), instance->window_filter_object.yk_, reset );
-    instance->yk_ = instance->low_pass_filter_object.yk_;
+    return window_filter_reset;
 
 }
