@@ -1,11 +1,12 @@
 #include "accumulator.h"
 
-static void Accumulator_Process_(accumulator_t * const, const float, const bool);
+// local declaration of virtual function
+static void Accumulator_Process_(feedback_loop_t * const instance, const float xk, const bool reset);
 
-void Accumulator_Constructor(accumulator_t * const instance, const float time_step) {
-    
-    // initialize the state variables
-    UnitDelay_Constructor( &(instance->yk_1_) );
+// constructor
+void Accumulator_Constructor(accumulator_t * const instance) {
+
+    FeedbackLoop_Constructor( &(instance->feedback_loop) );
 
     // create virtual table struct
     static struct virtual_func_table_t virtual_func_table_ = {
@@ -13,46 +14,23 @@ void Accumulator_Constructor(accumulator_t * const instance, const float time_st
     };
     
     // attach pointer to this struct
-    instance->_virtual_func_table_ptr_ = &virtual_func_table_;
-    
+    instance->feedback_loop._virtual_func_table_ptr_ = &virtual_func_table_;
+
+    // attach function pointers
+    Accumulator_Init = &FeedbackLoop_Init;
+    Accumulator_Step = &FeedbackLoop_Step;
+
 }
 
-void Accumulator_Init(accumulator_t * const instance, float xk) {
-    UnitDelay_Init( &(instance->yk_1_), xk );
-    instance->yk_ = instance->yk_1_.yk_;
-}
-
-void Accumulator_Func(accumulator_t * const instance, const float xk, const bool reset) {
+// local definition of virtual function
+static void Accumulator_Process_(feedback_loop_t * const instance, const float xk, const bool reset) {
 
     float input = 0.0;
-    
+
+    // execute feedback_loop function
     if (!reset)
         input = xk;
         
     instance->yk_ = input + instance->yk_1_.yk_;
 
-}
-
-static void Accumulator_Process_(accumulator_t * const instance, const float xk, const bool reset) {
-
-    float input = 0.0;
-
-    // execute accumulator function
-    if (!reset)
-        input = xk;
-        
-    instance->yk_ = input + instance->yk_1_.yk_;
-
-}
-
-void Accumulator_Step(accumulator_t * const instance, const float xk, const bool reset) {
-    
-    // execute unit delay step
-    UnitDelay_Step( &(instance->yk_1_), xk, reset );
-
-    // execute process
-    Accumulator_Process(instance, xk, reset);
-    
-    // execute unit delay post step
-    UnitDelay_PostStep( &(instance->yk_1_), instance->yk_ );
 }
