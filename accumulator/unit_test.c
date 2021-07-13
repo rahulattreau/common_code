@@ -6,7 +6,7 @@ int main() {
     float time_step = 0.01;
     float u = 0.1;
 
-    integrator_t y;
+    accumulator_t y;
     Accumulator_Constructor(&y, time_step);
     // initialize lpf
     Accumulator_Init(&y, u);
