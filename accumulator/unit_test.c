@@ -9,11 +9,11 @@ int main() {
     accumulator_t y;
     Accumulator_Constructor(&y);
     // initialize lpf
-    Accumulator_Init(&(y.feedback_loop), u);
+    Accumulator_Init(&(y.loop), u);
 
     bool reset = false;
     
-    printf("time: %f u: %f unit delay: %f y: %f\n", 0.0, u, y.feedback_loop.yk_1_.yk_, y.feedback_loop.yk_);
+    printf("time: %f u: %f unit delay: %f y: %f\n", 0.0, u, y.loop.yk_1_.yk_, y.loop.yk_);
 
     for (float j = 0 + time_step; j < 10; j += time_step) {
         if (j > 1.0)
@@ -33,9 +33,9 @@ int main() {
             u = 0.0;
         
         // execute low pass filter
-        Accumulator_Step(&(y.feedback_loop), u, reset);
+        Accumulator_Step(&(y.loop), u, reset);
 
-        printf("time: %f reset: %d u: %f unit delay: %f y: %f\n", j, reset, u, y.feedback_loop.yk_1_.yk_, y.feedback_loop.yk_);
+        printf("time: %f reset: %d u: %f unit delay: %f y: %f\n", j, reset, u, y.loop.yk_1_.yk_, y.loop.yk_);
     }
     
     return 0;

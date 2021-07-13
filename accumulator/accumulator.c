@@ -6,7 +6,7 @@ static void Accumulator_Process_(feedback_loop_t * const instance, const float x
 // constructor
 void Accumulator_Constructor(accumulator_t * const instance) {
 
-    FeedbackLoop_Constructor( &(instance->feedback_loop) );
+    FeedbackLoop_Constructor( &(instance->loop) );
 
     // create virtual table struct
     static struct virtual_func_table_t virtual_func_table_ = {
@@ -14,7 +14,7 @@ void Accumulator_Constructor(accumulator_t * const instance) {
     };
     
     // attach pointer to this struct
-    instance->feedback_loop._virtual_func_table_ptr_ = &virtual_func_table_;
+    instance->loop._virtual_func_table_ptr_ = &virtual_func_table_;
 
     // attach function pointers
     Accumulator_Init = &FeedbackLoop_Init;
@@ -27,7 +27,6 @@ static void Accumulator_Process_(feedback_loop_t * const instance, const float x
 
     float input = 0.0;
 
-    // execute feedback_loop function
     if (!reset)
         input = xk;
         

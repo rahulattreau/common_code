@@ -1,7 +1,7 @@
 #include "../feedback_loop/feedback_loop.h"
 
 typedef struct {
-    feedback_loop_t feedback_loop; 
+    feedback_loop_t loop; 
 } accumulator_t;
 
 void Accumulator_Constructor(accumulator_t * const instance);
