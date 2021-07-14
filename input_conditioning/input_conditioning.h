@@ -22,9 +22,10 @@ void InputConditioning_Constructor(
     input_conditioning_t * const instance, 
     const float window_size,
     const float time_step,
-    const float tau
+    const float tau, 
+    const bool window_filter_active
     );
 
-void InputConditioning_Init(input_conditioning_t * const instance, const float xk, const bool window_filter_active);
+void InputConditioning_Init(input_conditioning_t * const instance, const float xk);
 
 void InputConditioning_Step(input_conditioning_t * const instance, const float xk, const bool reset);
