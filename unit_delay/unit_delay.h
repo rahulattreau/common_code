@@ -13,7 +13,7 @@ description:
 // define data type
 typedef struct {
     float yk_;
-    float xk_stored;
+    float u_stored;
     bool init_;
 } unit_delay_t;
 
@@ -28,6 +28,6 @@ Post step function
 
 void UnitDelay_Constructor(unit_delay_t * const instance);
 
-void UnitDelay_Step(unit_delay_t * const instance, const float xk, const bool reset);
+void UnitDelay_Step(unit_delay_t * const instance, const float u, const bool reset);
 
 void (*UnitDelay_PostStep)(unit_delay_t * const, const float);

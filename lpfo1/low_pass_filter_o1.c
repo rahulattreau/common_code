@@ -13,13 +13,13 @@ void LowPassFilterO1_Constructor(
     
 }
 
-void LowPassFilterO1_Step(low_pass_filter_o1_t * const instance, const float xk, const bool reset) {
+void LowPassFilterO1_Step(low_pass_filter_o1_t * const instance, const float u, const bool reset) {
 
     // execute unit delay step
-    UnitDelay_Step( &(instance->yk_1_), xk, reset );
+    UnitDelay_Step( &(instance->yk_1_), u, reset );
 
     // execute lpf function
-    instance->yk_ = instance->alpha_ * xk + (1 - instance->alpha_) * instance->yk_1_.yk_;
+    instance->yk_ = instance->alpha_ * u + (1 - instance->alpha_) * instance->yk_1_.yk_;
     
     // execute unit delay post step
     UnitDelay_PostStep( &(instance->yk_1_), instance->yk_ );

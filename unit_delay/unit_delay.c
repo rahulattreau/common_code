@@ -2,7 +2,7 @@
 
 // declare private functions:
 
-void UnitDelay_StoreState(unit_delay_t * const instance, const float xk);
+void UnitDelay_StoreState(unit_delay_t * const instance, const float u);
 bool UnitDelay_ResetEval(unit_delay_t * const instance, const bool reset);
 
 // define functions
@@ -15,9 +15,9 @@ void UnitDelay_Constructor(unit_delay_t * const instance) {
 
 }
 
-inline void UnitDelay_StoreState(unit_delay_t * const instance, const float xk) {
+inline void UnitDelay_StoreState(unit_delay_t * const instance, const float u) {
 
-    instance->xk_stored = xk;
+    instance->u_stored = u;
 
 }
 
@@ -38,17 +38,17 @@ bool UnitDelay_ResetEval(unit_delay_t * const instance, const bool reset) {
 
 }
 
-void UnitDelay_Step(unit_delay_t * const instance, const float xk, const bool reset) {
+void UnitDelay_Step(unit_delay_t * const instance, const float u, const bool reset) {
     
     const bool unit_delay_reset = UnitDelay_ResetEval(instance, reset);
 
     if (unit_delay_reset) {
 
-        UnitDelay_StoreState(instance, xk);
-        instance->yk_ = instance->xk_stored;
+        UnitDelay_StoreState(instance, u);
+        instance->yk_ = instance->u_stored;
 
     }
     else
-        instance->yk_ = instance->xk_stored;
+        instance->yk_ = instance->u_stored;
 
 }

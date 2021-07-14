@@ -26,4 +26,4 @@ void InputConditioning_Constructor(
     const bool window_filter_active
     );
 
-void InputConditioning_Step(input_conditioning_t * const instance, const float xk);
+void InputConditioning_Step(input_conditioning_t * const instance, const float u);

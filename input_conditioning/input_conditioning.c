@@ -47,11 +47,11 @@ bool InputConditioning_WindowFilterResetEval(const bool window_filter_active, co
 
 }
 
-void InputConditioning_Step(input_conditioning_t * const instance, const float xk) {
+void InputConditioning_Step(input_conditioning_t * const instance, const float u) {
 
     bool reset = false; // assume data is valid, i.e. no error checking
     const bool window_filter_reset = InputConditioning_WindowFilterResetEval(instance->window_filter_enable_, reset);
-    WindowFilter_Step( &(instance->window_filter_object_) , xk, window_filter_reset );
+    WindowFilter_Step( &(instance->window_filter_object_) , u, window_filter_reset );
     LowPassFilterO1_Step( &(instance->low_pass_filter_object_), instance->window_filter_object_.yk_, reset );
     instance->yk_ = instance->low_pass_filter_object_.yk_;
 

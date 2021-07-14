@@ -25,4 +25,4 @@ Step - this is the step function that runs every time step
 
 void WindowFilter_Constructor(window_filter_t * const instance, const float window_size);
 
-void WindowFilter_Step(window_filter_t * const instance, const float xk, const bool reset);
+void WindowFilter_Step(window_filter_t * const instance, const float u, const bool reset);

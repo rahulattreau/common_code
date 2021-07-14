@@ -40,4 +40,4 @@ void LowPassFilterO1_Constructor(
 declare step function
     - this is the public function that needs to run in each time step
 */
-void LowPassFilterO1_Step(low_pass_filter_o1_t * const instance, const float xk, const bool reset);
+void LowPassFilterO1_Step(low_pass_filter_o1_t * const instance, const float u, const bool reset);
