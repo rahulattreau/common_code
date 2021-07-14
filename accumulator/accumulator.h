@@ -5,10 +5,8 @@
 typedef struct {
     float yk_;
     unit_delay_t yk_1_;
-} integrator_t;
+} accumulator_t;
 
-void Accumulator_Constructor(integrator_t * const instance, const float time_step);
+void Accumulator_Constructor(accumulator_t * const instance, const float time_step);
 
-void Accumulator_Init(integrator_t * const instance, float xk);
-
-void Accumulator_Step(integrator_t * const instance, const float xk, const float init_val, const bool reset);
+void Accumulator_Step(accumulator_t * const instance, const float xk, const float init_val, const bool reset);

@@ -5,18 +5,14 @@ int main() {
 
     float time_step = 0.1;
     float u = 0.1;
-    float init_val = 2.0;
+    float init_val = 3.0;
 
-    integrator_t y;
+    accumulator_t y;
     Accumulator_Constructor(&y, time_step);
-    // initialize lpf
-    Accumulator_Init(&y, init_val);
-
+    
     bool reset = false;
     
-    printf("time: %f reset: %d init_val %f u: %f unit delay: %f y: %f\n", 0.0, reset, init_val, u, y.yk_1_.yk_, y.yk_);
-
-    for (float j = 0 + time_step; j < 10; j += time_step) {
+    for (float j = 0; j < 10; j += time_step) {
         if (j > 1.0)
             u = 1.1;
         
@@ -25,7 +21,7 @@ int main() {
             reset = true;
         
         // test that reset deactivates
-        if (j > 4.0) {
+        if (j > 3.5) {
             init_val = 10.0;
             u = 1.0;
         }
