@@ -86,7 +86,6 @@ void IntegralFunction(
     */
 
     float integrand = 0.0;
-    float i_out = 0.0;
     
     integrand = input_bus->i_gain * error;
     
@@ -100,16 +99,10 @@ void IntegralFunction(
     if (i_out_bus->clamping_condition)
         integrand = 0.0;
 
-    if(input_bus->reset) {
-        i_out = input_bus->init_value;
-    }
-    else {
-        // i_out = i_out + (i_gain_integrand + bc_out) * TIME_STEP; // i.e. previous i_out + integrand
-        i_out = i_out_bus->i_out + integrand * input_bus->time_step; // i.e. previous i_out + integrand
-    }
+    Integrator_Step( &(i_out_bus->integrator), integrand, input_bus->init_value, input_bus->reset);
 
     i_out_bus->integrand = integrand;
-    i_out_bus->i_out = i_out;
+    i_out_bus->i_out = i_out_bus->integrator.accumulator.yk_;
 
 }
 
@@ -217,14 +210,15 @@ void PidControl_Constructor(
     // attach pointers
     input_bus->sensed_value = sensed_value_pointer;
     
-    // intialize differntial low pass filter
+    // call integrator constructor
+    Integrator_Constructor( &(output_bus->i_out_bus.integrator), input_bus->time_step);
+
+    // call differential low pass filter constructor
     LowPassFilterO1_Constructor(
         &(output_bus->d_out_bus.d_lpf), 
-        *(input_bus->sensed_value), 
         input_bus->time_step, 
         input_bus->d_filter_tau);
-    // pass in the required variables for this
-
+    
 }
 
 // define pid function
