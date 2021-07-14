@@ -1,6 +1,6 @@
 import shutil, os
 
-file_name = 'window_filter/window_filter' 
+file_name = 'input_conditioning/input_conditioning' 
 c_files = [file_name + '.c']
 h_files = [file_name + '.h']
 

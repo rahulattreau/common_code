@@ -11,4 +11,4 @@ void Accumulator_Constructor(integrator_t * const instance, const float time_ste
 
 void Accumulator_Init(integrator_t * const instance, float xk);
 
-void Accumulator_Step(integrator_t * const instance, const float xk, const bool reset);
+void Accumulator_Step(integrator_t * const instance, const float xk, const float init_val, const bool reset);
