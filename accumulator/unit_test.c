@@ -8,7 +8,7 @@ int main() {
     float init_val = 3.0;
 
     accumulator_t y;
-    Accumulator_Constructor(&y, time_step);
+    Accumulator_Constructor(&y);
     
     bool reset = false;
     
