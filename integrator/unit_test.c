@@ -8,13 +8,9 @@ int main() {
 
     integrator_t y;
     Integrator_Constructor(&y, time_step);
-    // initialize lpf
-    Integrator_Init(&y, u);
-
+    
     bool reset = false;
     
-    printf("time: %f u: %f unit delay: %f y: %f\n", 0.0, u, y.yk_1_.yk_, y.yk_);
-
     for (float j = 0 + time_step; j < 10; j += time_step) {
         if (j > 1.0)
             u = 1.1;
@@ -24,7 +20,7 @@ int main() {
             reset = true;
         
         // test that reset deactivates
-        if (j > 4.0)
+        if (j > 3.5)
             u = 10.0;
         if (j > 4.1)
             reset = false;

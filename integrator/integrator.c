@@ -8,11 +8,6 @@ void Integrator_Constructor(integrator_t * const instance, const float time_step
     
 }
 
-void Integrator_Init(integrator_t * const instance, float xk) {
-    UnitDelay_Init( &(instance->yk_1_), xk );
-    instance->yk_ = instance->yk_1_.yk_;
-}
-
 void Integrator_Step(integrator_t * const instance, const float xk, const bool reset) {
     
     float input = 0.0;
