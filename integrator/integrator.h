@@ -10,6 +10,4 @@ typedef struct {
 
 void Integrator_Constructor(integrator_t * const instance, const float time_step);
 
-void Integrator_Init(integrator_t * const instance, float xk);
-
 void Integrator_Step(integrator_t * const instance, const float xk, const bool reset);
