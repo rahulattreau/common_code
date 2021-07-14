@@ -28,8 +28,9 @@ void InputConditioning_Init(input_conditioning_t * const instance, const float x
     
 }
 
-void InputConditioning_Step(input_conditioning_t * const instance, const float xk, const bool reset) {
+void InputConditioning_Step(input_conditioning_t * const instance, const float xk) {
 
+    const float reset = false; // assume data is valid
     const bool window_filter_reset = InputConditioning_WindowFilterReset(instance->window_filter_active_, reset);
     WindowFilter_Step( &(instance->window_filter_object_) , xk, window_filter_reset );
     LowPassFilterO1_Step( &(instance->low_pass_filter_object_), instance->window_filter_object_.yk_, reset );

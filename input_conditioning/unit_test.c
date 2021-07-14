@@ -47,7 +47,7 @@ int main() {
         else
             reset = false;
             
-        InputConditioning_Step(&input_conditioning_object, input, reset);
+        InputConditioning_Step(&input_conditioning_object, input);
         
         printf("j: %2d input: %f window filter: %f lpf: %f output: %f\n", 
         j,

@@ -28,4 +28,4 @@ void InputConditioning_Constructor(
 
 void InputConditioning_Init(input_conditioning_t * const instance, const float xk);
 
-void InputConditioning_Step(input_conditioning_t * const instance, const float xk, const bool reset);
+void InputConditioning_Step(input_conditioning_t * const instance, const float xk);
