@@ -5,6 +5,7 @@ int main() {
 
     float time_step = 0.01;
     float u = 0.1;
+    float init_val = 2.0;
 
     integrator_t y;
     Integrator_Constructor(&y, time_step);
@@ -29,9 +30,15 @@ int main() {
             u = 0.0;
         
         // execute low pass filter
-        Integrator_Step(&y, u, reset);
+        Integrator_Step(&y, u, init_val, reset);
 
-        printf("time: %f reset: %d u: %f unit delay: %f y: %f\n", j, reset, u, y.yk_1_.yk_, y.yk_);
+        printf("time: %f reset: %d u: %f unit delay: %f y: %f\n", 
+        j, 
+        reset, 
+        u, 
+        y.accumulator.yk_1_.yk_, 
+        y.accumulator.yk_
+        );
     }
     
     return 0;

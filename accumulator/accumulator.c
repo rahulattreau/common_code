@@ -1,6 +1,6 @@
 #include "accumulator.h"
 
-void Accumulator_Constructor(accumulator_t * const instance, const float time_step) {
+void Accumulator_Constructor(accumulator_t * const instance) {
     
     // initialize the state variables
     UnitDelay_Constructor( &(instance->yk_1_) );
