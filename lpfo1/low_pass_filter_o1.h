@@ -1,4 +1,6 @@
-#pragma once
+#ifndef LOW_PASS_FILTER_ORDER_1
+#define LOW_PASS_FILTER_ORDER_1
+
 #include <stdbool.h>
 #include "../unit_delay/unit_delay.h"
 
@@ -41,3 +43,5 @@ declare step function
     - this is the public function that needs to run in each time step
 */
 void LowPassFilterO1_Step(low_pass_filter_o1_t * const instance, const float u, const bool reset);
+
+#endif // LOW_PASS_FILTER_ORDER_1

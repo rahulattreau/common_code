@@ -5,7 +5,8 @@ is greater than window size, retain window state variable value.
 2. Else, use new input value
 */
 
-#pragma once
+#ifndef WINDOW_FILTER_H
+#define WINDOW_FILTER_H
 
 #include <stdbool.h>
 #include "../unit_delay/unit_delay.h"
@@ -26,3 +27,5 @@ Step - this is the step function that runs every time step
 void WindowFilter_Constructor(window_filter_t * const instance, const float window_size);
 
 void WindowFilter_Step(window_filter_t * const instance, const float u, const bool reset);
+
+#endif // WINDOW_FILTER_H

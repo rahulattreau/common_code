@@ -5,7 +5,8 @@ description:
 3. In future, sensor error checking could be added too
 */
 
-#pragma once
+#ifndef INPUT_CONDITIONING_H
+#define INPUT_CONDITIONING_H
 
 #include "../window_filter/window_filter.h"
 #include "../lpfo1/low_pass_filter_o1.h"
@@ -27,3 +28,5 @@ void InputConditioning_Constructor(
     );
 
 void InputConditioning_Step(input_conditioning_t * const instance, const float u);
+
+#endif // INPUT_CONDITIONING_H

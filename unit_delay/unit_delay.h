@@ -7,7 +7,9 @@ description:
 5. Gets initialized in the first time step. This happens by using the init_ bit.
 */
 
-#pragma once
+#ifndef UNIT_DELAY_H
+#define UNIT_DELAY_H
+
 #include <stdbool.h>
 
 // define data type
@@ -31,3 +33,5 @@ void UnitDelay_Constructor(unit_delay_t * const instance);
 void UnitDelay_Step(unit_delay_t * const instance, const float u, const bool reset);
 
 void (*UnitDelay_PostStep)(unit_delay_t * const, const float);
+
+#endif // UNIT_DELAY_H
