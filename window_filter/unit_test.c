@@ -38,31 +38,23 @@ int main() {
     };
     
     float input;
-    bool reset = true;
+    bool reset = false;
 
     WindowFilter_Constructor(&window_filter_values, 2.0);
 
     for (int j = 0; j < sizeof(u_vector) / sizeof(u_vector[0]); j ++) {
 
-        // initialize value
-        if (j == 0)
-            WindowFilter_Init(&window_filter_values, u_vector[0]);
-
         input = u_vector[j];
 
         if (j == 23) // test reset function
             reset = true;
-            // WindowFilter_Step(&window_filter_values, input, true);
         else {
             reset = false;
-            // run window filter
-            // WindowFilter_Step(&window_filter_values, input, false);
         }
-        // reset = true;
 
         WindowFilter_Step(&window_filter_values, input, reset);
         
-        printf("u: %f output: %f error: %f\n", input, window_filter_values.yk_, 
+        printf("reset: %d u: %f output: %f error: %f\n", reset, input, window_filter_values.yk_, 
         y_vector_correct[j] - window_filter_values.yk_);
         
     }

@@ -8,14 +8,6 @@ void WindowFilter_Constructor(window_filter_t * const instance, const float wind
 
 }
 
-// define initializer
-void WindowFilter_Init(window_filter_t * const instance, const float xk) {
-
-    UnitDelay_Init( &(instance->yk_1_), xk );
-    instance->yk_ = instance->yk_1_.yk_;
-
-}
-
 // define window filter function
 void WindowFilter_Step(window_filter_t * const instance, const float xk, const bool reset) {
     
@@ -36,5 +28,5 @@ void WindowFilter_Step(window_filter_t * const instance, const float xk, const b
     
     // run post step functions
     UnitDelay_PostStep( &(instance->yk_1_), xk );
-        
+    
 }

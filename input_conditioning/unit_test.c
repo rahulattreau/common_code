@@ -24,29 +24,14 @@ int main() {
     input_conditioning_t input_conditioning_object;
     
     float input = u_vector[0];
-    bool reset;
     const bool kWindowFilterActive = true;
 
     InputConditioning_Constructor(&input_conditioning_object, kWindowSize, kTimeStep, kTau, kWindowFilterActive);
-    InputConditioning_Init(&input_conditioning_object, u_vector[0]);
-
-    printf("j: %2d input: %f window filter: %f lpf: %f output: %f\n", 
-        0,
-        input, 
-        input_conditioning_object.window_filter_object_.yk_,
-        input_conditioning_object.low_pass_filter_object_.yk_,
-        input_conditioning_object.yk_
-        );
-
-    for (int j = 1; j < sizeof(u_vector) / sizeof(u_vector[0]); j ++) {
+    
+    for (int j = 0; j < sizeof(u_vector) / sizeof(u_vector[0]); j ++) {
 
         input = u_vector[j];
 
-        if (j == 23) // test reset function
-            reset = true;
-        else
-            reset = false;
-            
         InputConditioning_Step(&input_conditioning_object, input);
         
         printf("j: %2d input: %f window filter: %f lpf: %f output: %f\n", 

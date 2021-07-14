@@ -8,14 +8,12 @@ int main() {
 
     low_pass_filter_o1_t y;
     LowPassFilterO1_Constructor(&y, time_step, 1.0);
-    // initialize lpf
-    LowPassFilterO1_Init(&y, u);
 
     bool reset = false;
-    
-    printf("time: %f u: %f unit delay: %f y: %f\n", 0.0, u, y.yk_1_.yk_, y.yk_);
+    bool init = false;
 
-    for (float j = 0 + time_step; j < 10; j += time_step) {
+    for (float j = 0; j < 10; j += time_step) {
+
         if (j > 1.0)
             u = 1.1;
         
@@ -31,11 +29,11 @@ int main() {
         
         if (j > 5.0)
             u = 0.0;
-        
+
         // execute low pass filter
         LowPassFilterO1_Step(&y, u, reset);
 
-        printf("time: %f u: %f unit delay: %f y: %f\n", j, u, y.yk_1_.yk_, y.yk_);
+        printf("time: %f reset %d u: %f unit delay: %f y: %f\n", j, reset, u, y.yk_1_.yk_, y.yk_);
     }
     
     return 0;

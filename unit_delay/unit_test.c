@@ -20,22 +20,28 @@ int main() {
     
     unit_delay_t unit_delay;
     UnitDelay_Constructor(&unit_delay);
-    UnitDelay_Init(&unit_delay, u_vector[0]);
+    // UnitDelay_Init(&unit_delay, u_vector[0]);
 
     float u;
     bool reset = false;
+    bool init = false;
 
     for(int j = 0; j<25; j++) {
         u = u_vector[j];
 
+        // if (j == 0)
+        //     reset = true;
+        // else if (j == 4 || j == 5)
+        //     reset = true;
+        // else
+        //     reset = false;
         if (j == 4 || j == 5)
             reset = true;
         else
             reset = false;
-
         UnitDelay_Step(&unit_delay, u, reset);
         
-        printf("j: %2d u: %f y: %f \n", j, u, unit_delay.yk_);
+        printf("j: %2d reset: %d u: %f y: %f \n", j, reset, u, unit_delay.yk_);
 
         UnitDelay_PostStep(&unit_delay, u);
     }

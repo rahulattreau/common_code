@@ -14,7 +14,7 @@ description:
 typedef struct {
     window_filter_t window_filter_object_;
     low_pass_filter_o1_t low_pass_filter_object_;
-    bool window_filter_active_;
+    bool window_filter_enable_; // used to enable window filter
     float yk_; // output
 } input_conditioning_t;
 
@@ -25,7 +25,5 @@ void InputConditioning_Constructor(
     const float tau, 
     const bool window_filter_active
     );
-
-void InputConditioning_Init(input_conditioning_t * const instance, const float xk);
 
 void InputConditioning_Step(input_conditioning_t * const instance, const float xk);

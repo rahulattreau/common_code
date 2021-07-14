@@ -37,12 +37,6 @@ void LowPassFilterO1_Constructor(
     );
 
 /*
-initialization function
-    - use at first time step when data is available
-*/
-void LowPassFilterO1_Init(low_pass_filter_o1_t * const instance, const float xk);
-
-/*
 declare step function
     - this is the public function that needs to run in each time step
 */
