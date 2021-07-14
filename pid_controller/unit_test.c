@@ -38,11 +38,11 @@ int main() {
         .time_step = 0.1
         };
 
-    // output_bus_t superheat_control_output_bus;
     output_bus_t superheat_control_output_bus = {
-        .i_out_bus.i_out = 20.0,
+        // .i_out_bus.i_out = 20.0,
         .sat_and_sum_out_bus.pre_sat_value = 0.0
     };
+    // output_bus_t superheat_control_output_bus;
 
     // this needs to move to the firmware
     const pid_params_t kSuperheatControlCoolingPidParams = {
@@ -61,7 +61,7 @@ int main() {
         .deadzone_lo = -3.0
         };
     
-    float sensed_value = 11.0;
+    float sensed_value = 6.0;
     
     PidParamsAssigner(&superheat_control_input_bus, &kSuperheatControlCoolingPidParams);
 
@@ -71,13 +71,13 @@ int main() {
         superheat_control_output_bus.d_out_bus.d_lpf.alpha_
         );
     
-    printf("tick number = %d \n y = %f \n p_out = %f\n i_out = %f\n d_out = %f\n", 
-        0,
-        superheat_control_output_bus.sat_and_sum_out_bus.post_sat_value,
-        superheat_control_output_bus.p_out,
-        superheat_control_output_bus.i_out_bus.i_out,
-        superheat_control_output_bus.d_out_bus.d_argument_filtered
-        );
+    // printf("tick number = %d \n y = %f \n p_out = %f\n i_out = %f\n d_out = %f\n", 
+    //     0,
+    //     superheat_control_output_bus.sat_and_sum_out_bus.post_sat_value,
+    //     superheat_control_output_bus.p_out,
+    //     superheat_control_output_bus.i_out_bus.i_out,
+    //     superheat_control_output_bus.d_out_bus.d_argument_filtered
+    //     );
 
     for (int j = 0; j<20; j++) {
 
