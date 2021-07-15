@@ -22,16 +22,14 @@ typedef struct {
 /* 
 declare functions:
 Constructor - use this when declaring variable of this class type
-Reset function - private function for resetting state internal state and output to input value
-Post step function
-    - points to StoreState
-    - this runs at the end of a time step
+Step function
+Post step function - calls Storestate
 */
 
 void UnitDelay_Constructor(unit_delay_t * const instance);
 
 void UnitDelay_Step(unit_delay_t * const instance, const float u, const bool reset);
 
-void (*UnitDelay_PostStep)(unit_delay_t * const, const float);
+void UnitDelay_PostStep(unit_delay_t * const instance, const float u);
 
 #endif // UNIT_DELAY_H
