@@ -1,7 +1,7 @@
 import shutil, os
 
-folder_name = 'unit_delay'
-file_name = 'unit_delay' 
+folder_name = 'input_conditioning'
+file_name = folder_name 
 c_files = [folder_name + '/' + file_name + '.c']
 h_files = [folder_name + '/control_common_code/' + file_name + '.h']
 

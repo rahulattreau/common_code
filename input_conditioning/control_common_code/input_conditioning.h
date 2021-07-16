@@ -8,8 +8,8 @@ description:
 #ifndef INPUT_CONDITIONING_H
 #define INPUT_CONDITIONING_H
 
-#include "../window_filter/window_filter.h"
-#include "../lpfo1/low_pass_filter_o1.h"
+#include "window_filter.h"
+#include "low_pass_filter_o1.h"
 
 // define data type for input conditioning class
 typedef struct {

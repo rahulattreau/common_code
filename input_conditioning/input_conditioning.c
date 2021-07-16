@@ -1,4 +1,4 @@
-#include "input_conditioning.h"
+#include "control_common_code/input_conditioning.h"
 
 // declare private functions
 

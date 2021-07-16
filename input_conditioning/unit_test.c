@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "input_conditioning.h"
+#include "control_common_code/input_conditioning.h"
 
 int main() {
 
