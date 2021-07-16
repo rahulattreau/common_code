@@ -13,5 +13,6 @@ void Integrator_Step(integrator_t * const instance, const float xk, const float 
     
     const float input = xk * instance->time_step_;
     Accumulator_Step( &(instance->accumulator), input, init_val, reset);
+    instance->yk_ = instance->accumulator.yk_;
 
 }
