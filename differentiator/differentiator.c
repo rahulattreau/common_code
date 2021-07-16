@@ -11,6 +11,7 @@ void Differentiator_Step(differentiator_t * const instance, const float u, const
 
     UnitDelay_Step( &(instance->yk_1_), u, reset);
 
+    // execute differnetiator function
     instance->yk_ = ( u - instance->yk_1_.yk_) / instance->time_step_;
 
     UnitDelay_PostStep( &(instance->yk_1_), u);
