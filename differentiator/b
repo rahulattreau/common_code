@@ -1,1 +1,2 @@
-gcc -I ../unit_delay/control_common_code unit_test.c differentiator.c ../unit_delay/unit_delay.c
+gcc -I ../unit_delay/control_common_code unit_test.c differentiator.c ../unit_delay/unit_delay.c \
+../reset_manager/reset_manager.c
