@@ -10,6 +10,7 @@ int main () {
     reset_manager_t reset_manager;
     ResetManager_Constructor(&reset_manager);
     
+    // create the u_vector
     int u_vector_size = 10;
     bool u_vector[u_vector_size];
     for (int j = 0; j < u_vector_size; j++) {
@@ -19,6 +20,8 @@ int main () {
     u_vector[4] = true;
     u_vector[5] = true;
     u_vector[9] = true;
+    
+    // end of create the u_vector
 
     bool reset = false;
     
