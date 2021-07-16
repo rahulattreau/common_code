@@ -68,7 +68,7 @@ int main() {
     PidControl_Constructor(&superheat_control_output_bus, &superheat_control_input_bus, &sensed_value);
     
     printf("d_out filter alpha = %f\n", 
-        superheat_control_output_bus.d_out_bus.d_lpf.alpha_
+        superheat_control_output_bus.d_out_bus.d_argument_filtered.alpha_
         );
     
     // printf("tick number = %d \n y = %f \n p_out = %f\n i_out = %f\n d_out = %f\n", 
@@ -110,7 +110,7 @@ int main() {
         superheat_control_output_bus.sat_and_sum_out_bus.post_sat_value,
         superheat_control_output_bus.p_out,
         superheat_control_output_bus.i_out_bus.integrator.yk_,
-        superheat_control_output_bus.d_out_bus.d_out
+        superheat_control_output_bus.d_out_bus.differentiator.yk_
         );
 
     }

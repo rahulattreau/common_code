@@ -18,6 +18,7 @@ Data handling:
 #include <stdbool.h>
 #include "low_pass_filter_o1.h"
 #include "integrator.h"
+#include "differentiator.h"
 
 // definition of int8_t in firmware code
 // typedef __int8_t int8_t;
@@ -40,9 +41,9 @@ typedef struct {
 // define differential output data type
 typedef struct {
     float d_argument;
-    float d_out;
-    float d_argument_filtered;
-    low_pass_filter_o1_t d_lpf;
+    // float d_out;
+    low_pass_filter_o1_t d_argument_filtered;
+    differentiator_t differentiator;
 } d_out_bus_t;
 
 // define sum and sat output data type:
