@@ -2,6 +2,7 @@
 #include "control_common_code/pid_controller.h"
 #include "control_common_code/signum_function.h"
 #include "control_common_code/deadzone.h"
+#include "../saturator/saturator.h"
 
 // ===== declare private member functions =====
 
@@ -165,12 +166,7 @@ void SumAndSat(
     pre_sat_value = p_out + i_out_bus.integrator.yk_ + d_out_bus.differentiator.yk_;
 
     // calculate post-saturated value
-    if (pre_sat_value > up_sat_value)
-        *post_sat_value = up_sat_value;
-    else if(pre_sat_value < lo_sat_value)
-        *post_sat_value = lo_sat_value;
-    else
-        *post_sat_value = pre_sat_value;
+    *post_sat_value = Saturator(pre_sat_value, up_sat_value, lo_sat_value);
     
     // calculate back-calculation output for using in next time step
     bc_out = bc_gain * (*post_sat_value - pre_sat_value);

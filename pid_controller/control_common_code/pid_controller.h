@@ -16,9 +16,10 @@ Data handling:
 #pragma once
 
 #include <stdbool.h>
-#include "low_pass_filter_o1.h"
-#include "integrator.h"
-#include "differentiator.h"
+#include "../lpfo1/control_common_code/low_pass_filter_o1.h"
+#include "../integrator/control_common_code/integrator.h"
+#include "../differentiator/differentiator.h"
+// #include "differentiator.h"
 
 // definition of int8_t in firmware code
 // typedef __int8_t int8_t;

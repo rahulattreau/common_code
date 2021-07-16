@@ -61,7 +61,7 @@ int main() {
         .deadzone_lo = -3.0
         };
     
-    float sensed_value = 6.0;
+    float sensed_value = 12.0;
     
     PidParamsAssigner(&superheat_control_input_bus, &kSuperheatControlCoolingPidParams);
 
