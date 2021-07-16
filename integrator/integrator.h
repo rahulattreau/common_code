@@ -3,6 +3,7 @@
 
 //define data type
 typedef struct {
+    float yk_; // output
     accumulator_t accumulator;
     float time_step_;
 } integrator_t;

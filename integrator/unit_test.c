@@ -3,7 +3,7 @@
 
 int main() {
 
-    float time_step = 0.01;
+    float time_step = 0.1;
     float u = 0.1;
     float init_val = 2.0;
 
@@ -37,7 +37,7 @@ int main() {
         reset, 
         u, 
         y.accumulator.yk_1_.yk_, 
-        y.accumulator.yk_
+        y.yk_
         );
     }
     
