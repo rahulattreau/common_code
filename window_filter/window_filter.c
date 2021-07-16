@@ -1,4 +1,4 @@
-#include "window_filter.h"
+#include "control_common_code/window_filter.h"
 
 // define constructor
 void WindowFilter_Constructor(window_filter_t * const instance, const float window_size) {
