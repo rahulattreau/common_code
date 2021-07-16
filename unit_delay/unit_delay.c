@@ -10,7 +10,7 @@ bool UnitDelay_ResetEval(unit_delay_t * const instance, const bool reset);
 
 void UnitDelay_Constructor(unit_delay_t * const instance) {
 
-    instance->init_ = false;
+    ResetManager_Constructor( &(instance->reset_manager) );
 
 }
 
@@ -27,38 +27,11 @@ inline void UnitDelay_StoreState(unit_delay_t * const instance, const float u) {
 
 }
 
-bool UnitDelay_ResetEval(unit_delay_t * const instance, const bool reset) {
-
-    /*
-    description:
-    This function returns the reset value with a bit true at the first time step.
-    
-    1. consider the following signal:
-        time step: 0 1 2 3 4 5 .....
-        init_:     0 1 1 1 1 1 ..... true till end of program
-        !init_:    1 0 0 0 0 0 .....
-        reset:     0 0 1 0 0 0 ..... this reset is an example
-    2. By ORing !init_ and reset, it creates an output that is true at the first time step, 
-        and equal to reset in all subsequent time steps
-    3. this ensures that the unit delay gets initialized in the first time step of the program,
-        as there is no 'previous time step' for the unit delay to get data from
-
-    */
-    const bool unit_delay_reset = !(instance->init_) || reset;
-
-    // make init_ true after first use
-    if (instance->init_ == false)
-        instance->init_ = true;
-
-    return unit_delay_reset;
-
-}
-
 void UnitDelay_Step(unit_delay_t * const instance, const float u, const bool reset) {
     
-    const bool unit_delay_reset = UnitDelay_ResetEval(instance, reset);
+    ResetManager_Step( &(instance->reset_manager), reset);
 
-    if (unit_delay_reset) {
+    if (instance->reset_manager.reset_state_) {
 
         UnitDelay_StoreState(instance, u);
         instance->yk_ = instance->u_stored;

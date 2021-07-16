@@ -1,1 +1,1 @@
-gcc unit_delay.c unit_test.c
+gcc unit_delay.c ../reset_manager/reset_manager.c unit_test.c

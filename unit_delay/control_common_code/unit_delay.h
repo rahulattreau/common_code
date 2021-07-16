@@ -11,13 +11,13 @@ description:
 #define UNIT_DELAY_H
 
 #include <stdbool.h>
-#include "../reset_manager"
+#include "../../reset_manager/reset_manager.h"
 
 // define data type
 typedef struct {
     float yk_;
     float u_stored;
-    bool init_;
+    reset_manager_t reset_manager;
 } unit_delay_t;
 
 /* 
