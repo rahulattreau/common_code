@@ -1,1 +1,7 @@
-gcc pid_controller.c unit_test.c ../signum_function/signum_function.c ../deadzone/deadzone.c ../lpfo1/low_pass_filter_o1.c ../unit_delay/unit_delay.c ../integrator/integrator.c ../accumulator/accumulator.c
+gcc -I ../lpfo1/control_common_code \
+-I ../unit_delay/control_common_code \
+-I ../accumulator/control_common_code \
+-I ../integrator/control_common_code \
+-I ../signum_function \
+-I ../deadzone \
+pid_controller.c unit_test.c ../signum_function/signum_function.c ../deadzone/deadzone.c ../lpfo1/low_pass_filter_o1.c ../unit_delay/unit_delay.c ../integrator/integrator.c ../accumulator/accumulator.c

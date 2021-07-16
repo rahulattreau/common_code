@@ -16,8 +16,8 @@ Data handling:
 #pragma once
 
 #include <stdbool.h>
-#include "../lpfo1/low_pass_filter_o1.h"
-#include "../integrator/integrator.h"
+#include "low_pass_filter_o1.h"
+#include "integrator.h"
 
 // definition of int8_t in firmware code
 // typedef __int8_t int8_t;
@@ -34,7 +34,7 @@ typedef struct {
     int8_t signum_dead_zone_out;
     bool clamping_condition;
     integrator_t integrator;
-    float i_out;
+    // float i_out;
 } i_out_bus_t;
 
 // define differential output data type

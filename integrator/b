@@ -1,3 +1,5 @@
-gcc unit_test.c ../accumulator/accumulator.c integrator.c ../unit_delay/unit_delay.c
+gcc -I ../accumulator/control_common_code \
+-I ../unit_delay/control_common_code \
+unit_test.c ../accumulator/accumulator.c integrator.c ../unit_delay/unit_delay.c
 
 # chmod u+x b

@@ -1,7 +1,7 @@
 #include <stdbool.h>
-#include "pid_controller.h"
-#include "../signum_function/signum_function.h"
-#include "../deadzone/deadzone.h"
+#include "control_common_code/pid_controller.h"
+#include "control_common_code/signum_function.h"
+#include "control_common_code/deadzone.h"
 
 // ===== declare private member functions =====
 
@@ -80,30 +80,24 @@ void IntegralFunction(
     /*
     description:
     1. calculate integrand
-    2. calculate clamping condition
-    3. reset integrator if required
-    4. set outputs
+    2. calculate clamping condition and alter integrand if required
+    3. call integrator step
     */
 
-    float integrand = 0.0;
-    
-    integrand = input_bus->i_gain * error;
+    i_out_bus->integrand = input_bus->i_gain * error;
     
     IntegralClamping(
-    integrand, 
+    i_out_bus->integrand, 
     sat_and_sum_bus->pre_sat_value,
     input_bus->up_sat_value, 
     input_bus->lo_sat_value,
     i_out_bus );
     
     if (i_out_bus->clamping_condition)
-        integrand = 0.0;
+        i_out_bus->integrand = 0.0;
 
-    Integrator_Step( &(i_out_bus->integrator), integrand, input_bus->init_value, input_bus->reset);
-
-    i_out_bus->integrand = integrand;
-    i_out_bus->i_out = i_out_bus->integrator.accumulator.yk_;
-
+    Integrator_Step( &(i_out_bus->integrator), i_out_bus->integrand, input_bus->init_value, input_bus->reset);
+    
 }
 
 // integral clamping definition
@@ -185,7 +179,7 @@ void SumAndSat(
     static float bc_out = 0.0;
 
     // calculate pre-saturated value
-    pre_sat_value = p_out + i_out_bus.i_out + d_out_bus.d_out;
+    pre_sat_value = p_out + i_out_bus.integrator.yk_ + d_out_bus.d_out;
 
     // calculate post-saturated value
     if (pre_sat_value > up_sat_value)
