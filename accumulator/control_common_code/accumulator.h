@@ -1,5 +1,5 @@
 #pragma once
-#include "../unit_delay/unit_delay.h"
+#include "unit_delay.h"
 
 //define data type
 typedef struct {
