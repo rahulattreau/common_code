@@ -134,27 +134,10 @@ void DifferentialFunction(input_bus_t * const input_bus, d_out_bus_t * const d_o
     4. set outputs
     */
 
-    float d_argument = 0.0;
-    float d_out = 0.0;
-    float d_argument_filtered = 0.0;
-    float *d_argument_filtered_z = &(d_out_bus->d_argument_filtered);
-    
-    d_argument = *(input_bus->sensed_value);
-    
-    LowPassFilterO1_Step( &(d_out_bus->d_lpf), d_argument, input_bus->reset);
-    
-    d_argument_filtered = d_out_bus->d_lpf.yk_;
-    
-    // if reset, then reset unit delay
-    if(input_bus->reset)
-        *d_argument_filtered_z = d_argument_filtered;
-    
-    d_out = -1.0 * input_bus->d_gain * (d_argument_filtered - *d_argument_filtered_z) / input_bus->time_step;
+    const float d_argument = -1.0 * *(input_bus->sensed_value);
+    LowPassFilterO1_Step( &(d_out_bus->d_argument_filtered), d_argument, input_bus->reset);
+    Differentiator_Step( &(d_out_bus->differentiator), d_out_bus->d_argument_filtered.yk_, input_bus->reset );
 
-    // assign values to d_out_bus
-    d_out_bus->d_argument = *(input_bus->sensed_value);
-    d_out_bus->d_out = d_out;
-    d_out_bus->d_argument_filtered = d_argument_filtered;
 }
 
 // calculate the summer and saturation
@@ -179,7 +162,7 @@ void SumAndSat(
     static float bc_out = 0.0;
 
     // calculate pre-saturated value
-    pre_sat_value = p_out + i_out_bus.integrator.yk_ + d_out_bus.d_out;
+    pre_sat_value = p_out + i_out_bus.integrator.yk_ + d_out_bus.differentiator.yk_;
 
     // calculate post-saturated value
     if (pre_sat_value > up_sat_value)
@@ -209,9 +192,11 @@ void PidControl_Constructor(
 
     // call differential low pass filter constructor
     LowPassFilterO1_Constructor(
-        &(output_bus->d_out_bus.d_lpf), 
+        &(output_bus->d_out_bus.d_argument_filtered), 
         input_bus->time_step, 
         input_bus->d_filter_tau);
+    
+    Differentiator_Constructor( &(output_bus->d_out_bus.differentiator), input_bus->time_step );
     
 }
 
