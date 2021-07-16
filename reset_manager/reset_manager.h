@@ -1,4 +1,6 @@
 #include "stdbool.h"
+#define INIT_RESET_INITIAL_VALUE true
+#define INIT_RESET_FINAL_VALUE false
 
 typedef struct {
 
