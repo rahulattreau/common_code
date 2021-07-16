@@ -1,3 +1,6 @@
+#ifndef RESET_MANAGER_H
+#define RESET_MANAGER_H
+
 #include "stdbool.h"
 #define INIT_RESET_INITIAL_VALUE true
 #define INIT_RESET_FINAL_VALUE false
@@ -12,3 +15,5 @@ typedef struct {
 void ResetManager_Constructor(reset_manager_t * const reset_manager);
 
 void ResetManager_Step(reset_manager_t * const reset_manager, bool reset);
+
+#endif // RESET_MANAGER_H
