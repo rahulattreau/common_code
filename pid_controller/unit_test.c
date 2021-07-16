@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "pid_controller.h"
+#include "control_common_code/pid_controller.h"
 // #define NULL 0
 
 // this definition needs to move to the firmware
@@ -109,7 +109,7 @@ int main() {
         j,
         superheat_control_output_bus.sat_and_sum_out_bus.post_sat_value,
         superheat_control_output_bus.p_out,
-        superheat_control_output_bus.i_out_bus.i_out,
+        superheat_control_output_bus.i_out_bus.integrator.yk_,
         superheat_control_output_bus.d_out_bus.d_out
         );
 

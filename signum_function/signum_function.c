@@ -1,3 +1,5 @@
+#include "control_common_code/signum_function.h"
+
 signed char SignumFunction(const float u) {
     /*
     Description:
