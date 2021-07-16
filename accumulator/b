@@ -1,3 +1,4 @@
-gcc unit_test.c accumulator.c ../unit_delay/unit_delay.c
+gcc -I ../unit_delay/control_common_code \
+unit_test.c accumulator.c ../unit_delay/unit_delay.c
 
 # chmod u+x b
