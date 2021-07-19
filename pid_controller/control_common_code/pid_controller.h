@@ -19,7 +19,6 @@ Data handling:
 #include "../lpfo1/control_common_code/low_pass_filter_o1.h"
 #include "../integrator/control_common_code/integrator.h"
 #include "../differentiator/differentiator.h"
-// #include "differentiator.h"
 
 // definition of int8_t in firmware code
 // typedef __int8_t int8_t;
@@ -36,7 +35,6 @@ typedef struct {
     int8_t signum_dead_zone_out;
     bool clamping_condition;
     integrator_t integrator;
-    // float i_out;
 } i_out_bus_t;
 
 // define differential output data type
@@ -59,7 +57,7 @@ typedef struct {
 // define input bus data type
 typedef struct {
     float reference;
-    float *sensed_value;
+    float sensed_value;
     bool reset;
     float p_gain;
     float i_gain;
@@ -81,14 +79,13 @@ typedef struct {
     i_out_bus_t i_out_bus;
     d_out_bus_t d_out_bus;
     sat_and_sum_bus_t sat_and_sum_out_bus;
-} output_bus_t;
+} pid_control_bus_t;
 
 // ===== declare public member functions =====
 
 void PidControl_Constructor(
-    output_bus_t *output_bus,
-    input_bus_t *input_bus,
-    float *sensed_value_pointer
+    pid_control_bus_t *output_bus,
+    input_bus_t *input_bus
     );
 
-void PidControl_Step(output_bus_t * const output_bus, input_bus_t * const input_bus);
+void PidControl_Step(pid_control_bus_t * const output_bus, input_bus_t * const input_bus);

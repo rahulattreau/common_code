@@ -98,7 +98,7 @@ int main()
         .init_value = EXV_INIT_POS,
         .time_step = TIME_STEP
         };
-    output_bus_t superheat_control_output_bus = {
+    pid_control_bus_t superheat_control_output_bus = {
         .i_out_bus.i_out = superheat_control_input_bus.init_value,
         .sat_and_sum_out_bus.pre_sat_value = superheat_control_input_bus.init_value
     };
