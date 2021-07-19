@@ -13,13 +13,15 @@ Data handling:
 
 */
 
-#pragma once
+#ifndef PID_CONTROLLER_H
+#define PID_CONTROLLER_H
 
 #include <stdbool.h>
 #include "../lpfo1/control_common_code/low_pass_filter_o1.h"
 #include "../integrator/control_common_code/integrator.h"
 #include "../differentiator/differentiator.h"
 #include "../unit_delay/control_common_code/unit_delay.h"
+#include "../deadzone/control_common_code/deadzone.h"
 
 // definition of int8_t in firmware code
 // typedef __int8_t int8_t;
@@ -90,3 +92,5 @@ void PidControl_Constructor(
     );
 
 void PidControl_Step(pid_control_bus_t * const output_bus, input_bus_t * const input_bus);
+
+#endif // PID_CONTROLLER_H
