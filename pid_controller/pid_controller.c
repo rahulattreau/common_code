@@ -49,7 +49,7 @@ void ErrorFunction(float * const error, input_bus_t * const input_bus) {
     if(input_bus->reset)
         *error = 0.0;
     else
-        *error = input_bus->reference - input_bus->sensed_value;
+        *error = input_bus->reference - *(input_bus->sensed_value);
 
 }
 
@@ -145,7 +145,7 @@ void DifferentialFunction(d_out_bus_t * const d_out_bus, input_bus_t * const inp
     4. set outputs
     */
 
-    const float d_argument = -1.0 * input_bus->sensed_value;
+    const float d_argument = -1.0 * *(input_bus->sensed_value);
     LowPassFilterO1_Step( &(d_out_bus->d_argument_filtered), d_argument, input_bus->reset);
     Differentiator_Step( &(d_out_bus->differentiator), d_out_bus->d_argument_filtered.yk_, input_bus->reset );
 
@@ -163,29 +163,29 @@ void SumAndSat(pid_control_bus_t * const instance, input_bus_t * const input_bus
     */
     
     // creating local pointer to reduce variable lengths
-    sat_and_sum_bus_t * const sat_and_sum_out_bus_ = &(instance->sat_and_sum_out_bus);
+    sat_and_sum_bus_t * const _sat_and_sum_out_bus = &(instance->sat_and_sum_out_bus);
     
-    UnitDelay_Step( &(sat_and_sum_out_bus_->pre_sat_value_k_1_), 
+    UnitDelay_Step( &(_sat_and_sum_out_bus->pre_sat_value_k_1_), 
         input_bus->init_value, input_bus->reset);
 
-    sat_and_sum_out_bus_->pre_sat_value = instance->p_out 
+    _sat_and_sum_out_bus->pre_sat_value = instance->p_out 
         + instance->i_out_bus.integrator.yk_ 
         + instance->d_out_bus.differentiator.yk_;
-    sat_and_sum_out_bus_->post_sat_value = Saturator(
-        sat_and_sum_out_bus_->pre_sat_value, 
+    _sat_and_sum_out_bus->post_sat_value = Saturator(
+        _sat_and_sum_out_bus->pre_sat_value, 
         input_bus->up_sat_value, 
         input_bus->lo_sat_value);
     
-    UnitDelay_PostStep( &(sat_and_sum_out_bus_->pre_sat_value_k_1_), sat_and_sum_out_bus_->pre_sat_value);
+    UnitDelay_PostStep( &(_sat_and_sum_out_bus->pre_sat_value_k_1_), _sat_and_sum_out_bus->pre_sat_value);
 
 }
 
 // define initialize pid control
-void PidControl_Constructor(
-    pid_control_bus_t *output_bus,
-    input_bus_t *input_bus
-    ) {
+void PidControl_Constructor(pid_control_bus_t *output_bus, input_bus_t *input_bus, float *sensed_value) {
     
+    // hook the input sensor (sensed_value) to the to input_bus->sensed_value 
+    input_bus->sensed_value = sensed_value;
+
     // integral function constructors
     Integrator_Constructor( &(output_bus->i_out_bus.integrator), input_bus->time_step);
 
