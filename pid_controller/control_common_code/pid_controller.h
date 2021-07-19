@@ -19,6 +19,7 @@ Data handling:
 #include "../lpfo1/control_common_code/low_pass_filter_o1.h"
 #include "../integrator/control_common_code/integrator.h"
 #include "../differentiator/differentiator.h"
+#include "../unit_delay/control_common_code/unit_delay.h"
 
 // definition of int8_t in firmware code
 // typedef __int8_t int8_t;
@@ -40,7 +41,6 @@ typedef struct {
 // define differential output data type
 typedef struct {
     float d_argument;
-    // float d_out;
     low_pass_filter_o1_t d_argument_filtered;
     differentiator_t differentiator;
 } d_out_bus_t;
@@ -48,6 +48,7 @@ typedef struct {
 // define sum and sat output data type:
 typedef struct {
     float pre_sat_value;
+    unit_delay_t pre_sat_value_k_1_;
     float post_sat_value;
     float bc_out;
 } sat_and_sum_bus_t;

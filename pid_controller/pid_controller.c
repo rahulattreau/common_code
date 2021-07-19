@@ -34,13 +34,15 @@ void DifferentialFunction(input_bus_t * const input_bus, d_out_bus_t * const d_o
 
 // sum and sat function
 void SumAndSat(
-    float * post_sat_value,
+    sat_and_sum_bus_t * instance,
     const float p_out, 
     const i_out_bus_t i_out_bus, 
     const d_out_bus_t d_out_bus, 
     const float up_sat_value, 
     const float lo_sat_value, 
-    const float bc_gain
+    const float bc_gain,
+    const bool reset,
+    const float init_value
     );
 
 // ===== define functions =====
@@ -54,12 +56,10 @@ void ErrorFunction(float * const error, input_bus_t * const input_bus) {
     2. Else, calculate error
     */
    
-    if(input_bus->reset) {
+    if(input_bus->reset)
         *error = 0.0;
-    }
-    else {
+    else
         *error = input_bus->reference - input_bus->sensed_value;
-    }
 
 }
 
@@ -72,10 +72,10 @@ void ProportionalFunction(float * const p_out, const float p_gain, const float e
 
 // calculate integral output
 void IntegralFunction(
-    input_bus_t * const input_bus, 
-    const float error, 
     i_out_bus_t * const i_out_bus,
-    sat_and_sum_bus_t * const sat_and_sum_bus
+    sat_and_sum_bus_t * const sat_and_sum_bus,
+    const float error, 
+    input_bus_t * const input_bus    
     ) {
     
     /*
@@ -90,7 +90,7 @@ void IntegralFunction(
     IntegralClamping(
         i_out_bus,
         i_out_bus->integrand, 
-        sat_and_sum_bus->pre_sat_value,
+        sat_and_sum_bus->pre_sat_value_k_1_.yk_,
         input_bus->up_sat_value, 
         input_bus->lo_sat_value
         );
@@ -163,32 +163,31 @@ void DifferentialFunction(input_bus_t * const input_bus, d_out_bus_t * const d_o
 
 // calculate the summer and saturation
 void SumAndSat(
-    float * post_sat_value,
+    sat_and_sum_bus_t * instance,
     const float p_out, 
     const i_out_bus_t i_out_bus, 
     const d_out_bus_t d_out_bus, 
     const float up_sat_value, 
     const float lo_sat_value, 
-    const float bc_gain
+    const float bc_gain,
+    const bool reset,
+    const float init_value
     ) {
     
     /*
     description:
-    1. sum p_out, i_out and d_out
-    2. saturate
+    1. run pre_sat_value unit delay step function
+    2. calculate pre_sat_value - sum p_out, i_out and d_out
+    3. calculate post_sat_value - saturate
+    4. run post_sat_value unit delay step function
     */
     
-    float pre_sat_value = 0.0;
-    static float bc_out = 0.0;
+    UnitDelay_Step( &(instance->pre_sat_value_k_1_), init_value, reset);
 
-    // calculate pre-saturated value
-    pre_sat_value = p_out + i_out_bus.integrator.yk_ + d_out_bus.differentiator.yk_;
-
-    // calculate post-saturated value
-    *post_sat_value = Saturator(pre_sat_value, up_sat_value, lo_sat_value);
+    instance->pre_sat_value = p_out + i_out_bus.integrator.yk_ + d_out_bus.differentiator.yk_;
+    instance->post_sat_value = Saturator(instance->pre_sat_value, up_sat_value, lo_sat_value);
     
-    // calculate back-calculation output for using in next time step
-    bc_out = bc_gain * (*post_sat_value - pre_sat_value);
+    UnitDelay_PostStep( &(instance->pre_sat_value_k_1_), instance->pre_sat_value);
 
 }
 
@@ -197,43 +196,50 @@ void PidControl_Constructor(
     pid_control_bus_t *output_bus,
     input_bus_t *input_bus
     ) {
-
+    
+    // integral function constructors
     Integrator_Constructor( &(output_bus->i_out_bus.integrator), input_bus->time_step);
 
-    // call differential low pass filter constructor
+    // call differential function constructors
     LowPassFilterO1_Constructor(
         &(output_bus->d_out_bus.d_argument_filtered), 
         input_bus->time_step, 
         input_bus->d_filter_tau);
-    
     Differentiator_Constructor( &(output_bus->d_out_bus.differentiator), input_bus->time_step );
+
+    // call sat and sum bus function constructors
+    UnitDelay_Constructor( &(output_bus->sat_and_sum_out_bus.pre_sat_value_k_1_) );
     
 }
 
 // define pid function
 void PidControl_Step(pid_control_bus_t * const output_bus, input_bus_t * const input_bus) {
 
-    // description:
-    // error function -> deadzone -> proportional function, integral function, differential function -> sum and saturate 
+    /* description:
+    error function -> deadzone -> proportional function, integral function, differential function -> 
+        sum and saturate 
+    */
 
     ErrorFunction( &(output_bus->error), input_bus );
     output_bus->error = DeadZone( output_bus->error, input_bus->dead_zone_up, input_bus->dead_zone_lo );
     ProportionalFunction( &(output_bus->p_out), input_bus->p_gain, output_bus->error );
     IntegralFunction(
-        input_bus, 
-        output_bus->error, 
         &(output_bus->i_out_bus),
-        &(output_bus->sat_and_sum_out_bus)
+        &(output_bus->sat_and_sum_out_bus),
+        output_bus->error, 
+        input_bus        
         );
     DifferentialFunction( input_bus, &(output_bus->d_out_bus) );
     SumAndSat(
-        &(output_bus->sat_and_sum_out_bus.post_sat_value),
+        &(output_bus->sat_and_sum_out_bus),
         output_bus->p_out, 
         output_bus->i_out_bus, 
         output_bus->d_out_bus, 
         input_bus->up_sat_value, 
         input_bus->lo_sat_value, 
-        input_bus->bc_gain
+        input_bus->bc_gain,
+        input_bus->reset,
+        input_bus->init_value
         );
-
+        
 }
