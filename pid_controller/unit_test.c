@@ -92,6 +92,11 @@ int main() {
         else
             superheat_control_input_bus.init_value = 20.0;
 
+        if (j == 7)
+            sensed_value = 1.0;
+        else
+            sensed_value = 2.0;
+
         if (j > 10 && j < 15)
             PidParamsAssigner(&superheat_control_input_bus, &kSuperheatControlHeatingPidParams);
         else
@@ -100,8 +105,9 @@ int main() {
         PidControl_Step(&superheat_control_output_bus, &superheat_control_input_bus);
         
         // printf("tick number = %d \n", j);
-        printf("tick number = %2d y = %f p_out = %2.3f i_out = %2.3f d_out = %2.3f\n", 
+        printf("tick_num = %2d sensed_value %f y = %f p_out = %2.3f i_out = %2.3f d_out = %2.3f\n", 
         j,
+        *(superheat_control_input_bus.sensed_value),
         superheat_control_output_bus.sat_and_sum_out_bus.post_sat_value,
         superheat_control_output_bus.p_out,
         superheat_control_output_bus.i_out_bus.integrator.yk_,
