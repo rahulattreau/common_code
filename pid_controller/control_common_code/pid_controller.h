@@ -60,7 +60,7 @@ typedef struct {
 // define input bus data type
 typedef struct {
     float reference;
-    float sensed_value;
+    float *sensed_value;
     bool reset;
     float p_gain;
     float i_gain;
@@ -86,10 +86,7 @@ typedef struct {
 
 // ===== declare public member functions =====
 
-void PidControl_Constructor(
-    pid_control_bus_t *output_bus,
-    input_bus_t *input_bus
-    );
+void PidControl_Constructor(pid_control_bus_t *output_bus, input_bus_t *input_bus, float *sensed_value);
 
 void PidControl_Step(pid_control_bus_t * const output_bus, input_bus_t * const input_bus);
 
