@@ -15,6 +15,12 @@ int main () {
     for (int j = 0; j < (sizeof(u_vector)/sizeof(u_vector[0])); j ++ ) {
 
         u = u_vector[j];
+
+        if (j == 2)
+            reset = true;
+        else
+            reset = false;
+        
         Differentiator_Step( &differentiator, u, reset);
 
         printf("j: %2d u: %f y: %f\n", j, u, differentiator.yk_);
