@@ -81,7 +81,6 @@ void PidControl_IntegralFunction(
         i_out_bus,
         i_out_bus->integrand, 
         sat_and_sum_bus->pre_sat_value_k_1_.yk_,
-        // sat_and_sum_bus->pre_sat_value,
         input_bus->up_sat_value, 
         input_bus->lo_sat_value
         );
