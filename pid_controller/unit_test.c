@@ -74,10 +74,12 @@ int main() {
     //     superheat_control_output_bus.d_out_bus.d_argument_filtered
     //     );
 
-    for (int j = 0; j<20; j++) {
+    int j_length = 100;
+
+    for (int j = 0; j<j_length; j++) {
 
         // set values
-        if (j > 5 && j < 19)
+        if (j > 5 && j < (j_length-1))
             superheat_control_input_bus.reset = false;
         else
             superheat_control_input_bus.reset = true;
@@ -95,8 +97,8 @@ int main() {
         if (j == 7)
             sensed_value = -10.0;
         
-        if (j == 10)
-            sensed_value = +10.0;
+        if (j == j_length - 50)
+            sensed_value = +16.0;
 
         // if (j > 10 && j < 15)
         // if (j > 10)
