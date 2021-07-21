@@ -1,15 +1,11 @@
 /*
 Description:
 1. PID control class
-2. Contains no private variables
-3. Has only public variables that are passed in by reference to functions
- so that the class is reusable
 
 Data handling:
 1. For output structs, a pointer to struct is passed to functions
 2. Input structs are passed by pointer to functions to reduce the
  amount of data transferred
-3. Input scalars are passed by value to functions
 
 */
 
