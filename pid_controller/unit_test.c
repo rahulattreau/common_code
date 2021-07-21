@@ -87,10 +87,10 @@ int main() {
         else
             superheat_control_input_bus.init_value = 20.0;
 
-        if (j > 10 && j < 13)
-            superheat_control_input_bus.init_value = 60.0;
-        else
-            superheat_control_input_bus.init_value = 20.0;
+        // if (j > 10 && j < 13)
+        //     superheat_control_input_bus.init_value = 60.0;
+        // else
+        //     superheat_control_input_bus.init_value = 20.0;
 
         if (j == 7)
             sensed_value = -10.0;
