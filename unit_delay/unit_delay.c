@@ -35,10 +35,10 @@ bool UnitDelayResetEval(unit_delay_t * const instance, const bool reset) {
     
     1. consider the following signal:
         time step: 0 1 2 3 4 5 .....
-        initialized:     0 1 1 1 1 1 ..... true till end of program
-        !initialized:    1 0 0 0 0 0 .....
+        init_:     0 1 1 1 1 1 ..... true till end of program
+        !init_:    1 0 0 0 0 0 .....
         reset:     0 0 1 0 0 0 ..... this reset is an example
-    2. By ORing !initialized and reset, it creates an output that is true at the first time step, 
+    2. By ORing !init_ and reset, it creates an output that is true at the first time step, 
         and equal to reset in all subsequent time steps
     3. this ensures that the unit delay gets initialized in the first time step of the program,
         as there is no 'previous time step' for the unit delay to get data from

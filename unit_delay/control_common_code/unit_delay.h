@@ -11,7 +11,6 @@ description:
 #define UNIT_DELAY_H
 
 #include <stdbool.h>
-#include "../../reset_manager/reset_manager.h"
 
 // define data type
 typedef struct {
