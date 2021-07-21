@@ -43,16 +43,16 @@ int main() {
         .p_gain = 2.0, 
         .i_gain = 2.0, 
         .d_gain = 2.0, 
-        .deadzone_up = 1.0, 
-        .deadzone_lo = -2.0
+        .deadzone_up = 0.0, //1.0, 
+        .deadzone_lo = 0.0 //-2.0
         };
     // this needs to move to the firmware
     const pid_params_t kSuperheatControlHeatingPidParams = {
         .p_gain = 3.0, 
         .i_gain = 3.0, 
         .d_gain = 3.0, 
-        .deadzone_up = 1.0, 
-        .deadzone_lo = -3.0
+        .deadzone_up = 0.0, // 1.0, 
+        .deadzone_lo = 0.0 // -3.0
         };
     
     float sensed_value = 0.0;
@@ -77,7 +77,7 @@ int main() {
     for (int j = 0; j<20; j++) {
 
         // set values
-        if (j > 5 && j < 15)
+        if (j > 5 && j < 19)
             superheat_control_input_bus.reset = false;
         else
             superheat_control_input_bus.reset = true;
@@ -93,22 +93,28 @@ int main() {
             superheat_control_input_bus.init_value = 20.0;
 
         if (j == 7)
-            sensed_value = 1.0;
-        else
-            sensed_value = 2.0;
+            sensed_value = -10.0;
+        
+        if (j == 10)
+            sensed_value = +10.0;
 
-        if (j > 10 && j < 15)
-            PidParamsAssigner(&superheat_control_input_bus, &kSuperheatControlHeatingPidParams);
-        else
-            PidParamsAssigner(&superheat_control_input_bus, &kSuperheatControlCoolingPidParams);
+        // if (j > 10 && j < 15)
+        // if (j > 10)
+        //     PidParamsAssigner(&superheat_control_input_bus, &kSuperheatControlHeatingPidParams);
+        // else
+        //     PidParamsAssigner(&superheat_control_input_bus, &kSuperheatControlCoolingPidParams);
         
         PidControl_Step(&superheat_control_output_bus, &superheat_control_input_bus);
         
         // printf("tick number = %d \n", j);
-        printf("tick_num = %2d sensed_value %f y = %f p_out = %2.3f i_out = %2.3f d_out = %2.3f\n", 
+        printf("tn %2d sensed %7.3f error %5.2f y %6.2f pre_sat %6.2f pre_sat_z_1_ %6.2f CC %d p_out %6.2f i_out %6.2f d_out %6.2f\n", 
         j,
         *(superheat_control_input_bus.sensed_value),
-        superheat_control_output_bus.sat_and_sum_out_bus.post_sat_value,
+        superheat_control_output_bus.error,
+        superheat_control_output_bus.yk_,
+        superheat_control_output_bus.sat_and_sum_out_bus.pre_sat_value,
+        superheat_control_output_bus.sat_and_sum_out_bus.pre_sat_value_k_1_.yk_,
+        superheat_control_output_bus.i_out_bus.clamping_condition,
         superheat_control_output_bus.p_out,
         superheat_control_output_bus.i_out_bus.integrator.yk_,
         superheat_control_output_bus.d_out_bus.differentiator.yk_

@@ -22,6 +22,7 @@ Data handling:
 #include "../differentiator/differentiator.h"
 #include "../unit_delay/control_common_code/unit_delay.h"
 #include "../deadzone/control_common_code/deadzone.h"
+#include "../signum_function/control_common_code/signum_function.h"
 
 // definition of int8_t in firmware code
 // typedef __int8_t int8_t;
@@ -52,7 +53,6 @@ typedef struct {
     float pre_sat_value;
     unit_delay_t pre_sat_value_k_1_;
     float post_sat_value;
-    float bc_out;
 } sat_and_sum_bus_t;
 
 // ===== controller level data types =====
@@ -82,6 +82,7 @@ typedef struct {
     i_out_bus_t i_out_bus;
     d_out_bus_t d_out_bus;
     sat_and_sum_bus_t sat_and_sum_out_bus;
+    float yk_;
 } pid_control_bus_t;
 
 // ===== declare public member functions =====
