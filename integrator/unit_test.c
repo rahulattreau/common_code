@@ -1,4 +1,4 @@
-#include<stdio.h>
+#include <stdio.h>
 #include "control_common_code/integrator.h"
 
 int main() {
@@ -28,6 +28,9 @@ int main() {
         
         if (j > 5.0)
             u = 0.0;
+        
+        if (j > 3.0)
+            init_val = 3.0;
         
         // execute low pass filter
         Integrator_Step(&y, u, init_val, reset);

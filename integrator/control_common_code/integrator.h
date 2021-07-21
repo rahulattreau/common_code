@@ -1,5 +1,6 @@
 #pragma once
-#include "accumulator.h"
+
+#include "../../accumulator/control_common_code/accumulator.h"
 
 //define data type
 typedef struct {
