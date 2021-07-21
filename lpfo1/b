@@ -1,1 +1,1 @@
-gcc -I ../unit_delay/ low_pass_filter_o1.c unit_test.c ../unit_delay/unit_delay.c
+gcc low_pass_filter_o1.c unit_test.c ../unit_delay/unit_delay.c
