@@ -13,12 +13,12 @@ Data handling:
 #define PID_CONTROLLER_H
 
 #include <stdbool.h>
-#include "../lpfo1/control_common_code/low_pass_filter_o1.h"
-#include "../integrator/control_common_code/integrator.h"
-#include "../differentiator/differentiator.h"
-#include "../unit_delay/control_common_code/unit_delay.h"
-#include "../deadzone/control_common_code/deadzone.h"
-#include "../signum_function/control_common_code/signum_function.h"
+#include "../../low_pass_filter_order_1/control_common_code/low_pass_filter_order_1.h"
+#include "../../integrator/control_common_code/integrator.h"
+#include "../../differentiator/differentiator.h"
+#include "../../unit_delay/control_common_code/unit_delay.h"
+#include "../../deadzone/control_common_code/deadzone.h"
+#include "../../signum_function/control_common_code/signum_function.h"
 
 // definition of int8_t in firmware code
 // typedef __int8_t int8_t;
@@ -47,7 +47,7 @@ typedef struct {
 // define sum and sat output data type:
 typedef struct {
     float pre_sat_value;
-    unit_delay_t pre_sat_value_k_1_;
+    unit_delay_t pre_sat_value_k_1;
     float post_sat_value;
 } sat_and_sum_bus_t;
 
@@ -78,13 +78,13 @@ typedef struct {
     i_out_bus_t i_out_bus;
     d_out_bus_t d_out_bus;
     sat_and_sum_bus_t sat_and_sum_out_bus;
-    float yk_;
+    float output;
 } pid_control_bus_t;
 
 // ===== declare public member functions =====
 
-void PidControl_Constructor(pid_control_bus_t *output_bus, input_bus_t *input_bus, float *sensed_value);
+void PidControlInit(pid_control_bus_t *output_bus, input_bus_t *input_bus, float *sensed_value);
 
-void PidControl_Step(pid_control_bus_t * const output_bus, input_bus_t * const input_bus);
+void PidControlStep(pid_control_bus_t * const output_bus, input_bus_t * const input_bus);
 
 #endif // PID_CONTROLLER_H

@@ -60,10 +60,10 @@ int main() {
     PidParamsAssigner(&superheat_control_input_bus, &kSuperheatControlCoolingPidParams);
 
     pid_control_bus_t superheat_control_output_bus;
-    PidControl_Constructor(&superheat_control_output_bus, &superheat_control_input_bus, &sensed_value);
+    PidControlInit(&superheat_control_output_bus, &superheat_control_input_bus, &sensed_value);
     
     printf("d_out filter alpha = %f\n", 
-        superheat_control_output_bus.d_out_bus.d_argument_filtered.alpha_
+        superheat_control_output_bus.d_out_bus.d_argument_filtered.alpha
         );
     
     // printf("tick number = %d \n y = %f \n p_out = %f\n i_out = %f\n d_out = %f\n", 
@@ -106,20 +106,20 @@ int main() {
         // else
         //     PidParamsAssigner(&superheat_control_input_bus, &kSuperheatControlCoolingPidParams);
         
-        PidControl_Step(&superheat_control_output_bus, &superheat_control_input_bus);
+        PidControlStep(&superheat_control_output_bus, &superheat_control_input_bus);
         
         // printf("tick number = %d \n", j);
         printf("tn %2d sensed %7.3f error %5.2f y %6.2f pre_sat %6.2f pre_sat_z_1_ %6.2f CC %d p_out %6.2f i_out %6.2f d_out %6.2f\n", 
         j,
         *(superheat_control_input_bus.sensed_value),
         superheat_control_output_bus.error,
-        superheat_control_output_bus.yk_,
+        superheat_control_output_bus.output,
         superheat_control_output_bus.sat_and_sum_out_bus.pre_sat_value,
-        superheat_control_output_bus.sat_and_sum_out_bus.pre_sat_value_k_1_.yk_,
+        superheat_control_output_bus.sat_and_sum_out_bus.pre_sat_value_k_1.output,
         superheat_control_output_bus.i_out_bus.clamping_condition,
         superheat_control_output_bus.p_out,
-        superheat_control_output_bus.i_out_bus.integrator.yk_,
-        superheat_control_output_bus.d_out_bus.differentiator.yk_
+        superheat_control_output_bus.i_out_bus.integrator.output,
+        superheat_control_output_bus.d_out_bus.differentiator.output
         );
 
     }

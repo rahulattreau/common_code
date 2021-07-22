@@ -111,7 +111,7 @@ int main()
     // superheat_control_input_bus.dead_zone_lo = kSuperheatControlCoolingPidParams.deadzone_lo;
 
     // call constructor
-    PidControl_Constructor( &superheat_control_output_bus, &superheat_control_input_bus, &(superheat_filtered.yk_) );
+    PidControlInit( &superheat_control_output_bus, &superheat_control_input_bus, &(superheat_filtered.output) );
 
     superheat_valid = false;
 
@@ -138,7 +138,7 @@ int main()
         superheat_control_input_bus.reference = kSuperheatControlReference;
 
         // run pid step function
-        PidControl_Step(&superheat_control_output_bus, &superheat_control_input_bus);
+        PidControlStep(&superheat_control_output_bus, &superheat_control_input_bus);
 
         // print data
         printf("u = %f, y = %f \n", *(superheat_control_input_bus.sensed_value), superheat_control_output_bus.sat_and_sum_out_bus.post_sat_value);

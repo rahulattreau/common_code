@@ -80,7 +80,7 @@ void PidControl_IntegralFunction(
     PidControl_IntegralClamping(
         i_out_bus,
         i_out_bus->integrand, 
-        sat_and_sum_bus->pre_sat_value_k_1_.yk_,
+        sat_and_sum_bus->pre_sat_value_k_1.output,
         input_bus->up_sat_value, 
         input_bus->lo_sat_value
         );
@@ -88,7 +88,7 @@ void PidControl_IntegralFunction(
     if (i_out_bus->clamping_condition)
         i_out_bus->integrand = 0.0;
 
-    Integrator_Step( &(i_out_bus->integrator), i_out_bus->integrand, input_bus->init_value, input_bus->reset);
+    IntegratorStep( &(i_out_bus->integrator), i_out_bus->integrand, input_bus->init_value, input_bus->reset);
     
 }
 
@@ -146,8 +146,8 @@ void PidControl_DifferentialFunction(d_out_bus_t * const d_out_bus, input_bus_t 
     */
 
     const float d_argument = -1.0 * *(input_bus->sensed_value);
-    LowPassFilterO1_Step( &(d_out_bus->d_argument_filtered), d_argument, input_bus->reset);
-    Differentiator_Step( &(d_out_bus->differentiator), d_out_bus->d_argument_filtered.yk_, input_bus->reset );
+    LowPassFilterOrder1Step( &(d_out_bus->d_argument_filtered), d_argument, input_bus->reset);
+    DifferentiatorStep( &(d_out_bus->differentiator), d_out_bus->d_argument_filtered.output, input_bus->reset );
 
 }
 
@@ -164,8 +164,8 @@ void PidControl_SumAndSat(pid_control_bus_t * const instance, input_bus_t * cons
     sat_and_sum_bus_t * const _sat_and_sum_out_bus = &(instance->sat_and_sum_out_bus);
     
     _sat_and_sum_out_bus->pre_sat_value = instance->p_out 
-        + instance->i_out_bus.integrator.yk_ 
-        + instance->d_out_bus.differentiator.yk_;
+        + instance->i_out_bus.integrator.output 
+        + instance->d_out_bus.differentiator.output;
     _sat_and_sum_out_bus->post_sat_value = Saturator(
         _sat_and_sum_out_bus->pre_sat_value, 
         input_bus->up_sat_value, 
@@ -174,38 +174,38 @@ void PidControl_SumAndSat(pid_control_bus_t * const instance, input_bus_t * cons
 }
 
 // define initialize pid control
-void PidControl_Constructor(pid_control_bus_t *output_bus, input_bus_t *input_bus, float *sensed_value) {
+void PidControlInit(pid_control_bus_t *output_bus, input_bus_t *input_bus, float *sensed_value) {
     
     // hook the input sensor (sensed_value) to the to input_bus->sensed_value 
     input_bus->sensed_value = sensed_value;
 
     // integral function constructors
-    Integrator_Constructor( &(output_bus->i_out_bus.integrator), input_bus->time_step);
+    IntegratorInit( &(output_bus->i_out_bus.integrator), input_bus->time_step);
 
     // call differential function constructors
-    LowPassFilterO1_Constructor(
+    LowPassFilterOrder1Init(
         &(output_bus->d_out_bus.d_argument_filtered), 
         input_bus->time_step, 
         input_bus->d_filter_tau);
-    Differentiator_Constructor( &(output_bus->d_out_bus.differentiator), input_bus->time_step );
+    DifferentiatorInit( &(output_bus->d_out_bus.differentiator), input_bus->time_step );
 
     // call sat and sum bus function constructors
-    UnitDelay_Constructor( &(output_bus->sat_and_sum_out_bus.pre_sat_value_k_1_) );
+    UnitDelayInit( &(output_bus->sat_and_sum_out_bus.pre_sat_value_k_1) );
     
 }
 
 // define pid function
-void PidControl_Step(pid_control_bus_t * const instance, input_bus_t * const input_bus) {
+void PidControlStep(pid_control_bus_t * const instance, input_bus_t * const input_bus) {
 
     /* 
     description:
     1. Run state functions
     2. error function -> deadzone -> proportional function, integral function, differential function -> 
-        sum and saturate -> sat value to output yk_
+        sum and saturate -> sat value to output output
     3. Run post step function
     */
     
-    UnitDelay_Step( &(instance->sat_and_sum_out_bus.pre_sat_value_k_1_), input_bus->init_value, input_bus->reset);
+    UnitDelayStep( &(instance->sat_and_sum_out_bus.pre_sat_value_k_1), input_bus->init_value, input_bus->reset);
 
     PidControl_ErrorFunction( &(instance->error), input_bus );
     instance->error = DeadZone( instance->error, input_bus->dead_zone_up, input_bus->dead_zone_lo );
@@ -218,8 +218,8 @@ void PidControl_Step(pid_control_bus_t * const instance, input_bus_t * const inp
         );
     PidControl_DifferentialFunction( &(instance->d_out_bus), input_bus );
     PidControl_SumAndSat( instance, input_bus );
-    instance->yk_ = instance->sat_and_sum_out_bus.post_sat_value;
+    instance->output = instance->sat_and_sum_out_bus.post_sat_value;
 
-    UnitDelay_PostStep( &(instance->sat_and_sum_out_bus.pre_sat_value_k_1_), instance->sat_and_sum_out_bus.pre_sat_value);
+    UnitDelayPostStep( &(instance->sat_and_sum_out_bus.pre_sat_value_k_1), instance->sat_and_sum_out_bus.pre_sat_value);
     
 }
