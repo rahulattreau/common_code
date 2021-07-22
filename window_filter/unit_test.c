@@ -54,8 +54,8 @@ int main() {
 
         WindowFilter_Step(&window_filter_values, input, reset);
         
-        printf("reset: %d u: %f output: %f error: %f\n", reset, input, window_filter_values.yk_, 
-        y_vector_correct[j] - window_filter_values.yk_);
+        printf("reset: %d u: %f output: %f error: %f\n", reset, input, window_filter_values.output, 
+        y_vector_correct[j] - window_filter_values.output);
         
     }
 

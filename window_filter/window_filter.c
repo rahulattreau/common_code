@@ -3,30 +3,30 @@
 // define constructor
 void WindowFilter_Constructor(window_filter_t * const instance, const float window_size) {
 
-    instance->window_size_ = window_size;
-    UnitDelay_Constructor( &(instance->yk_1_) );
+    instance->window_size = window_size;
+    UnitDelay_Constructor( &(instance->output_k_1) );
 
 }
 
 // define window filter function
-void WindowFilter_Step(window_filter_t * const instance, const float u, const bool reset) {
+void WindowFilter_Step(window_filter_t * const instance, const float input, const bool reset) {
     
-    const float delta_in_consecutive_states = u - instance->yk_;
+    const float delta_in_consecutive_states = input - instance->output;
 
     // run unit delay
-    UnitDelay_Step( &(instance->yk_1_), u, reset );
+    UnitDelay_Step( &(instance->output_k_1), input, reset );
 
-    // if u is inside range, set output to u, else set output to unit delayed value
+    // if input is inside range, set output to input, else set output to unit delayed value
     if(
-        ( delta_in_consecutive_states <= instance->window_size_ ) &&
-        ( delta_in_consecutive_states >= -instance->window_size_ )
+        ( delta_in_consecutive_states <= instance->window_size ) &&
+        ( delta_in_consecutive_states >= -instance->window_size )
         )
-        instance->yk_ = u;
+        instance->output = input;
     
     else
-        instance->yk_ = instance->yk_1_.yk_;
+        instance->output = instance->output_k_1.output;
     
     // run post step functions
-    UnitDelay_PostStep( &(instance->yk_1_), u );
+    UnitDelay_PostStep( &(instance->output_k_1), input );
     
 }
