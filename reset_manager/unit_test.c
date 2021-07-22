@@ -1,14 +1,14 @@
 #include "stdio.h"
 #include "reset_manager.h"
 
-void print_output(reset_manager_t reset_manager, bool reset) {
-    printf("reset: %d init_reset: %d reset_state: %d\n", reset, reset_manager.init_reset_, reset_manager.reset_state_);
+void print_output(reset_manager_t reset_manager, int j, bool reset) {
+    printf("reset: %d step_num %2d init_reset: %d reset_state: %d\n", reset, j, reset_manager.init_reset, reset_manager.reset_state);
 }
 
 int main () {
 
     reset_manager_t reset_manager;
-    ResetManager_Constructor(&reset_manager);
+    ResetManagerInit(&reset_manager);
     
     // create the u_vector
     int u_vector_size = 10;
@@ -25,12 +25,14 @@ int main () {
 
     bool reset = false;
     
+    print_output(reset_manager, -1, reset);
+
     for (int j = 0; j < u_vector_size; j++) {
 
         reset = u_vector[j];
         
-        ResetManager_Step(&reset_manager, reset);
-        print_output(reset_manager, reset);
+        ResetManagerStep(&reset_manager, reset);
+        print_output(reset_manager, j, reset);
         
     }
 

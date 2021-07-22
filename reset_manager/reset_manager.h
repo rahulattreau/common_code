@@ -7,13 +7,13 @@
 
 typedef struct {
 
-    bool init_reset_;
-    bool reset_state_;
+    bool init_reset;
+    bool reset_state;
 
 } reset_manager_t;
 
-void ResetManager_Constructor(reset_manager_t * const reset_manager);
+void ResetManagerInit(reset_manager_t * const reset_manager);
 
-void ResetManager_Step(reset_manager_t * const reset_manager, bool reset);
+void ResetManagerStep(reset_manager_t * const reset_manager, bool reset);
 
 #endif // RESET_MANAGER_H
