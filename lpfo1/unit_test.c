@@ -1,5 +1,5 @@
 #include<stdio.h>
-#include "control_common_code/low_pass_filter_o1.h"
+#include "control_common_code/low_pass_filter_order_1.h"
 
 int main() {
 
@@ -33,7 +33,7 @@ int main() {
         // execute low pass filter
         LowPassFilterO1_Step(&y, u, reset);
 
-        printf("time: %f reset %d u: %f unit delay: %f y: %f\n", j, reset, u, y.yk_1_.yk_, y.yk_);
+        printf("time: %f reset %d u: %f unit delay: %f y: %f\n", j, reset, u, y.output_k_1.output, y.output);
     }
     
     return 0;
