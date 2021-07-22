@@ -31,7 +31,7 @@ int main() {
     reset_vector[13] = true;
     
     unit_delay_t unit_delay;
-    UnitDelayConfig(&unit_delay);
+    UnitDelayInit(&unit_delay);
     // UnitDelay_Init(&unit_delay, u_vector[0]);
 
     float u;
