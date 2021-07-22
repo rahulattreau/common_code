@@ -17,10 +17,9 @@ void WindowFilter_Step(window_filter_t * const instance, const float input, cons
     UnitDelay_Step( &(instance->output_k_1), input, reset );
 
     // if input is inside range, set output to input, else set output to unit delayed value
-    if(
-        ( delta_in_consecutive_states <= instance->window_size ) &&
-        ( delta_in_consecutive_states >= -instance->window_size )
-        )
+    if( ( delta_in_consecutive_states <= instance->window_size ) &&
+        ( delta_in_consecutive_states >= -instance->window_size ) )
+        
         instance->output = input;
     
     else
