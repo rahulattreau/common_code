@@ -4,11 +4,11 @@
 
 //define data type
 typedef struct {
-    float yk_; // output
+    float output; // output
     accumulator_t accumulator;
-    float time_step_;
+    float time_step;
 } integrator_t;
 
-void Integrator_Constructor(integrator_t * const instance, const float time_step);
+void IntegratorInit(integrator_t * const instance, const float time_step);
 
-void Integrator_Step(integrator_t * const instance, const float xk, const float init_val, const bool reset);
+void IntegratorStep(integrator_t * const instance, const float xk, const float init_val, const bool reset);

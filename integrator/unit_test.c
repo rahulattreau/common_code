@@ -8,7 +8,7 @@ int main() {
     float init_val = 2.0;
 
     integrator_t y;
-    Integrator_Constructor(&y, time_step);
+    IntegratorInit(&y, time_step);
     
     bool reset = false;
     
@@ -33,14 +33,14 @@ int main() {
             init_val = 3.0;
         
         // execute low pass filter
-        Integrator_Step(&y, u, init_val, reset);
+        IntegratorStep(&y, u, init_val, reset);
 
         printf("time: %f reset: %d u: %f unit delay: %f y: %f\n", 
         j, 
         reset, 
         u, 
-        y.accumulator.yk_1_.yk_, 
-        y.yk_
+        y.accumulator.output_k_1.output, 
+        y.output
         );
     }
     
