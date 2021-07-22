@@ -5,7 +5,7 @@ int main () {
 
     const float time_step = 0.1;
     differentiator_t differentiator;
-    Differentiator_Constructor( &differentiator, time_step);
+    DifferentiatorInit( &differentiator, time_step);
 
     float u_vector[] = {-1.0, 0.0, 0.5, 2.0, -0.5};
     float u;
@@ -21,9 +21,9 @@ int main () {
         else
             reset = false;
         
-        Differentiator_Step( &differentiator, u, reset);
+        DifferentiatorStep( &differentiator, u, reset);
 
-        printf("j: %2d u: %f y: %f\n", j, u, differentiator.yk_);
+        printf("j: %2d u: %f y: %f\n", j, u, differentiator.output);
         time_value += time_step;
     }
 

@@ -5,14 +5,14 @@
 #include "../unit_delay/control_common_code/unit_delay.h"
 
 typedef struct {
-    double yk_;
-    unit_delay_t yk_1_;
-    float time_step_;
+    double output;
+    unit_delay_t output_k_1;
+    float time_step;
     
 } differentiator_t;
 
-void Differentiator_Constructor(differentiator_t * const instance, const float time_step);
+void DifferentiatorInit(differentiator_t * const instance, const float time_step);
 
-void Differentiator_Step(differentiator_t * const instance, const float u, const bool reset);
+void DifferentiatorStep(differentiator_t * const instance, const float u, const bool reset);
 
 #endif // DIFFERENTIATOR_H

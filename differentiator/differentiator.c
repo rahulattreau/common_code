@@ -1,19 +1,19 @@
 #include "differentiator.h"
 
-void Differentiator_Constructor(differentiator_t * const instance, const float time_step) {
+void DifferentiatorInit(differentiator_t * const instance, const float time_step) {
 
-    UnitDelay_Constructor( &(instance->yk_1_) );
-    instance->time_step_ = time_step;
+    UnitDelayInit( &(instance->output_k_1) );
+    instance->time_step = time_step;
 
 }
 
-void Differentiator_Step(differentiator_t * const instance, const float u, const bool reset) {
+void DifferentiatorStep(differentiator_t * const instance, const float u, const bool reset) {
 
-    UnitDelay_Step( &(instance->yk_1_), u, reset);
+    UnitDelayStep( &(instance->output_k_1), u, reset);
 
     // execute differnetiator function
-    instance->yk_ = ( u - instance->yk_1_.yk_) / instance->time_step_;
+    instance->output = ( u - instance->output_k_1.output) / instance->time_step;
 
-    UnitDelay_PostStep( &(instance->yk_1_), u);
+    UnitDelayPostStep( &(instance->output_k_1), u);
 
 }
