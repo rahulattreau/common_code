@@ -19,7 +19,7 @@ typedef struct {
     float output; // output
 } input_conditioning_t;
 
-void InputConditioning_Constructor(
+void InputConditioningInit(
     input_conditioning_t * const instance, 
     const float window_size,
     const float time_step,
@@ -27,6 +27,6 @@ void InputConditioning_Constructor(
     const bool window_filter_active
     );
 
-void InputConditioning_Step(input_conditioning_t * const instance, const float u);
+void InputConditioningStep(input_conditioning_t * const instance, const float u);
 
 #endif // INPUT_CONDITIONING_H

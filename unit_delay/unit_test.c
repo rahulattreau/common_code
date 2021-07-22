@@ -31,7 +31,7 @@ int main() {
     reset_vector[13] = true;
     
     unit_delay_t unit_delay;
-    UnitDelay_Constructor(&unit_delay);
+    UnitDelayConfig(&unit_delay);
     // UnitDelay_Init(&unit_delay, u_vector[0]);
 
     float u;
@@ -43,11 +43,11 @@ int main() {
         u = u_vector[j];
         reset = reset_vector[j];
 
-        UnitDelay_Step(&unit_delay, u, reset);
+        UnitDelayStep(&unit_delay, u, reset);
         
         printf("j: %2d reset: %d u: %f y: %f \n", j, reset, u, unit_delay.output);
 
-        UnitDelay_PostStep(&unit_delay, u);
+        UnitDelayPostStep(&unit_delay, u);
     }
 
     return 0;

@@ -7,7 +7,7 @@ int main() {
     float u = 0.1;
 
     low_pass_filter_o1_t y;
-    LowPassFilterO1_Constructor(&y, time_step, 1.0);
+    LowPassFilterOrder1Init(&y, time_step, 1.0);
 
     bool reset = false;
     bool init = false;
@@ -31,7 +31,7 @@ int main() {
             u = 0.0;
 
         // execute low pass filter
-        LowPassFilterO1_Step(&y, u, reset);
+        LowPassFilterOrder1Step(&y, u, reset);
 
         printf("time: %f reset %d u: %f unit delay: %f y: %f\n", j, reset, u, y.output_k_1.output, y.output);
     }

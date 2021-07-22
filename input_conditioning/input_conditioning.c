@@ -2,11 +2,11 @@
 
 // declare private functions
 
-bool InputConditioning_WindowFilterResetEval(const bool window_filter_active, const bool reset);
+bool InputConditioningWindowFilterResetEval(const bool window_filter_active, const bool reset);
 
 // declare public functions
 
-void InputConditioning_Constructor(
+void InputConditioningInit(
     input_conditioning_t * const instance, 
     const float window_size,
     const float time_step,
@@ -14,13 +14,13 @@ void InputConditioning_Constructor(
     const bool window_filter_active
     ) {
 
-    WindowFilter_Constructor( &(instance->window_filter_object), window_size);
-    LowPassFilterO1_Constructor( &(instance->low_pass_filter_object), time_step, tau);
+    WindowFilterInit( &(instance->window_filter_object), window_size);
+    LowPassFilterOrder1Init( &(instance->low_pass_filter_object), time_step, tau);
     instance->window_filter_enable = window_filter_active;
     
 }
 
-bool InputConditioning_WindowFilterResetEval(const bool window_filter_active, const bool reset) {
+bool InputConditioningWindowFilterResetEval(const bool window_filter_active, const bool reset) {
 
     /*
     description:
@@ -47,12 +47,12 @@ bool InputConditioning_WindowFilterResetEval(const bool window_filter_active, co
 
 }
 
-void InputConditioning_Step(input_conditioning_t * const instance, const float u) {
+void InputConditioningStep(input_conditioning_t * const instance, const float u) {
 
     bool reset = false; // assume data is valid, i.e. no error checking
-    const bool window_filter_reset = InputConditioning_WindowFilterResetEval(instance->window_filter_enable, reset);
-    WindowFilter_Step( &(instance->window_filter_object) , u, window_filter_reset );
-    LowPassFilterO1_Step( &(instance->low_pass_filter_object), instance->window_filter_object.output, reset );
+    const bool window_filter_reset = InputConditioningWindowFilterResetEval(instance->window_filter_enable, reset);
+    WindowFilterStep( &(instance->window_filter_object) , u, window_filter_reset );
+    LowPassFilterOrder1Step( &(instance->low_pass_filter_object), instance->window_filter_object.output, reset );
     instance->output = instance->low_pass_filter_object.output;
 
 }

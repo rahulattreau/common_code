@@ -26,13 +26,13 @@ int main() {
     float input = u_vector[0];
     const bool kWindowFilterActive = true;
 
-    InputConditioning_Constructor(&input_conditioning_object, kWindowSize, kTimeStep, kTau, kWindowFilterActive);
+    InputConditioningInit(&input_conditioning_object, kWindowSize, kTimeStep, kTau, kWindowFilterActive);
     
     for (int j = 0; j < sizeof(u_vector) / sizeof(u_vector[0]); j ++) {
 
         input = u_vector[j];
 
-        InputConditioning_Step(&input_conditioning_object, input);
+        InputConditioningStep(&input_conditioning_object, input);
         
         printf("j: %2d input: %f window filter: %f lpf: %f output: %f\n", 
         j,

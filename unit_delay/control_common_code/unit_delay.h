@@ -26,10 +26,10 @@ Step function
 Post step function - calls Storestate
 */
 
-void UnitDelay_Constructor(unit_delay_t * const instance);
+void UnitDelayInit(unit_delay_t * const instance);
 
-void UnitDelay_Step(unit_delay_t * const instance, const float input, const bool reset);
+void UnitDelayStep(unit_delay_t * const instance, const float input, const bool reset);
 
-void UnitDelay_PostStep(unit_delay_t * const instance, const float input);
+void UnitDelayPostStep(unit_delay_t * const instance, const float input);
 
 #endif // UNIT_DELAY_H

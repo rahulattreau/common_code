@@ -40,7 +40,7 @@ int main() {
     float input;
     bool reset = false;
 
-    WindowFilter_Constructor(&window_filter_values, 2.0);
+    WindowFilterInit(&window_filter_values, 2.0);
 
     for (int j = 0; j < sizeof(u_vector) / sizeof(u_vector[0]); j ++) {
 
@@ -52,7 +52,7 @@ int main() {
             reset = false;
         }
 
-        WindowFilter_Step(&window_filter_values, input, reset);
+        WindowFilterStep(&window_filter_values, input, reset);
         
         printf("reset: %d u: %f output: %f error: %f\n", reset, input, window_filter_values.output, 
         y_vector_correct[j] - window_filter_values.output);

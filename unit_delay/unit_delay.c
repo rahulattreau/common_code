@@ -3,18 +3,18 @@
 
 // declare private functions
 
-void UnitDelay_StoreState(unit_delay_t * const instance, const float input);
-bool UnitDelay_ResetEval(unit_delay_t * const instance, const bool reset);
+void UnitDelayStoreState(unit_delay_t * const instance, const float input);
+bool UnitDelayResetEval(unit_delay_t * const instance, const bool reset);
 
 // define functions
 
-void UnitDelay_Constructor(unit_delay_t * const instance) {
+void UnitDelayInit(unit_delay_t * const instance) {
 
     instance->initialized = false;
 
 }
 
-inline void UnitDelay_StoreState(unit_delay_t * const instance, const float input) {
+inline void UnitDelayStoreState(unit_delay_t * const instance, const float input) {
 
     /*
     description:
@@ -27,7 +27,7 @@ inline void UnitDelay_StoreState(unit_delay_t * const instance, const float inpu
 
 }
 
-bool UnitDelay_ResetEval(unit_delay_t * const instance, const bool reset) {
+bool UnitDelayResetEval(unit_delay_t * const instance, const bool reset) {
 
     /*
     description:
@@ -54,13 +54,13 @@ bool UnitDelay_ResetEval(unit_delay_t * const instance, const bool reset) {
 
 }
 
-void UnitDelay_Step(unit_delay_t * const instance, const float input, const bool reset) {
+void UnitDelayStep(unit_delay_t * const instance, const float input, const bool reset) {
     
-    const bool unit_delay_reset = UnitDelay_ResetEval(instance, reset);
+    const bool unit_delay_reset = UnitDelayResetEval(instance, reset);
 
     if (unit_delay_reset) {
 
-        UnitDelay_StoreState(instance, input);
+        UnitDelayStoreState(instance, input);
         instance->output = instance->input_stored;
 
     }
@@ -69,8 +69,8 @@ void UnitDelay_Step(unit_delay_t * const instance, const float input, const bool
 
 }
 
-void UnitDelay_PostStep(unit_delay_t * const instance, const float input) {
+void UnitDelayPostStep(unit_delay_t * const instance, const float input) {
 
-    UnitDelay_StoreState(instance, input);
+    UnitDelayStoreState(instance, input);
 
 }

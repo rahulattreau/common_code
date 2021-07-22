@@ -32,7 +32,7 @@ typedef struct {
 declare constructor
     - use when declaring variable
 */
-void LowPassFilterO1_Constructor(
+void LowPassFilterOrder1Init(
     low_pass_filter_o1_t * const instance, 
     const float time_step, 
     const float tau
@@ -42,6 +42,6 @@ void LowPassFilterO1_Constructor(
 declare step function
     - this is the public function that needs to run in each time step
 */
-void LowPassFilterO1_Step(low_pass_filter_o1_t * const instance, const float input, const bool reset);
+void LowPassFilterOrder1Step(low_pass_filter_o1_t * const instance, const float input, const bool reset);
 
 #endif // LOW_PASS_FILTER_ORDER_1

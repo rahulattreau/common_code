@@ -24,8 +24,8 @@ Constructor - use when defining class variable
 Step - this is the step function that runs every time step
 */
 
-void WindowFilter_Constructor(window_filter_t * const instance, const float window_size);
+void WindowFilterInit(window_filter_t * const instance, const float window_size);
 
-void WindowFilter_Step(window_filter_t * const instance, const float input, const bool reset);
+void WindowFilterStep(window_filter_t * const instance, const float input, const bool reset);
 
 #endif // WINDOW_FILTER_H
