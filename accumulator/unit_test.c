@@ -8,7 +8,7 @@ int main() {
     float init_val = 3.0;
 
     accumulator_t y;
-    Accumulator_Constructor(&y);
+    AccumulatorInit(&y);
     
     bool reset = false;
     
@@ -32,9 +32,9 @@ int main() {
             u = 0.0;
         
         // execute low pass filter
-        Accumulator_Step(&y, u, init_val, reset);
+        AccumulatorStep(&y, u, init_val, reset);
 
-        printf("time: %f reset: %d init_val %f u: %f unit delay: %f y: %f\n", j, reset, init_val, u, y.yk_1_.yk_, y.yk_);
+        printf("time: %f reset: %d init_val %f u: %f unit delay: %f y: %f\n", j, reset, init_val, u, y.output_k_1.output, y.output);
     }
     
     return 0;

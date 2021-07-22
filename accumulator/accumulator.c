@@ -1,27 +1,27 @@
 #include "control_common_code/accumulator.h"
 
-void Accumulator_Constructor(accumulator_t * const instance) {
+void AccumulatorInit(accumulator_t * const instance) {
     
     // initialize the state variables
-    ResetManager_Constructor( &(instance->reset_manager_) );
-    UnitDelay_Constructor( &(instance->yk_1_) );
+    ResetManagerInit( &(instance->reset_manager) );
+    UnitDelayInit( &(instance->output_k_1) );
     
 }
 
-void Accumulator_Step(accumulator_t * const instance, const float xk, const float init_val, const bool reset) {
+void AccumulatorStep(accumulator_t * const instance, const float xk, const float init_val, const bool reset) {
     
     float input = 0.0;
     
-    ResetManager_Step( &(instance->reset_manager_), reset );
-    UnitDelay_Step( &(instance->yk_1_), init_val, instance->reset_manager_.reset_state_ );
+    ResetManagerStep( &(instance->reset_manager), reset );
+    UnitDelayStep( &(instance->output_k_1), init_val, instance->reset_manager.reset_state );
 
     // execute accumulator function
-    if (! (instance->reset_manager_.reset_state_) )
+    if (! (instance->reset_manager.reset_state) )
         input = xk;
         
-    instance->yk_ = input + instance->yk_1_.yk_;
+    instance->output = input + instance->output_k_1.output;
     
     // execute unit delay post step
-    UnitDelay_PostStep( &(instance->yk_1_), instance->yk_ );
+    UnitDelayPostStep( &(instance->output_k_1), instance->output );
 
 }

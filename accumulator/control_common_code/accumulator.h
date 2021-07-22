@@ -4,12 +4,12 @@
 
 //define data type
 typedef struct {
-    float yk_;
-    unit_delay_t yk_1_;
-    reset_manager_t reset_manager_;
+    float output;
+    unit_delay_t output_k_1;
+    reset_manager_t reset_manager;
     
 } accumulator_t;
 
-void Accumulator_Constructor(accumulator_t * const instance);
+void AccumulatorInit(accumulator_t * const instance);
 
-void Accumulator_Step(accumulator_t * const instance, const float xk, const float init_val, const bool reset);
+void AccumulatorStep(accumulator_t * const instance, const float xk, const float init_val, const bool reset);
