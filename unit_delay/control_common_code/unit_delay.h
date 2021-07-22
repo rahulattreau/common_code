@@ -4,7 +4,7 @@ description:
 2. Stores the input from the previous time step
 3. Has a 'reset' input. If reset is true, the output is set to the input of the current time step.
 4. When reset is false, the output is set to the input from the previous time step.
-5. Gets initialized in the first time step. This happens by using the init_ bit.
+5. Gets initialized in the first time step. This happens by using the initialized bit.
 */
 
 #ifndef UNIT_DELAY_H
@@ -14,9 +14,9 @@ description:
 
 // define data type
 typedef struct {
-    float yk_;
-    float u_stored;
-    bool init_;
+    float output;
+    float input_stored;
+    bool initialized;
 } unit_delay_t;
 
 /* 
@@ -28,8 +28,8 @@ Post step function - calls Storestate
 
 void UnitDelay_Constructor(unit_delay_t * const instance);
 
-void UnitDelay_Step(unit_delay_t * const instance, const float u, const bool reset);
+void UnitDelay_Step(unit_delay_t * const instance, const float input, const bool reset);
 
-void UnitDelay_PostStep(unit_delay_t * const instance, const float u);
+void UnitDelay_PostStep(unit_delay_t * const instance, const float input);
 
 #endif // UNIT_DELAY_H
