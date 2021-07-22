@@ -8,15 +8,15 @@ description:
 #ifndef INPUT_CONDITIONING_H
 #define INPUT_CONDITIONING_H
 
-#include "window_filter.h"
-#include "low_pass_filter_o1.h"
+#include "../../window_filter/control_common_code/window_filter.h"
+#include "../../lpfo1/control_common_code/low_pass_filter_order_1.h"
 
 // define data type for input conditioning class
 typedef struct {
-    window_filter_t window_filter_object_;
-    low_pass_filter_o1_t low_pass_filter_object_;
-    bool window_filter_enable_; // used to enable window filter
-    float yk_; // output
+    window_filter_t window_filter_object;
+    low_pass_filter_o1_t low_pass_filter_object;
+    bool window_filter_enable; // used to enable window filter
+    float output; // output
 } input_conditioning_t;
 
 void InputConditioning_Constructor(

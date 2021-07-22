@@ -37,9 +37,9 @@ int main() {
         printf("j: %2d input: %f window filter: %f lpf: %f output: %f\n", 
         j,
         input, 
-        input_conditioning_object.window_filter_object_.yk_,
-        input_conditioning_object.low_pass_filter_object_.yk_,
-        input_conditioning_object.yk_
+        input_conditioning_object.window_filter_object.output,
+        input_conditioning_object.low_pass_filter_object.output,
+        input_conditioning_object.output
         );
         
     }

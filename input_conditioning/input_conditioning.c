@@ -14,9 +14,9 @@ void InputConditioning_Constructor(
     const bool window_filter_active
     ) {
 
-    WindowFilter_Constructor( &(instance->window_filter_object_), window_size);
-    LowPassFilterO1_Constructor( &(instance->low_pass_filter_object_), time_step, tau);
-    instance->window_filter_enable_ = window_filter_active;
+    WindowFilter_Constructor( &(instance->window_filter_object), window_size);
+    LowPassFilterO1_Constructor( &(instance->low_pass_filter_object), time_step, tau);
+    instance->window_filter_enable = window_filter_active;
     
 }
 
@@ -50,9 +50,9 @@ bool InputConditioning_WindowFilterResetEval(const bool window_filter_active, co
 void InputConditioning_Step(input_conditioning_t * const instance, const float u) {
 
     bool reset = false; // assume data is valid, i.e. no error checking
-    const bool window_filter_reset = InputConditioning_WindowFilterResetEval(instance->window_filter_enable_, reset);
-    WindowFilter_Step( &(instance->window_filter_object_) , u, window_filter_reset );
-    LowPassFilterO1_Step( &(instance->low_pass_filter_object_), instance->window_filter_object_.yk_, reset );
-    instance->yk_ = instance->low_pass_filter_object_.yk_;
+    const bool window_filter_reset = InputConditioning_WindowFilterResetEval(instance->window_filter_enable, reset);
+    WindowFilter_Step( &(instance->window_filter_object) , u, window_filter_reset );
+    LowPassFilterO1_Step( &(instance->low_pass_filter_object), instance->window_filter_object.output, reset );
+    instance->output = instance->low_pass_filter_object.output;
 
 }

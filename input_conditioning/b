@@ -1,7 +1,5 @@
-gcc -I ../window_filter/control_common_code \
--I ../unit_delay/control_common_code \
--I ../lpfo1/control_common_code \
- input_conditioning.c \
+gcc \
+input_conditioning.c \
  ../window_filter/window_filter.c \
- ../lpfo1/low_pass_filter_o1.c \
+ ../lpfo1/low_pass_filter_order_1.c \
  ../unit_delay/unit_delay.c unit_test.c
