@@ -7,13 +7,13 @@
 // ===== declare private member functions =====
 
 // error function
-void PidControl_ErrorFunction(float * const error, input_bus_t * const input_bus);
+void PidControlErrorFunction(float * const error, input_bus_t * const input_bus);
 
 // proportional function
-void PidControl_ProportionalFunction(float * const p_out, const float p_gain, const float error);
+void PidControlProportionalFunction(float * const p_out, const float p_gain, const float error);
 
 // integral function
-void PidControl_IntegralFunction(
+void PidControlIntegralFunction(
     i_out_bus_t * const i_out_bus,
     sat_and_sum_bus_t * const sat_and_sum_bus,
     const float error, 
@@ -21,7 +21,7 @@ void PidControl_IntegralFunction(
     );
 
 // integral clamping
-void PidControl_IntegralClamping(
+void PidControlIntegralClamping(
     i_out_bus_t * const i_out_bus,
     const float integrand, 
     const float pre_sat_value, 
@@ -30,15 +30,15 @@ void PidControl_IntegralClamping(
     );
 
 // differential function
-void PidControl_DifferentialFunction(d_out_bus_t * const d_out_bus, input_bus_t * const input_bus);
+void PidControlDifferentialFunction(d_out_bus_t * const d_out_bus, input_bus_t * const input_bus);
 
 // sum and sat function
-void PidControl_SumAndSat(pid_control_bus_t * const instance, input_bus_t * const input_bus);
+void PidControlSumAndSat(pid_control_bus_t * const instance, input_bus_t * const input_bus);
 
 // ===== define functions =====
 
 // calculate error
-void PidControl_ErrorFunction(float * const error, input_bus_t * const input_bus) {
+void PidControlErrorFunction(float * const error, input_bus_t * const input_bus) {
     
     /*
     description:
@@ -54,14 +54,14 @@ void PidControl_ErrorFunction(float * const error, input_bus_t * const input_bus
 }
 
 // calculate proportional output
-void PidControl_ProportionalFunction(float * const p_out, const float p_gain, const float error) {
+void PidControlProportionalFunction(float * const p_out, const float p_gain, const float error) {
 
     *p_out = p_gain * error;
 
 }
 
 // calculate integral output
-void PidControl_IntegralFunction(
+void PidControlIntegralFunction(
     i_out_bus_t * const i_out_bus,
     sat_and_sum_bus_t * const sat_and_sum_bus,
     const float error, 
@@ -77,7 +77,7 @@ void PidControl_IntegralFunction(
 
     i_out_bus->integrand = input_bus->i_gain * error;
     
-    PidControl_IntegralClamping(
+    PidControlIntegralClamping(
         i_out_bus,
         i_out_bus->integrand, 
         sat_and_sum_bus->pre_sat_value_k_1.output,
@@ -93,7 +93,7 @@ void PidControl_IntegralFunction(
 }
 
 // integral clamping definition
-void PidControl_IntegralClamping(
+void PidControlIntegralClamping(
     i_out_bus_t * const i_out_bus,
     const float integrand, 
     const float pre_sat_value, 
@@ -135,7 +135,7 @@ void PidControl_IntegralClamping(
 }
 
 // define differential function
-void PidControl_DifferentialFunction(d_out_bus_t * const d_out_bus, input_bus_t * const input_bus) {
+void PidControlDifferentialFunction(d_out_bus_t * const d_out_bus, input_bus_t * const input_bus) {
 
     /*
     description:
@@ -152,7 +152,7 @@ void PidControl_DifferentialFunction(d_out_bus_t * const d_out_bus, input_bus_t 
 }
 
 // calculate the summer and saturation
-void PidControl_SumAndSat(pid_control_bus_t * const instance, input_bus_t * const input_bus) {
+void PidControlSumAndSat(pid_control_bus_t * const instance, input_bus_t * const input_bus) {
     
     /*
     description:
@@ -207,17 +207,17 @@ void PidControlStep(pid_control_bus_t * const instance, input_bus_t * const inpu
     
     UnitDelayStep( &(instance->sat_and_sum_out_bus.pre_sat_value_k_1), input_bus->init_value, input_bus->reset);
 
-    PidControl_ErrorFunction( &(instance->error), input_bus );
+    PidControlErrorFunction( &(instance->error), input_bus );
     instance->error = DeadZone( instance->error, input_bus->dead_zone_up, input_bus->dead_zone_lo );
-    PidControl_ProportionalFunction( &(instance->p_out), input_bus->p_gain, instance->error );
-    PidControl_IntegralFunction(
+    PidControlProportionalFunction( &(instance->p_out), input_bus->p_gain, instance->error );
+    PidControlIntegralFunction(
         &(instance->i_out_bus),
         &(instance->sat_and_sum_out_bus),
         instance->error, 
         input_bus        
         );
-    PidControl_DifferentialFunction( &(instance->d_out_bus), input_bus );
-    PidControl_SumAndSat( instance, input_bus );
+    PidControlDifferentialFunction( &(instance->d_out_bus), input_bus );
+    PidControlSumAndSat( instance, input_bus );
     instance->output = instance->sat_and_sum_out_bus.post_sat_value;
 
     UnitDelayPostStep( &(instance->sat_and_sum_out_bus.pre_sat_value_k_1), instance->sat_and_sum_out_bus.pre_sat_value);
